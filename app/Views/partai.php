@@ -60,7 +60,7 @@
                 <tbody class="tabel_search">
                     <?php foreach ($data as $k => $i) : ?>
                         <tr>
-                            <td style="text-align: center;"><?= ($k + 1); ?></td>
+                            <td style="text-align: center;"><?= $i['no_partai']; ?></td>
                             <td><?= $i['partai']; ?></td>
                             <td style="text-align: center;">
                                 <div class="d-flex justify-content-center gap-2">
