@@ -48,8 +48,8 @@
 
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" name="pj" class="form-control" placeholder="Pj" required>
-                                    <label>Pj</label>
+                                    <input type="text" name="pj" class="form-control" placeholder="Saksi">
+                                    <label>Saksi</label>
                                 </div>
                                 <div class="text-center mt-4">
                                     <button type="submit" href="" class="btn_save"><i class="fa-solid fa-circle-check"></i> Save</button>
@@ -75,7 +75,7 @@
                         <th class="d-none d-md-table-cell">Alamat</th>
                         <th class="d-none d-md-table-cell" style="text-align: center;" scope="col">Kecamatan</th>
                         <th style="text-align: center;" scope="col">Kelurahan</th>
-                        <th style="text-align: center;" scope="col">Pj</th>
+                        <th style="text-align: center;" scope="col">Saksi</th>
                         <th style="text-align: center;" scope="col">Act</th>
                     </tr>
                 </thead>
