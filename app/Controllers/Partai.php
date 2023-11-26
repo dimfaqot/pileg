@@ -54,7 +54,7 @@ class Partai extends BaseController
 
         $db = db(menu()['tabel']);
 
-        $exist = $db->whereIn('id', [$id])->where('partai', $partai)->get()->getRowArray();
+        $exist = $db->whereNotIn('id', [$id])->where('partai', $partai)->get()->getRowArray();
         if ($exist) {
             gagal($url, 'Partai already exist!.');
         }

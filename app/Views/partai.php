@@ -54,7 +54,6 @@
                     <tr>
                         <th style="text-align: center;" scope="col">No. Partai</th>
                         <th style="text-align: center;" scope="col">Partai</th>
-                        <th style="text-align: center;" scope="col">No. Partai</th>
                         <th style="text-align: center;" scope="col">Act</th>
                     </tr>
                 </thead>
@@ -63,7 +62,6 @@
                         <tr>
                             <td style="text-align: center;"><?= ($k + 1); ?></td>
                             <td><?= $i['partai']; ?></td>
-                            <td><?= $i['no_partai']; ?></td>
                             <td style="text-align: center;">
                                 <div class="d-flex justify-content-center gap-2">
                                     <div class="btn_act_main" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit data."><a href="" data-bs-toggle="modal" data-bs-target="#detail_<?= $i['id']; ?>" style="font-size: medium;"><i class="fa-solid fa-circle-info text_main"></i></a></div>
