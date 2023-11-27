@@ -24,6 +24,7 @@ class Partai extends BaseController
     {
         $partai = upper_first(clear($this->request->getVar('partai')));
         $no_partai = clear($this->request->getVar('no_partai'));
+        $color = clear($this->request->getVar('color'));
         $url = clear($this->request->getVar('url'));
         $db = db(menu()['tabel']);
 
@@ -35,7 +36,8 @@ class Partai extends BaseController
 
         $data = [
             'partai' => $partai,
-            'no_partai' => $no_partai
+            'no_partai' => $no_partai,
+            'color' => $color
         ];
 
 
@@ -50,6 +52,7 @@ class Partai extends BaseController
         $id = clear($this->request->getVar('id'));
         $partai = upper_first(clear($this->request->getVar('partai')));
         $no_partai = clear($this->request->getVar('no_partai'));
+        $color = clear($this->request->getVar('color'));
         $url = clear($this->request->getVar('url'));
 
         $db = db(menu()['tabel']);
@@ -68,6 +71,7 @@ class Partai extends BaseController
 
         $q['partai'] = $partai;
         $q['no_partai'] = $no_partai;
+        $q['color'] = $color;
 
 
         $db->where('id', $id);

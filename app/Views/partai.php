@@ -33,6 +33,10 @@
                                     <input type="number" name="no_partai" class="form-control" placeholder="No. Partai" required>
                                     <label>No. Partai</label>
                                 </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="color" class="form-control" placeholder="Color" required>
+                                    <label>Color</label>
+                                </div>
                                 <div class="text-center mt-4">
                                     <button type="submit" href="" class="btn_save"><i class="fa-solid fa-circle-check"></i> Save</button>
                                 </div>
@@ -97,6 +101,10 @@
                                         <div class="form-floating mb-3">
                                             <input type="number" name="no_partai" value="<?= $i['no_partai']; ?>" class="form-control" placeholder="No. Partai" required>
                                             <label>No. Partai</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="no_partai" value="<?= $i['color']; ?>" class="form-control" placeholder="NColor" required>
+                                            <label>NColor</label>
                                         </div>
 
                                         <div class="text-center mt-4">
