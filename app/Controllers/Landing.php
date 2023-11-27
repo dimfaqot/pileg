@@ -51,4 +51,11 @@ class Landing extends BaseController
 
         sukses(base_url('login'), 'Logout sukses!.');
     }
+
+    public function suara_partai()
+    {
+        $dapil = clear($this->request->getVar('dapil'));
+
+        sukses_js('Koneksi sukses.', suara_partai($dapil));
+    }
 }

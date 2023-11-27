@@ -14,34 +14,10 @@ class Suara_partai extends BaseController
     }
     public function index($dapil = null): string
     {
-        $cols = merge_cols(menu()['tabel'], 'tps', 'partai');
-        $db = db(menu()['tabel']);
-        $db->select($cols)->join('tps', 'tps_id=tps.id')->join('partai', 'partai_id=partai.id');
-        if ($dapil !== 'All') {
-            if ($dapil == null) {
-                $db->where('kecamatan', 'Karangmalang');
-            } else {
-                $db->where('kecamatan', $dapil);
-            }
-        }
-        $q = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
 
-        $db = db('partai');
-        $partai = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
-
-        $data = [];
-        foreach ($partai as $p) {
-            $suara = 0;
-            $val = [];
-            foreach ($q as $i) {
-                if ($i['partai_id'] == $p['id']) {
-                    $val[] = $i;
-                    $suara += $i['suara'];
-                }
-            }
-            $data[] = ['data' => $val, 'total' => $suara];
-        }
-        return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $data, 'count' => count($q)]);
+        $dapil = ($dapil == null ? 'Karangmalang' : $dapil);
+        $data = suara_partai($dapil);
+        return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $data['data'], 'count' => $data['count']]);
     }
 
     public function generate()

@@ -6,8 +6,11 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
+
+
 //  landing
 $routes->get('/', 'Landing::index');
+$routes->post('/suara_partai', 'Landing::suara_partai');
 $routes->get('/login', 'Landing::login');
 $routes->get('/logout', 'Landing::logout');
 $routes->post('/auth', 'Landing::auth');

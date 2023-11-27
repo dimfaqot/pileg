@@ -105,7 +105,7 @@
                                             <label>No. Partai</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="no_partai" value="<?= $i['color']; ?>" class="form-control" placeholder="NColor" required>
+                                            <input type="text" name="color" value="<?= $i['color']; ?>" class="form-control" placeholder="NColor" required>
                                             <label>NColor</label>
                                         </div>
 

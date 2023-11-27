@@ -234,3 +234,38 @@ function get_partai($id, $partai = null)
 
     return $q;
 }
+
+
+function suara_partai($dapil)
+{
+    $cols = merge_cols('suara_partai', 'tps', 'partai');
+    $db = db('suara_partai');
+    $db->select($cols)->join('tps', 'tps_id=tps.id')->join('partai', 'partai_id=partai.id');
+    if ($dapil !== 'All') {
+        if ($dapil == null) {
+            $db->where('kecamatan', 'Karangmalang');
+        } else {
+            $db->where('kecamatan', $dapil);
+        }
+    }
+    $q = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
+
+    $db = db('partai');
+    $partai = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
+
+    $data = [];
+    foreach ($partai as $p) {
+        $suara = 0;
+        $val = [];
+        foreach ($q as $i) {
+            if ($i['partai_id'] == $p['id']) {
+                $val[] = $i;
+                $suara += $i['suara'];
+            }
+        }
+        $data[] = ['data' => $val, 'total' => $suara];
+    }
+
+    $res = ['data' => $data, 'count' => count($q)];
+    return $res;
+}
