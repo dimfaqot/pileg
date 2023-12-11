@@ -6,6 +6,19 @@ class Landing extends BaseController
 {
     public function index(): string
     {
+        // $db = db('tps');
+        // $q = $db->get()->getResultArray();
+
+        // $data = [];
+
+        // foreach ($q as $i) {
+        //     $val = $i['tps'] . ' ' . $i['kelurahan'] . '' . $i['kecamatan'];
+        //     if (in_array($val, $data)) {
+        //         dd($i);
+        //     } else {
+        //         $data[] = $val;
+        //     }
+        // }
         return view('landing', ['judul' => 'Jiwa']);
     }
     public function login(): string
