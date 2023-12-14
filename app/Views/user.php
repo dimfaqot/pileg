@@ -26,16 +26,16 @@
                                 <input type="hidden" name="url" value="<?= base_url(menu()['controller']); ?>">
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" name="partai" class="form-control" placeholder="Partai" required>
-                                    <label>Nama Partai</label>
+                                    <input type="text" name="username" class="form-control" placeholder="Username" required>
+                                    <label>Username</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="number" name="no_partai" class="form-control" placeholder="No. Partai" required>
-                                    <label>No. Partai</label>
+                                    <input type="text" name="nama" class="form-control" placeholder="Nama" required>
+                                    <label>Nama</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" name="color" class="form-control" placeholder="Color" required>
-                                    <label>Color</label>
+                                    <input type="text" name="role" class="form-control" placeholder="Color" required>
+                                    <label>Role</label>
                                 </div>
                                 <div class="text-center mt-4">
                                     <button type="submit" href="" class="btn_save"><i class="fa-solid fa-circle-check"></i> Save</button>
@@ -56,18 +56,22 @@
             <table class="table table-sm table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th style="text-align: center;" scope="col">No. Partai</th>
-                        <th style="text-align: center;" scope="col">Partai</th>
-                        <th style="text-align: center;" scope="col">Color</th>
-                        <th style="text-align: center;" scope="col">Act</th>
+                        <th style="text-align: center;">#</th>
+                        <th style="text-align: center;">Username</th>
+                        <th style="text-align: center;">Nama</th>
+                        <th style="text-align: center;">Role</th>
+                        <th style="text-align: center;">Login</th>
+                        <th style="text-align: center;">Act</th>
                     </tr>
                 </thead>
                 <tbody class="tabel_search">
                     <?php foreach ($data as $k => $i) : ?>
                         <tr>
-                            <td style="text-align: center;"><?= $i['no_partai']; ?></td>
-                            <td><?= $i['partai']; ?></td>
-                            <td><?= $i['color']; ?></td>
+                            <td><?= ($k + 1); ?></td>
+                            <td><?= $i['username']; ?></td>
+                            <td><?= $i['nama']; ?></td>
+                            <td><?= $i['role']; ?></td>
+                            <td><?= $i['is_login']; ?></td>
                             <td style="text-align: center;">
                                 <div class="d-flex justify-content-center gap-2">
                                     <div class="btn_act_main" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit data."><a href="" data-bs-toggle="modal" data-bs-target="#detail_<?= $i['id']; ?>" style="font-size: medium;"><i class="fa-solid fa-circle-info text_main"></i></a></div>
@@ -88,7 +92,7 @@
                             <div class="modal-body">
                                 <div class="d-flex justify-content-between px-4 py-3">
                                     <div class="judul_modal">
-                                        <i class="<?= menu()['icon']; ?>"></i> <?= $i['partai']; ?>
+                                        <i class="<?= menu()['icon']; ?>"></i> <?= $i['nama']; ?>
                                     </div>
                                     <a href="" type="button" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></a>
                                 </div>
@@ -97,16 +101,20 @@
                                         <input type="hidden" name="id" value="<?= $i['id']; ?>">
                                         <input type="hidden" name="url" value="<?= base_url(menu()['controller']); ?>">
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="partai" value="<?= $i['partai']; ?>" class="form-control" placeholder="Partai" required>
-                                            <label>Nama Partai</label>
+                                            <input type="text" name="username" value="<?= $i['username']; ?>" class="form-control" placeholder="Username" required>
+                                            <label>Username</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="number" name="no_partai" value="<?= $i['no_partai']; ?>" class="form-control" placeholder="No. Partai" required>
-                                            <label>No. Partai</label>
+                                            <input type="text" name="nama" value="<?= $i['nama']; ?>" class="form-control" placeholder="Nama" required>
+                                            <label>Nama</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="color" value="<?= $i['color']; ?>" class="form-control" placeholder="Color" required>
-                                            <label>Color</label>
+                                            <input type="text" name="role" value="<?= $i['role']; ?>" class="form-control" placeholder="Role" required>
+                                            <label>Role</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" name="is_login" value="<?= $i['is_login']; ?>" class="form-control" placeholder="Login" required>
+                                            <label>Login</label>
                                         </div>
 
                                         <div class="text-center mt-4">

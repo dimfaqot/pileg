@@ -192,6 +192,16 @@
             });
 
         });
+        $(document).on('keyup', '.cari_partai', function(e) {
+            e.preventDefault();
+
+            let value = $(this).val().toLowerCase();
+
+            $('.body_cari_partai').filter(function() {
+                $(this).toggle($(this).data('partai').toLowerCase().indexOf(value) > -1);
+            });
+
+        });
         $(document).on('change', '.dapil', function(e) {
             e.preventDefault();
 
@@ -285,6 +295,32 @@
 
             suara(id, tabel, val);
         });
+
+        $(document).on('blur', '.update_suara_partai', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let val = $(this).text();
+
+            update_suara_partai(id, val);
+        });
+
+        $(document).on('blur', '.update_suara_caleg', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let val = $(this).text();
+            update_suara_caleg(id, val);
+        });
+
+        // $(document).on('keyup', '.angka_suara_caleg', function(e) {
+        //     e.preventDefault();
+        //     let val = angka($(this).text());
+        //     $(this).text(val);
+        // });
+        // $(document).on('keyup', '.angka_suara_partai', function(e) {
+        //     e.preventDefault();
+        //     let val = angka($(this).text());
+        //     $(this).text(val);
+        // });
 
         // let myModal = document.getElementById('detail_ket');
         // let modal = bootstrap.Modal.getOrCreateInstance(myModal)

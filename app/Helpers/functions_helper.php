@@ -269,3 +269,99 @@ function suara_partai($dapil)
     $res = ['data' => $data, 'count' => count($q)];
     return $res;
 }
+
+
+
+
+// pileg
+function get_tps($order = null)
+{
+    $db = db('tps');
+    $tps = $db->where('kelurahan', upper_first(session('username')))->orderBy('id', 'ASC')->get()->getResultArray();
+
+    $db = db('suara_caleg');
+    $caleg = $db->select('suara_caleg.id as id, caleg_id,suara,nama,no_caleg,partai_id,partai,no_partai,color,tps,tps_id,alamat,kelurahan,kecamatan,pj')->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->join('partai', 'partai_id=partai.id')->where('kelurahan', upper_first(session('username')))->orderBy('tps', 'ASC')->orderBy('no_partai', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
+    $db = db('suara_partai');
+    $partai = $db->select('suara_partai.id as id,partai_id,partai,no_partai,color,tps,tps_id,alamat,kelurahan,kecamatan,pj,suara')->join('tps', 'tps_id=tps.id')->join('partai', 'partai_id=partai.id')->where('kelurahan', upper_first(session('username')))->orderBy('tps', 'ASC')->orderBy('no_partai', 'ASC')->get()->getResultArray();
+
+    if ($order == null) {
+        $data = ['caleg' => $caleg, 'partai' => $partai, 'tps' => $tps];
+        return $data;
+    }
+
+    $calegs = [];
+    $partais = [];
+
+    foreach ($caleg as $i) {
+        $val = explode(" ", $i['tps']);
+        if ($val[0] == $order) {
+            $calegs[] = $i;
+        }
+    }
+    foreach ($partai as $i) {
+        $val = explode(" ", $i['tps']);
+        if ($val[0] == $order) {
+            $partais[] = $i;
+        }
+    }
+
+    $data = ['caleg' => $calegs, 'partai' => $partais, 'tps' => $tps];
+    return $data;
+}
+
+function get_all_partai()
+{
+    $db = db('partai');
+
+    $q = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
+
+    return $q;
+}
+function get_all_caleg()
+{
+    $db = db('caleg');
+
+    $q = $db->orderBy('partai_id', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
+
+    return $q;
+}
+
+function angka($uang)
+{
+    return number_format($uang, 0, ",", ".");
+}
+
+function total_suara($order, $id, $kel = null)
+{
+
+    if (session('role') == 'Admin') {
+        $kel = upper_first(session('username'));
+    }
+    $db = db('suara_' . $order);
+
+    $db->join('tps', 'tps_id=tps.id');
+    if ($kel !== null) {
+        $db->where('kelurahan', $kel);
+    }
+
+    $q = $db->where($order . '_id', $id)->get()->getResultArray();
+
+    $total = 0;
+
+    foreach ($q as $i) {
+        $total += $i['suara'];
+    }
+
+    return $total;
+}
+
+function lock_data($order = null)
+{
+    if (settings('lock_data') == 1) {
+        if ($order == null) {
+            gagal(base_url('home'), 'Data locked!.');
+        } else {
+            gagal_js('Data locked!.');
+        }
+    }
+}

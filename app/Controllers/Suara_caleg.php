@@ -12,6 +12,7 @@ class Suara_caleg extends BaseController
         }
         check_role();
     }
+
     public function index($dapil = null): string
     {
         $cols = merge_cols(menu()['tabel'], 'tps', 'partai', 'caleg');
@@ -48,18 +49,26 @@ class Suara_caleg extends BaseController
 
     public function generate()
     {
+        lock_data();
         if (session('role') !== 'Root') {
             gagal(base_url(menu()['controller']), 'You are not allowed!.');
         }
 
         $db = db('tps');
-        $q = $db->get()->getResultArray();
+        $q = $db->where('kecamatan', 'Ngrampal')->where('kelurahan', 'Pilangsari')->get()->getResultArray();
+        // $q = $db->whereNotIn('kelurahan', ['Pilangsari'])->get()->getResultArray();
 
+        // $db = db('suara_caleg');
+        // $q = $db->join('tps', 'tps_id=tps.id')->where('kelurahan', 'Pilangsari')->get()->getResultArray();
+        // dd($q);
         $sp = db(menu()['tabel']);
         $caleg = db('caleg');
         $cal = $caleg->get()->getResultArray();
 
+
         $error = [];
+        $total = 0;
+        $datas = [];
         foreach ($cal as $p) {
             foreach ($q as $i) {
                 $data = [
@@ -67,14 +76,23 @@ class Suara_caleg extends BaseController
                     'caleg_id' => $p['id'],
                     'suara' => 0
                 ];
-
-                if (!$sp->insert($data)) {
-                    $e = ['caleg_id' => $p['id'], 'tps_id' => $i['id']];
-                    $error[] = $e;
-                }
+                $datas[] = $data;
+                // if (!$sp->insert($data)) {
+                //     $e = ['caleg_id' => $p['id'], 'tps_id' => $i['id']];
+                //     $error[] = $e;
+                // }
+                // $total++;
             }
         }
 
+        // $d = [];
+        // foreach ($datas as $k => $i) {
+        //     if ($k >= 1599) {
+        //         $d[] = $i;
+        //     }
+        // }
+        // dd($d);
+        // dd($total);
         if (count($error) > 0) {
             gagal(base_url(menu()['controller']), count($data) . ' data gagal digenerate!.');
         } else {

@@ -42,6 +42,22 @@
 
         return prefix == undefined ? 'Rp. ' + rupiah : prefix + ' ' + rupiah;
     }
+    const angka = (angka, prefix) => {
+
+        let number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split = number_string.split(','),
+            sisa = split[0].length % 3,
+            rupiah = split[0].substr(0, sisa),
+            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        return rupiah;
+    }
 
     async function post(url = '', data = {}) {
         loading(true);
@@ -235,6 +251,43 @@
                 id,
                 tabel,
                 val
+            })
+            .then(res => {
+                if (res.status == '200') {
+                    sukses();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+
+                } else {
+                    gagal(res.message);
+                }
+
+            })
+    }
+
+    const update_suara_partai = (id, value) => {
+        post('/election/update_suara_partai', {
+                id,
+                value
+            })
+            .then(res => {
+                if (res.status == '200') {
+                    sukses();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+
+                } else {
+                    gagal(res.message);
+                }
+
+            })
+    }
+    const update_suara_caleg = (id, value) => {
+        post('/election/update_suara_caleg', {
+                id,
+                value
             })
             .then(res => {
                 if (res.status == '200') {

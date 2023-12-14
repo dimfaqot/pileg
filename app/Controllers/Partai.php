@@ -22,6 +22,7 @@ class Partai extends BaseController
 
     public function add()
     {
+        lock_data();
         $partai = upper_first(clear($this->request->getVar('partai')));
         $no_partai = clear($this->request->getVar('no_partai'));
         $color = clear($this->request->getVar('color'));
@@ -49,6 +50,7 @@ class Partai extends BaseController
     }
     public function update()
     {
+        lock_data();
         $id = clear($this->request->getVar('id'));
         $partai = upper_first(clear($this->request->getVar('partai')));
         $no_partai = clear($this->request->getVar('no_partai'));
@@ -84,6 +86,7 @@ class Partai extends BaseController
 
     public function delete()
     {
+        lock_data('js');
         $id = clear($this->request->getVar('id'));
         $tabel = clear($this->request->getVar('tabel'));
         $db = db($tabel);

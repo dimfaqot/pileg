@@ -28,6 +28,7 @@ class Caleg extends BaseController
 
     public function add()
     {
+        lock_data();
         $partai_id = clear($this->request->getVar('partai_id'));
         $nama = upper_first(clear($this->request->getVar('nama')));
         $no_caleg = clear($this->request->getVar('no_caleg'));
@@ -49,6 +50,7 @@ class Caleg extends BaseController
     }
     public function update()
     {
+        lock_data();
         $id = clear($this->request->getVar('id'));
         $role = clear($this->request->getVar('role'));
         $menu = upper_first(clear($this->request->getVar('menu')));
@@ -92,6 +94,7 @@ class Caleg extends BaseController
     }
     public function copy()
     {
+        lock_data();
         $id = clear($this->request->getVar('id'));
         $role = clear($this->request->getVar('role'));
         $url = clear($this->request->getVar('url'));
@@ -134,6 +137,7 @@ class Caleg extends BaseController
     }
     public function update_check()
     {
+        lock_data('js');
         $id = clear($this->request->getVar('id'));
         $nama = upper_first(clear($this->request->getVar('nama')));
         $tabel = clear($this->request->getVar('tabel'));
@@ -158,6 +162,7 @@ class Caleg extends BaseController
     }
     public function delete()
     {
+        lock_data('js');
         $id = clear($this->request->getVar('id'));
         $tabel = clear($this->request->getVar('tabel'));
         $db = db($tabel);

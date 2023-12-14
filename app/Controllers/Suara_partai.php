@@ -22,6 +22,7 @@ class Suara_partai extends BaseController
 
     public function generate()
     {
+        lock_data();
         if (session('role') !== 'Root') {
             gagal(base_url(menu()['controller']), 'You are not allowed!.');
         }

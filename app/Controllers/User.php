@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class Tps extends BaseController
+class User extends BaseController
 {
     function __construct()
     {
@@ -15,29 +15,36 @@ class Tps extends BaseController
     public function index(): string
     {
         $db = db(menu()['tabel']);
-        $q = $db->orderBy('kecamatan', 'ASC')->get()->getResultArray();
+
+        $q = $db->orderBy('id', 'ASC')->get()->getResultArray();
         return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $q]);
     }
 
     public function add()
     {
-        lock_data();
-        $tps = upper_first(clear($this->request->getVar('tps')));
-        $alamat = upper_first(clear($this->request->getVar('alamat')));
-        $kelurahan = upper_first(clear($this->request->getVar('kelurahan')));
-        $kecamatan = upper_first(clear($this->request->getVar('kecamatan')));
-        $pj = upper_first(clear($this->request->getVar('pj')));
+
+        $username = clear(strtolower($this->request->getVar('username')));
+        $nama = upper_first(clear($this->request->getVar('nama')));
+        $role = upper_first(clear($this->request->getVar('role')));
+
         $url = clear($this->request->getVar('url'));
+        $db = db(menu()['tabel']);
+
+        $exist = $db->where('username', $username)->get()->getRowArray();
+
+        if ($exist) {
+            gagal($url, 'Username already exist!.');
+        }
 
         $data = [
-            'tps' => $tps,
-            'alamat' => $alamat,
-            'kelurahan' => $kelurahan,
-            'kecamatan' => $kecamatan,
-            'pj' => $pj
+            'username' => $username,
+            'nama' => $nama,
+            'password' => password_hash('jiwa_2024', PASSWORD_DEFAULT),
+            'role' => $role,
+            'is_login' => 0
         ];
 
-        $db = db(menu()['tabel']);
+
         if ($db->insert($data)) {
             sukses($url, 'Data saved.');
         } else {
@@ -46,17 +53,20 @@ class Tps extends BaseController
     }
     public function update()
     {
-        lock_data();
+
         $id = clear($this->request->getVar('id'));
-        $tps = upper_first(clear($this->request->getVar('tps')));
-        $alamat = upper_first(clear($this->request->getVar('alamat')));
-        $kelurahan = upper_first(clear($this->request->getVar('kelurahan')));
-        $kecamatan = upper_first(clear($this->request->getVar('kecamatan')));
-        $pj = upper_first(clear($this->request->getVar('pj')));
+        $username = clear(strtolower($this->request->getVar('username')));
+        $nama = upper_first(clear($this->request->getVar('nama')));
+        $role = upper_first(clear($this->request->getVar('role')));
+        $is_login = clear($this->request->getVar('is_login'));
         $url = clear($this->request->getVar('url'));
 
-
         $db = db(menu()['tabel']);
+
+        $exist = $db->whereNotIn('id', [$id])->where('username', $username)->get()->getRowArray();
+        if ($exist) {
+            gagal($url, 'Username already exist!.');
+        }
 
         $q = $db->where('id', $id)->get()->getRowArray();
 
@@ -64,11 +74,11 @@ class Tps extends BaseController
             gagal($url, 'Id not found.');
         }
 
-        $q['tps'] = $tps;
-        $q['alamat'] = $alamat;
-        $q['kelurahan'] = $kelurahan;
-        $q['kecamatan'] = $kecamatan;
-        $q['pj'] = $pj;
+
+        $q['username'] = $username;
+        $q['nama'] = $nama;
+        $q['role'] = $role;
+        $q['is_login'] = $is_login;
 
 
         $db->where('id', $id);
@@ -81,7 +91,7 @@ class Tps extends BaseController
 
     public function delete()
     {
-        lock_data('js');
+
         $id = clear($this->request->getVar('id'));
         $tabel = clear($this->request->getVar('tabel'));
         $db = db($tabel);

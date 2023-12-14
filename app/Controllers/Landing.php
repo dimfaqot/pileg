@@ -39,6 +39,10 @@ class Landing extends BaseController
             gagal(base_url('login'), 'Username not found!.');
         }
 
+        if ($q['is_login'] == 1) {
+            gagal(base_url('login'), 'Someone has been login!.');
+        }
+
         if (!password_verify($password, $q['password'])) {
             gagal(base_url('login'), 'Wrong password!.');
         }
@@ -52,11 +56,20 @@ class Landing extends BaseController
 
 
         session()->set($data);
+        $q['is_login'] = 1;
+        $db->where('id', $q['id']);
+        $db->update($q);
         sukses(base_url('home'), 'Login sukses.');
     }
 
     public function logout()
     {
+        $db = db('user');
+        $q = $db->where('id', session('id'))->get()->getRowArray();
+        $q['is_login'] = 0;
+        $db->where('id', $q['id']);
+        $db->update($q);
+
         session()->remove('id');
         session()->remove('username');
         session()->remove('role');

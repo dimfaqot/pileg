@@ -69,12 +69,25 @@ $routes->post('/caleg/add', 'Caleg::add');
 $routes->post('/caleg/update', 'Caleg::update');
 $routes->post('/caleg/delete', 'Caleg::delete');
 
+// user
+$routes->get('/user', 'User::index');
+$routes->get('/user/(:any)', 'User::index/$1');
+$routes->post('/user/add', 'User::add');
+$routes->post('/user/update', 'User::update');
+$routes->post('/user/delete', 'User::delete');
+
 // suara partai
-$routes->get('/suara-partai/generate', 'Suara_partai::generate');
+// $routes->get('/suara-partai/generate', 'Suara_partai::generate');
 $routes->get('/suara-partai', 'Suara_partai::index');
 $routes->get('/suara-partai/(:any)', 'Suara_partai::index/$1');
 
 // suara caleg
-$routes->get('/suara-caleg/generate', 'Suara_caleg::generate');
+// $routes->get('/suara-caleg/generate', 'Suara_caleg::generate');
 $routes->get('/suara-caleg', 'Suara_caleg::index');
 $routes->get('/suara-caleg/(:any)', 'Suara_caleg::index/$1');
+
+// penghitungan suara
+$routes->get('/election', 'Election::index');
+$routes->get('/election/(:num)', 'Election::index/$1');
+$routes->post('/election/update_suara_partai', 'Election::update_suara_partai');
+$routes->post('/election/update_suara_caleg', 'Election::update_suara_caleg');

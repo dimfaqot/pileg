@@ -1,37 +1,44 @@
 <?= $this->extend('logged') ?>
 
 <?= $this->section('content') ?>
-<?php $data = suara_partai('Karangmalang'); ?>
 
-<div class="card mt-2 mb-4">
-    <div class="card-body shadow shadow-sm">
-        <div class="row g-2">
-            <div class="col-md-6">
-                <h4><?= session('nama'); ?></h4>
-            </div>
-            <div class="col-md-6">
-                <h4><?= session('role'); ?></h4>
+<div class="row g-2">
+    <?php foreach (get_all_partai() as $p) : ?>
+        <?php $total_suara = 0; ?>
+        <?php $total_suara += total_suara('partai', $p['id']); ?>
+        <div class="col-md-4 body_cari_partai" data-partai="<?= $p['partai']; ?>">
+            <div class="card mt-2">
+                <div class="card-body shadow shadow-sm">
+                    <div class="p-2 <?= ($p['partai'] == 'Golkar' ? '' : 'text-white'); ?> d-flex justify-content-between" style="background-color: <?= $p['color']; ?>;font-weight:bold;">
+                        <div><?= $p['no_partai']; ?> <?= strtoupper($p['partai']); ?></div>
+                        <div class="px-3 border_radius" style="border: 1px solid white;"><?= angka(total_suara('partai', $p['id'])); ?></div>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <?php foreach (get_all_caleg() as $i) : ?>
+                                <?php if ($p['id'] == $i['partai_id']) : ?>
+                                    <?php $total_suara += total_suara('caleg', $i['id']); ?>
+                                    <tr>
+                                        <th><?= $i['no_caleg']; ?></th>
+                                        <th><?= $i['nama']; ?></th>
+                                        <td style="text-align: right;"><?= total_suara('caleg', $i['id']); ?></td>
+                                    </tr>
+
+                                <?php endif; ?>
+
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between bg_purple text-white p-2">
+                        <div style="font-weight: bold;">TOTAL</div>
+                        <div class="px-3" style="font-weight: bold;"><?= angka($total_suara); ?></div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
 
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="border_radius border p-2" style="font-weight: bold;">PDI</div>
-                <ol class="list-group list-group-numbered">
-                    <li class="list-group-item">A list item</li>
-                    <li class="list-group-item">A list item</li>
-                    <li class="list-group-item">A list item</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="progress" style="border-radius:3px;">
-    <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: 25%;background-color:red;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Agus Wow</div>
+    <?php endforeach; ?>
 </div>
 
 <?= $this->endSection() ?>
