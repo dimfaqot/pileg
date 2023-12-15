@@ -111,6 +111,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
         $(".btnclose").click(function() {
             $('.gagal').hide();
         })
@@ -124,6 +126,10 @@
             } else {
                 $('.waiting').fadeOut()
             }
+        }
+
+        const str_replace = (search, replace, subject) => {
+            return subject.split(search).join(replace);
         }
 
         const chart = () => {
@@ -157,6 +163,22 @@
             });
         }
         chart();
+
+        let target = 7000;
+        (function() {
+            let suara = $('.suara_partai_pkb').text();
+            suara = str_replace('.', '', suara);
+            suara = Math.round((suara / target) * 100);
+            let html = '<div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: ' + suara + '%;background-color:#015737;" aria-valuenow="' + suara + '" aria-valuemin="0" aria-valuemax="100">' + suara + '%</div>';
+            $('.body_suara_pkb').html(html);
+        }());
+        (function() {
+            let suara = $('.suara_mustawa').text();
+            suara = str_replace('.', '', suara);
+            suara = Math.round((suara / target) * 100);
+            let html = '<div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: ' + suara + '%;background-color:#00764B;" aria-valuenow="' + suara + '" aria-valuemin="0" aria-valuemax="100">' + suara + '%</div>';
+            $('.body_suara_mustawa').html(html);
+        }());
     </script>
 </body>
 

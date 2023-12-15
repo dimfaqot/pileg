@@ -365,3 +365,97 @@ function lock_data($order = null)
         }
     }
 }
+
+
+function get_suara_by_kecamatan($order, $id, $kecamatan)
+{
+
+    $db = db('suara_' . $order);
+
+    $q = $db->join('tps', 'tps_id=tps.id')->where('kecamatan', $kecamatan)->where($order . '_id', $id)->get()->getResultArray();
+
+    $total = 0;
+
+    foreach ($q as $i) {
+        $total += $i['suara'];
+    }
+
+    return $total;
+}
+
+function get_all_kelurahan($kecamatan)
+{
+    $db = db('tps');
+    $q = $db->where('kecamatan', $kecamatan)->orderBy('kelurahan', 'ASC')->groupBy('kelurahan')->get()->getResultArray();
+
+
+    return $q;
+}
+function get_all_tps($kecamatan, $kelurahan)
+{
+    $db = db('tps');
+    $q = $db->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->orderBy('id', 'ASC')->get()->getResultArray();
+
+
+    return $q;
+}
+function get_suara_by_kelurahan($order, $id, $kecamatan, $kelurahan)
+{
+
+    $db = db('suara_' . $order);
+
+    $q = $db->join('tps', 'tps_id=tps.id')->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->where($order . '_id', $id)->get()->getResultArray();
+
+    $total = 0;
+
+    foreach ($q as $i) {
+        $total += $i['suara'];
+    }
+
+    return $total;
+}
+function get_suara_by_tps($order, $id, $kecamatan, $kelurahan, $tps)
+{
+
+    $db = db('suara_' . $order);
+
+    $q = $db->join('tps', 'tps_id=tps.id')->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->where($order . '_id', $id)->get()->getResultArray();
+
+    $data = [];
+    foreach ($q as $i) {
+        $exp = explode(" ", $i['tps']);
+        if ($exp[0] == $tps) {
+            $data[] = $i;
+        }
+    }
+    $total = 0;
+
+    foreach ($data as $i) {
+        $total += $i['suara'];
+    }
+
+    return $total;
+}
+
+function get_detail_tps($kecamatan, $kelurahan, $tps)
+{
+    $db = db('tps');
+
+    $q = $db->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->get()->getResultArray();
+
+    if (!$q) {
+        $res = ['tps' => '', 'pj' => ''];
+        return $res;
+    }
+    $res = [];
+
+    foreach ($q as $i) {
+        $exp = explode(" ", $i['tps']);
+
+        if ($exp[0] == $tps) {
+            $res = $i;
+        }
+    }
+
+    return $res;
+}

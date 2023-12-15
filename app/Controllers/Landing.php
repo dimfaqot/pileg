@@ -84,4 +84,16 @@ class Landing extends BaseController
 
         sukses_js('Koneksi sukses.', suara_partai($dapil));
     }
+    public function kecamatan()
+    {
+        return view('kecamatan', ['judul' => 'Suara Menurut Kecamatan']);
+    }
+    public function kelurahan()
+    {
+        return view('kelurahan', ['judul' => 'Suara Menurut Kelurahan']);
+    }
+    public function bytps()
+    {
+        return view('bytps', ['judul' => 'Suara Menurut Tps']);
+    }
 }

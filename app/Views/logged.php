@@ -311,6 +311,8 @@
             update_suara_caleg(id, val);
         });
 
+
+
         // $(document).on('keyup', '.angka_suara_caleg', function(e) {
         //     e.preventDefault();
         //     let val = angka($(this).text());

@@ -10,11 +10,19 @@ use CodeIgniter\Router\RouteCollection;
 
 //  landing
 $routes->get('/', 'Landing::index');
+$routes->get('/kecamatan', 'Landing::kecamatan');
+$routes->get('/kecamatan/(:any)', 'Landing::kecamatan/$1');
+$routes->get('/kelurahan', 'Landing::kelurahan');
+$routes->get('/kelurahan/(:any)/(:any)', 'Landing::kelurahan/$1/$2');
+$routes->get('/bytps', 'Landing::bytps');
+$routes->get('/bytps/(:any)/(:any)/(:any)', 'Landing::bytps/$1/$2/$3');
 $routes->post('/suara_partai', 'Landing::suara_partai');
 $routes->get('/login', 'Landing::login');
 $routes->get('/logout', 'Landing::logout');
 $routes->post('/auth', 'Landing::auth');
 $routes->post('/logout', 'Landing::logout');
+
+$routes->get('/statistik', 'Landing::statistik');
 
 // search
 $routes->post('/indonesia', 'Search::indonesia');
