@@ -13,16 +13,16 @@ class Home extends BaseController
     }
     public function index(): string
     {
-        $db = db('tps');
+        // $db = db('tps');
 
-        $q = $db->get()->getResultArray();
+        // $q = $db->get()->getResultArray();
 
-        foreach ($q as $i) {
-            $i['c1'] = 'file-not-found.jpg';
-            $db->where('id', $i['id']);
-            $db->update($i);
-        }
-        dd('ok');
+        // foreach ($q as $i) {
+        //     $i['c1'] = 'file-not-found.jpg';
+        //     $db->where('id', $i['id']);
+        //     $db->update($i);
+        // }
+        // dd('ok');
         // $db = db('tps');
         // $q = $db->orderBy('kelurahan', 'ASC')->groupBy('kelurahan')->get()->getResultArray();
         // $dbu = db('user');
