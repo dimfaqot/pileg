@@ -1,14 +1,22 @@
 <?= $this->extend('logged') ?>
 
 <?= $this->section('content') ?>
-
+<?php $tps_active = ""; ?>
 <div class="d-flex gap-3">
     <div class="dropdown my-3">
         <a class="btn btn_purple dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <?php foreach ($data['tps'] as $i) : ?>
-                <?php $exp = explode(" ", $i['tps']); ?>
-                <?= (url(4) == '' && $exp[0] == 1 ? $i['tps'] : (url(4) !== '' && $exp[0] == url(4) ? $i['tps'] : '')); ?>
+                <?php
+                $exp = explode(" ", $i['tps']);
+                if (url(4) == '' && $exp[0] == 1) {
+                    $tps_active = $i;
+                }
+                if (url(4) !== '' && $exp[0] == url(4)) {
+                    $tps_active = $i;
+                }
+                ?>
             <?php endforeach; ?>
+            <?= $tps_active['tps']; ?>
         </a>
 
         <ul class="dropdown-menu">
@@ -27,11 +35,26 @@
     </div>
 </div>
 
+<form action="<?= base_url(); ?>upload_c1" method="post" enctype="multipart/form-data">
+    <div class="input-group input-group-sm custom-file-button">
+        <a data-url="<?= base_url('files/c1'); ?>/<?= $tps_active['c1']; ?>" style="text-decoration: none;font-weight:bold;" type="button" href="" class="input-group-text zoom <?= ($tps_active['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
+            <i class="fa-regular fa-image"></i> Upload C1
+        </a>
+        <input type="hidden" name="kelurahan" value="<?= strtolower(explode(" ", session('nama'))[1]); ?>">
+        <input type="hidden" name="tps" value="<?= strtolower(str_replace(" ", "-", $tps_active['tps'])); ?>">
+        <input type="hidden" name="id" value="<?= $tps_active['id']; ?>">
+        <input type="hidden" name="url" value="<?= base_url('election'); ?>/<?= (url(4) == '' ? 1 : url(4)); ?>">
+        <input type="file" name="file" class="form-control">
+        <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-circle-chevron-up"></i></button>
+    </div>
 
-<input class="form-control form-control-sm cari_partai" type="text" placeholder="Cari partai...">
+</form>
+
+<input class="form-control form-control-sm cari_partai mt-2" type="text" placeholder="Cari partai...">
 
 <div class="row g-2">
     <?php foreach ($data['partai'] as $p) : ?>
+
         <?php $total_suara = $p['suara']; ?>
         <div class="col-md-4 body_cari_partai" data-partai="<?= $p['partai']; ?>">
             <div class="card mt-2">
@@ -56,10 +79,11 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-between bg_purple text-white p-2">
+                    <div class="d-flex justify-content-between bg_purple text-white p-2 mb-2">
                         <div style="font-weight: bold;">TOTAL</div>
                         <div class="px-3" style="font-weight: bold;"><?= angka($total_suara); ?></div>
                     </div>
+
                 </div>
 
             </div>

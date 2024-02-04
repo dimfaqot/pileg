@@ -148,6 +148,20 @@
 
             </div>
         </div>
+
+        <!-- zoom -->
+        <div class="modal fade" id="modal_zoom" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body d-flex justify-content-center body_download">
+
+                    </div>
+                    <div class="download_footer d-grid gap-2 d-flex justify-content-center mb-3">
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="d-block d-md-none d-sm-block" style="margin-top:60px;"></div>
         <?= $this->renderSection('content') ?>
 
@@ -309,6 +323,26 @@
             let id = $(this).data('id');
             let val = $(this).text();
             update_suara_caleg(id, val);
+        });
+
+        // zoom
+
+        $(document).on('click', '.zoom', function(e) {
+            e.preventDefault();
+            let url = $(this).data('url');
+
+            let html = '';
+            html += '<button type="button" class="btn-sm btn_purple" data-bs-dismiss="modal">Close</button>';
+            html += '<a href="' + url + '" type="button" class="btn-sm btn_add" download>Download</a>';
+            $('.download_footer').html(html);
+
+            let img = '';
+            img += '<img src="' + url + '" class="img-fluid" alt="File">';
+            $('.body_download').html(img);
+
+            let myModal = document.getElementById('modal_zoom');
+            let modal = bootstrap.Modal.getOrCreateInstance(myModal)
+            modal.show()
         });
 
 

@@ -280,9 +280,9 @@ function get_tps($order = null)
     $tps = $db->where('kelurahan', upper_first(session('username')))->orderBy('id', 'ASC')->get()->getResultArray();
 
     $db = db('suara_caleg');
-    $caleg = $db->select('suara_caleg.id as id, caleg_id,suara,nama,no_caleg,partai_id,partai,no_partai,color,tps,tps_id,alamat,kelurahan,kecamatan,pj')->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->join('partai', 'partai_id=partai.id')->where('kelurahan', upper_first(session('username')))->orderBy('tps', 'ASC')->orderBy('no_partai', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
+    $caleg = $db->select('suara_caleg.id as id, caleg_id,suara,nama,no_caleg,partai_id,partai,no_partai,color,tps,tps_id,alamat,kelurahan,kecamatan,pj,c1')->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->join('partai', 'partai_id=partai.id')->where('kelurahan', upper_first(session('username')))->orderBy('tps', 'ASC')->orderBy('no_partai', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
     $db = db('suara_partai');
-    $partai = $db->select('suara_partai.id as id,partai_id,partai,no_partai,color,tps,tps_id,alamat,kelurahan,kecamatan,pj,suara')->join('tps', 'tps_id=tps.id')->join('partai', 'partai_id=partai.id')->where('kelurahan', upper_first(session('username')))->orderBy('tps', 'ASC')->orderBy('no_partai', 'ASC')->get()->getResultArray();
+    $partai = $db->select('suara_partai.id as id,partai_id,partai,no_partai,color,tps,tps_id,alamat,kelurahan,kecamatan,pj,suara,c1')->join('tps', 'tps_id=tps.id')->join('partai', 'partai_id=partai.id')->where('kelurahan', upper_first(session('username')))->orderBy('tps', 'ASC')->orderBy('no_partai', 'ASC')->get()->getResultArray();
 
     if ($order == null) {
         $data = ['caleg' => $caleg, 'partai' => $partai, 'tps' => $tps];
