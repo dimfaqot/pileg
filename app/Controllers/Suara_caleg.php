@@ -13,38 +13,14 @@ class Suara_caleg extends BaseController
         check_role();
     }
 
-    public function index($dapil = null): string
+    public function index($dapil = null, $kelurahan = null): string
     {
-        $cols = merge_cols(menu()['tabel'], 'tps', 'partai', 'caleg');
-        $db = db(menu()['tabel']);
-        $db->select($cols)->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->join('partai', 'caleg.partai_id=partai.id');
-        if ($dapil !== 'All') {
-            if ($dapil == null) {
-                $db->where('kecamatan', 'Karangmalang');
-            } else {
-                $db->where('kecamatan', $dapil);
-            }
-        }
-        $q = $db->orderBy('no_partai', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
 
+        $dapil = ($dapil == null ? 'Karangmalang' : $dapil);
+        $kelurahan = get_default_kelurahan($dapil, $kelurahan);
+        $data = get_suara_caleg_by_kelurahan($dapil, $kelurahan);
 
-        $db = db('partai');
-        $partai = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
-
-        $data = [];
-        foreach ($partai as $p) {
-            $suara = 0;
-            $val = [];
-            foreach ($q as $i) {
-                if ($i['partai_id'] == $p['id']) {
-                    $val[] = $i;
-                    $suara += $i['suara'];
-                }
-            }
-            $data[] = ['data' => $val, 'total' => $suara];
-        }
-
-        return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $data, 'count' => count($q)]);
+        return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $data['data'], 'count' => $data['count'], 'kelurahan' => $kelurahan, 'kelurahans' => get_all_kelurahan($dapil), 'kecamatan' => $dapil]);
     }
 
     public function generate()

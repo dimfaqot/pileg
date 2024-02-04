@@ -12,12 +12,13 @@ class Suara_partai extends BaseController
         }
         check_role();
     }
-    public function index($dapil = null): string
+    public function index($dapil = null, $kelurahan = null): string
     {
 
         $dapil = ($dapil == null ? 'Karangmalang' : $dapil);
-        $data = suara_partai($dapil);
-        return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $data['data'], 'count' => $data['count']]);
+        $kelurahan = get_default_kelurahan($dapil, $kelurahan);
+        $data = get_suara_partai_by_kelurahan($dapil, $kelurahan);
+        return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $data['data'], 'count' => $data['count'], 'kelurahan' => $kelurahan, 'kelurahans' => get_all_kelurahan($dapil), 'kecamatan' => $dapil]);
     }
 
     public function generate()

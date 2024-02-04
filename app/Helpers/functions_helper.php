@@ -459,3 +459,85 @@ function get_detail_tps($kecamatan, $kelurahan, $tps)
 
     return $res;
 }
+
+function get_default_kelurahan($kecamatan, $kelurahan)
+{
+    $db = db('tps');
+    $q = $db->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->get()->getRowArray();
+
+    if (!$q) {
+        $kelurahan = '';
+        if ($kecamatan == 'Karangmalang') {
+            $kelurahan = 'Plumbungan';
+        } elseif ($kecamatan == 'Kedawung') {
+            $kelurahan = 'Bendungan';
+        } elseif ($kecamatan == 'Ngrampal') {
+            $kelurahan = 'Kebonromo';
+        }
+
+        return $kelurahan;
+    }
+
+    return $kelurahan;
+}
+
+function get_suara_partai_by_kelurahan($kecamatan, $kelurahan)
+{
+
+    $cols = merge_cols('suara_partai', 'tps', 'partai');
+    $db = db('suara_partai');
+    $db->select($cols)->join('tps', 'tps_id=tps.id')->join('partai', 'partai_id=partai.id');
+    $db->where('kecamatan', $kecamatan);
+    $db->where('kelurahan', $kelurahan);
+    $q = $db->orderBy('no_partai', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps', 'ASC')->get()->getResultArray();
+
+    $db = db('partai');
+    $partai = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
+
+    $data = [];
+    foreach ($partai as $p) {
+        $suara = 0;
+        $val = [];
+        foreach ($q as $i) {
+            if ($i['partai_id'] == $p['id']) {
+                $val[] = $i;
+                $suara += $i['suara'];
+            }
+        }
+        $data[] = ['data' => $val, 'total' => $suara];
+    }
+
+    $res = ['data' => $data, 'count' => count($q)];
+    return $res;
+}
+function get_suara_caleg_by_kelurahan($kecamatan, $kelurahan)
+{
+
+    $cols = merge_cols(menu()['tabel'], 'tps', 'partai', 'caleg');
+    $db = db(menu()['tabel']);
+    $db->select($cols)->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->join('partai', 'caleg.partai_id=partai.id');
+
+    $db->where('kecamatan', $kecamatan);
+    $db->where('kelurahan', $kelurahan);
+    $q = $db->orderBy('no_partai', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
+
+
+    $db = db('partai');
+    $partai = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
+
+    $data = [];
+    foreach ($partai as $p) {
+        $suara = 0;
+        $val = [];
+        foreach ($q as $i) {
+            if ($i['partai_id'] == $p['id']) {
+                $val[] = $i;
+                $suara += $i['suara'];
+            }
+        }
+        $data[] = ['data' => $val, 'total' => $suara];
+    }
+
+    $res = ['data' => $data, 'count' => count($q)];
+    return $res;
+}

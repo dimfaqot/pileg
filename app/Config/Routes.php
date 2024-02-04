@@ -87,7 +87,7 @@ $routes->post('/user/delete', 'User::delete');
 // suara partai
 // $routes->get('/suara-partai/generate', 'Suara_partai::generate');
 $routes->get('/suara-partai', 'Suara_partai::index');
-$routes->get('/suara-partai/(:any)', 'Suara_partai::index/$1');
+$routes->get('/suara-partai/(:any)/(:any)', 'Suara_partai::index/$1/$2');
 
 // suara caleg
 // $routes->get('/suara-caleg/generate', 'Suara_caleg::generate');

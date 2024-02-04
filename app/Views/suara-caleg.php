@@ -4,7 +4,7 @@
 <?php
 $db = db(menu()['tabel']);
 $q = $db->get()->getResultArray();
-$dapil = ['Karangmalang', 'Kedawung', 'Ngrampal', 'All'];
+$dapil = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 
 ?>
 <div class="card mt-2">
@@ -16,12 +16,20 @@ $dapil = ['Karangmalang', 'Kedawung', 'Ngrampal', 'All'];
             </div>
         <?php endif; ?>
 
-        <?php foreach ($dapil as $i) : ?>
-            <div class="form-check-inline form-check form-switch">
-                <input class="form-check-input dapil" name="dapil" data-url="<?= base_url(menu()['controller']); ?>/<?= $i; ?>" type="radio" role="switch" <?= (url(4) == '' && $i == 'Karangmalang' ? 'checked' : (url(4) !== '' && url(4) == $i ? 'checked' : '')); ?>>
-                <label class="form-check-label"><?= $i; ?></label>
-            </div>
-        <?php endforeach; ?>
+        <div class="input-group input-group-sm mb-2">
+            <button class="btn_purple dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $kecamatan; ?></button>
+            <ul class="dropdown-menu">
+                <?php foreach ($dapil as $i) : ?>
+                    <li><a class="dropdown-item <?= ($kecamatan == $i ? 'bg_purple text-white' : ''); ?>" href="<?= base_url(url()); ?>/<?= $i; ?>/<?= $kelurahan; ?>"><?= $i; ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+            <button class="btn_save dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $kelurahan; ?></button>
+            <ul class="dropdown-menu">
+                <?php foreach ($kelurahans as $i) : ?>
+                    <li><a class="dropdown-item <?= ($i['kelurahan'] == $kelurahan ? 'bg_primary text-white' : ''); ?>" href="<?= base_url(url()); ?>/<?= $kecamatan; ?>/<?= $i['kelurahan']; ?>"><?= $i['kelurahan']; ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
 
         <?php if ($count == 0) : ?>
             <div class="mt-2 body_warning"><i class="fa-solid fa-circle-exclamation"></i> Data not found!.</div>

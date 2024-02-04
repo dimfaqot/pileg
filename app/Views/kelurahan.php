@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <?php $kec = ['Karangmalang', 'Kedawung', 'Ngrampal']; ?>
 <?php $kecamatan = (url(4) == '' ? 'Karangmalang' : url(4)); ?>
-<?php $kelurahan = (url(5) == '' ? 'Plumbungan' : url(5)); ?>
+<?php $kelurahan = get_default_kelurahan($kecamatan, url(5)); ?>
 <div class="container mt-2">
     <div class="input-group input-group-sm">
         <button class="btn_purple dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $kecamatan; ?></button>
