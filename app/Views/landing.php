@@ -3,6 +3,11 @@
 <?= $this->section('content') ?>
 
 <div class="container mt-3" style="margin-bottom: 70px;">
+    <div class="progress my-2">
+        <div class="progress-bar" role="progressbar" aria-label="Segment one" style="width: <?= per_kecamatan()['karangmalang']; ?>%" aria-valuenow="<?= per_kecamatan()['karangmalang']; ?>" aria-valuemin="0" aria-valuemax="100">Karangmalang</div>
+        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment two" style="width: <?= per_kecamatan()['kedawung']; ?>%" aria-valuenow="<?= per_kecamatan()['kedawung']; ?>" aria-valuemin="0" aria-valuemax="100">Kedawung</div>
+        <div class="progress-bar bg-info" role="progressbar" aria-label="Segment three" style="width: <?= per_kecamatan()['ngrampal']; ?>%" aria-valuenow="<?= per_kecamatan()['ngrampal']; ?>" aria-valuemin="0" aria-valuemax="100">Ngrampal</div>
+    </div>
     <div class="row g-2">
         <div class="col-md-6">
             <div class="card bg_success_light">
@@ -197,8 +202,82 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card bg_pink_light">
+                <div class="card-body">
+                    <h5><i class="fa-solid fa-ranking-star"></i> SUARA TERTINGGI PARTAI</h5>
+                    <a target="_blank" href="<?= base_url(); ?>suara_tertinggi/partai/DESC/Karangmalang/Plumbungan" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
+
+                        <div class="card-body p-2" style="border-radius:10px;background:linear-gradient(to right, #12a6d7 <?= $persen; ?>%, white <?= $persen; ?>%);">
+                            <table class="table table-sm table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Kelurahan</th>
+                                        <th scope="col">Tps</th>
+                                        <th scope="col">Suara</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach (suara_tertinggi('partai', 'DESC') as $k => $i) : ?>
+                                        <?php if ($k < 10) : ?>
+                                            <tr>
+                                                <th scope="row"><?= $k + 1; ?></th>
+                                                <td><?= $i['kelurahan']; ?></td>
+                                                <td><?= $i['tps']; ?></td>
+                                                <td><?= $i['suara']; ?></td>
+                                            </tr>
+                                        <?php endif; ?>
+
+                                    <?php endforeach; ?>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg_primary_light">
+                <div class="card-body">
+                    <h5><i class="fa-solid fa-chart-simple"></i> SUARA TERTINGGI JIWA</h5>
+                    <a target="_blank" href="<?= base_url(); ?>suara_tertinggi/caleg/DESC/Karangmalang/Plumbungan" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
+
+                        <div class="card-body p-2" style="border-radius:10px;background:linear-gradient(to right, #12a6d7 <?= $persen; ?>%, white <?= $persen; ?>%);">
+                            <table class="table table-sm table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Kelurahan</th>
+                                        <th scope="col">Tps</th>
+                                        <th scope="col">Suara</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach (suara_tertinggi('caleg') as $k => $i) : ?>
+                                        <?php if ($k < 10) : ?>
+                                            <tr>
+                                                <th scope="row"><?= $k + 1; ?></th>
+                                                <td><?= $i['kelurahan']; ?></td>
+                                                <td><?= $i['tps']; ?></td>
+                                                <td><?= $i['suara']; ?></td>
+                                            </tr>
+                                        <?php endif; ?>
+
+                                    <?php endforeach; ?>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
 
     </div>
+
 </div>
 
 <?= $this->endSection() ?>

@@ -13,6 +13,9 @@ class Reset extends BaseController
         if (session('role') !== 'Root') {
             gagal(base_url('home'), 'You are not allowed!.');
         }
+        if (date('Y') == 2024 && date('n') == 2 && date('j') > 13) {
+            gagal(base_url('home'), 'Out of date!.');
+        }
     }
 
 

@@ -584,13 +584,19 @@ function get_default_tps($kecamatan, $kelurahan, $tps_id)
 
 // suara mustawa
 
-function total_suara_mustawa()
+function total_suara_mustawa($kecamatan = null)
 {
     $dbc = db('caleg');
     $mustawa = $dbc->where('nama', 'Muhammad Bahrul Mustawa')->get()->getRowArray();
 
     $db = db('suara_caleg');
-    $q = $db->where('caleg_id', $mustawa['id'])->get()->getResultArray();
+    $db->where('caleg_id', $mustawa['id']);
+    if ($kecamatan !== null) {
+
+        $db->join('tps', 'tps.id=tps_id');
+        $db->where('kecamatan', $kecamatan);
+    }
+    $q = $db->get()->getResultArray();
 
     // $cols = merge_cols('suara_caleg', 'tps', 'partai', 'caleg');
     // $db->select($cols)->where('caleg_id', $mustawa['id'])->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->join('partai', 'caleg.partai_id=partai.id');
@@ -700,4 +706,55 @@ function jumlah_tps()
     $db = db('tps');
     $q = $db->countAllResults();
     return $q;
+}
+
+function suara_tertinggi($order, $ket = 'DESC', $kecamatan = null, $kelurahan = null)
+{
+    $cols = merge_cols('suara_' . $order, 'tps', $order);
+
+    $dbc = db($order);
+    if ($order == 'caleg') {
+        $data = $dbc->where('nama', 'Muhammad Bahrul Mustawa')->get()->getRowArray();
+    }
+    if ($order == 'partai') {
+        $data = $dbc->where('partai', 'Pkb')->get()->getRowArray();
+    }
+
+    $db = db('suara_' . $order);
+    $db->select($cols)->where($order . '_id', $data['id']);
+
+    $db->join('tps', 'tps_id=tps.id')->join($order, $order . '_id=' . $order . '.id');
+    if ($kecamatan !== null) {
+
+        $db->where('kecamatan', $kecamatan);
+    }
+    if ($kelurahan !== null) {
+        $db->where('kelurahan', $kelurahan);
+    }
+
+    $q = $db->orderBy('suara', $ket)->orderBy('kecamatan', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps_id', 'ASC')->orderBy('no_' . $order, 'ASC')->get()->getResultArray();
+
+    return $q;
+}
+
+function per_kecamatan()
+{
+    $kar = total_suara_mustawa('Karangmalang');
+    $ked = total_suara_mustawa('Kedawung');
+    $ngr = total_suara_mustawa('Ngrampal');
+
+    $total = $kar + $ked + $ngr;
+
+    $karangmalang = round($kar / ($total) * 100);
+    $kedawung = round(($ked / $total) * 100);
+    $ngrampal = round(($ngr / $total) * 100);
+
+    $q = ($karangmalang + $kedawung + $ngrampal) - 100;
+    if ($q > 0) {
+        $ngrampal = $ngrampal - $q;
+    }
+
+    $data = ['karangmalang' => $karangmalang, 'kedawung' => $kedawung, 'ngrampal' => $ngrampal];
+
+    return $data;
 }

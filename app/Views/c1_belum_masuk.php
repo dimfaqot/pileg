@@ -26,7 +26,7 @@ $kets = [
     </div>
     <div class="input-group input-group-sm my-2">
         <?php foreach ($kets as $i) : ?>
-            <a href="<?= base_url('c1_belum_masuk'); ?>/<?= $kecamatan; ?>/<?= $kelurahan; ?>/<?= $i['url']; ?>" class="<?= ($i['url'] == $ket ? 'btn_add' : 'btn_secondary'); ?>" type="button"><?= $i['text']; ?></a>
+            <a href="<?= base_url('c1_belum_masuk'); ?>/<?= $kecamatan; ?>/<?= $kelurahan; ?>/<?= $i['url']; ?>" class="<?= ($i['url'] == $ket ? 'btn_main' : 'btn_secondary'); ?>" type="button"><?= $i['text']; ?></a>
         <?php endforeach; ?>
     </div>
 

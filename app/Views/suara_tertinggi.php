@@ -7,8 +7,8 @@ $orders = [
     ['url' => 'caleg', 'text' => 'Caleg Gus Tawa']
 ];
 $kets = [
-    ['url' => 'sudah', 'text' => 'Suara Masuk'],
-    ['url' => 'belum', 'text' => 'Suara Belum Masuk']
+    ['url' => 'DESC', 'text' => 'Tertinggi'],
+    ['url' => 'ASC', 'text' => 'Terendah']
 ];
 ?>
 
@@ -17,25 +17,25 @@ $kets = [
         <button class="btn_add dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= upper_first($order); ?></button>
         <ul class="dropdown-menu">
             <?php foreach ($orders as $i) : ?>
-                <li><a class="dropdown-item <?= ($i['url'] == $order ? 'bg_purple text-white' : ''); ?>" href="<?= base_url('suara_belum_masuk'); ?>/<?= $i['url']; ?>/<?= $kecamatan; ?>/<?= $kelurahan; ?>/<?= $ket; ?>"><?= $i['text']; ?></a></li>
+                <li><a class="dropdown-item <?= ($i['url'] == $order ? 'bg_purple text-white' : ''); ?>" href="<?= base_url('suara_tertinggi'); ?>/<?= $i['url']; ?>/<?= $ket; ?>/<?= $kecamatan; ?>/<?= $kelurahan; ?>"><?= $i['text']; ?></a></li>
             <?php endforeach; ?>
         </ul>
         <button class="btn_purple dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $kecamatan; ?></button>
         <ul class="dropdown-menu">
             <?php foreach ($kecamatans as $i) : ?>
-                <li><a class="dropdown-item <?= ($i == $kecamatan ? 'bg_purple text-white' : ''); ?>" href="<?= base_url('suara_belum_masuk'); ?>/<?= $order; ?>/<?= $i; ?>/<?= $kelurahan; ?>/<?= $ket; ?>"><?= $i; ?></a></li>
+                <li><a class="dropdown-item <?= ($i == $kecamatan ? 'bg_purple text-white' : ''); ?>" href="<?= base_url('suara_tertinggi'); ?>/<?= $order; ?>/<?= $ket; ?>/<?= $i; ?>/<?= $kelurahan; ?>"><?= $i; ?></a></li>
             <?php endforeach; ?>
         </ul>
         <button class="btn_save dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $kelurahan; ?></button>
         <ul class="dropdown-menu">
             <?php foreach (get_all_kelurahan($kecamatan) as $i) : ?>
-                <li><a class="dropdown-item <?= ($kelurahan == $i['kelurahan'] ? 'bg_primary text-white' : ''); ?>" href="<?= base_url('suara_belum_masuk'); ?>/<?= $order; ?>/<?= $kecamatan; ?>/<?= $i['kelurahan']; ?>/<?= $ket; ?>"><?= $i['kelurahan']; ?></a></li>
+                <li><a class="dropdown-item <?= ($kelurahan == $i['kelurahan'] ? 'bg_primary text-white' : ''); ?>" href="<?= base_url('suara_tertinggi'); ?>/<?= $order; ?>/<?= $ket; ?>/<?= $kecamatan; ?>/<?= $i['kelurahan']; ?>"><?= $i['kelurahan']; ?></a></li>
             <?php endforeach; ?>
         </ul>
     </div>
     <div class="input-group input-group-sm my-2">
         <?php foreach ($kets as $i) : ?>
-            <a href="<?= base_url('suara_belum_masuk'); ?>/<?= $order; ?>/<?= $kecamatan; ?>/<?= $kelurahan; ?>/<?= $i['url']; ?>" class="<?= ($i['url'] == $ket ? 'btn_main' : 'btn_secondary'); ?>" type="button"><?= $i['text']; ?></a>
+            <a href="<?= base_url('suara_tertinggi'); ?>/<?= $order; ?>/<?= $i['url']; ?>/<?= $kecamatan; ?>/<?= $kelurahan; ?>" class="<?= ($i['url'] == $ket ? 'btn_main' : 'btn_secondary'); ?>" type="button"><?= $i['text']; ?></a>
         <?php endforeach; ?>
     </div>
 
@@ -47,29 +47,25 @@ $kets = [
         <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">Kecamatan</th>
+                <th scope="col">Kelurahan</th>
                 <th scope="col">Tps</th>
-                <th scope="col">Saksi</th>
                 <th scope="col">Suara</th>
             </tr>
         </thead>
         <tbody class="tabel_search">
-            <?php $total = 0; ?>
+
             <?php foreach ($data as $k => $i) : ?>
-                <?php $total += $i['suara']; ?>
                 <tr>
                     <th scope="row"><?= ($k + 1); ?></th>
+                    <td><?= $i['kecamatan']; ?></td>
+                    <td><?= $i['kelurahan']; ?></td>
                     <td><?= $i['tps']; ?></td>
-                    <td><?= $i['pj']; ?></td>
-                    <td style="text-align: right;"><?= $i['suara']; ?></td>
+                    <td><?= $i['suara']; ?></td>
                 </tr>
 
             <?php endforeach; ?>
-            <?php if ($ket == 'sudah') : ?>
-                <tr>
-                    <th style="text-align: center;" scope="row" colspan="3">TOTAL</th>
-                    <th style="text-align: right;" scope="row"><?= $total; ?></th>
-                </tr>
-            <?php endif; ?>
+
         </tbody>
     </table>
 </div>

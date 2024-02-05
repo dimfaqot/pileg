@@ -117,4 +117,10 @@ class Landing extends BaseController
         $data = c1_belum_masuk($kecamatan, $kelurahan, $ket);
         return view('c1_belum_masuk', ['judul' => 'C1 Belum Masuk', 'kecamatan' => $kecamatan, 'kelurahan' => $kelurahan, 'data' => $data, 'ket' => $ket]);
     }
+    public function suara_tertinggi($order = 'partai', $ket = 'DESC', $kecamatan = 'Karangmalang', $kelurahan = 'Plumbungan')
+    {
+        $kelurahan = get_default_kelurahan($kecamatan, $kelurahan);
+        $data = suara_tertinggi($order, $ket, $kecamatan, $kelurahan);
+        return view('suara_tertinggi', ['judul' => 'Suara Tertinggi ' . upper_first($order), 'kecamatan' => $kecamatan, 'kelurahan' => $kelurahan, 'data' => $data, 'ket' => $ket, 'order' => $order]);
+    }
 }

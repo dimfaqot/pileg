@@ -220,6 +220,12 @@ textarea{
 .bg_success_light {
     background-color: #94e6c5;
 }
+.bg_pink {
+    background-color: #a9134a;
+}
+.bg_pink_light {
+    background-color: #f6cddc;
+}
 
 .box_navbar{
     background-color: #fdfdfd;
@@ -307,6 +313,23 @@ font-size: small;
     text-decoration: none;
     font-size: small;
     color: #bfead8;
+}
+.btn_main{
+    border-radius: 15px;
+    background-color: #12a6d7;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: 1px solid #1193be;
+    color: white;
+    font-size: small;
+}
+.btn_main:hover{
+    border-radius: 15px;
+    background-color: #0a7ba0;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-size: small;
+    color: #d0e9f2;
 }
 .btn_purple{
     border-radius: 15px;

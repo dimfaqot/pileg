@@ -25,6 +25,8 @@ $routes->get('/suara_belum_masuk', 'Landing::suara_belum_masuk');
 $routes->get('/suara_belum_masuk/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_belum_masuk/$1/$2/$3/$4');
 $routes->get('/c1_belum_masuk', 'Landing::c1_belum_masuk');
 $routes->get('/c1_belum_masuk/(:any)/(:any)/(:any)', 'Landing::c1_belum_masuk/$1/$2/$3');
+$routes->get('/suara_tertinggi', 'Landing::suara_tertinggi');
+$routes->get('/suara_tertinggi/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_tertinggi/$1/$2/$3/$4');
 
 $routes->get('/statistik', 'Landing::statistik');
 
