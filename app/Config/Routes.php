@@ -37,6 +37,11 @@ $routes->post('/suara', 'Search::suara');
 // home
 $routes->get('/home', 'Home::index');
 
+// reset
+$routes->get('/reset_tps', 'Reset::reset_tps');
+$routes->get('/reset_suara_partai', 'Reset::reset_suara_partai');
+$routes->get('/reset_suara_caleg', 'Reset::reset_suara_caleg');
+
 
 // menu
 $routes->get('/menu', 'Menu::index');

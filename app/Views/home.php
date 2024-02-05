@@ -2,7 +2,12 @@
 
 <?= $this->section('content') ?>
 
-<div class="row g-2">
+<div class="row g-2 mt-2">
+    <?php if (session('role') == 'Root' && settings('lock_data') == 0) : ?>
+        <a href="<?= base_url('reset_tps'); ?>" class="btn_danger">Reset Tps</a>
+        <a href="<?= base_url('reset_suara_partai'); ?>" class="btn_danger">Reset Suara Partai</a>
+        <a href="<?= base_url('reset_suara_caleg'); ?>" class="btn_danger">Reset Suara Caleg</a>
+    <?php endif; ?>
     <?php foreach (get_all_partai() as $p) : ?>
         <?php $total_suara = 0; ?>
         <?php $total_suara += total_suara('partai', $p['id']); ?>
