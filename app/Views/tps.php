@@ -187,7 +187,7 @@ $dapil = ['Karangmalang', 'Kedawung', 'Ngrampal'];
                                             <label>Saksi</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="hp_saksi" value="<?= $i['pj']; ?>" class="form-control" placeholder="Hp Saksi">
+                                            <input type="text" name="hp_saksi" value="<?= $i['hp_saksi']; ?>" class="form-control" placeholder="Hp Saksi">
                                             <label>Hp Saksi</label>
                                         </div>
 
