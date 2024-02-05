@@ -754,7 +754,10 @@ function per_kecamatan()
         $ngrampal = $ngrampal - $q;
     }
 
-    $data = ['karangmalang' => $karangmalang, 'kedawung' => $kedawung, 'ngrampal' => $ngrampal];
-
+    $data = [
+        ['kec' => 'Karangmalang', 'persen' => $karangmalang, 'suara' => $kar, 'bg' => 'bg_purple', 'segment' => 'Segment one'],
+        ['kec' => 'Kedawung', 'persen' => $kedawung, 'suara' => $ked, 'bg' => 'bg_success', 'segment' => 'Segment two'],
+        ['kec' => 'Ngrampal', 'persen' => $ngrampal, 'suara' => $ngr, 'bg' => 'bg_main', 'segment' => 'Segment three']
+    ];
     return $data;
 }

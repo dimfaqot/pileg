@@ -4,9 +4,9 @@
 
 <div class="container mt-3" style="margin-bottom: 70px;">
     <div class="progress my-2">
-        <div class="progress-bar" role="progressbar" aria-label="Segment one" style="width: <?= per_kecamatan()['karangmalang']; ?>%" aria-valuenow="<?= per_kecamatan()['karangmalang']; ?>" aria-valuemin="0" aria-valuemax="100">Karangmalang</div>
-        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment two" style="width: <?= per_kecamatan()['kedawung']; ?>%" aria-valuenow="<?= per_kecamatan()['kedawung']; ?>" aria-valuemin="0" aria-valuemax="100">Kedawung</div>
-        <div class="progress-bar bg-info" role="progressbar" aria-label="Segment three" style="width: <?= per_kecamatan()['ngrampal']; ?>%" aria-valuenow="<?= per_kecamatan()['ngrampal']; ?>" aria-valuemin="0" aria-valuemax="100">Ngrampal</div>
+        <?php foreach (per_kecamatan() as $i) : ?>
+            <div class="progress-bar <?= $i['bg']; ?>" role="progressbar" aria-label="<?= $i['segment']; ?>" style="width: <?= $i['persen']; ?>%" aria-valuenow="<?= $i['persen']; ?>" aria-valuemin="0" aria-valuemax="100"><?= $i['kec']; ?> (<?= angka($i['suara']); ?>)</div>
+        <?php endforeach; ?>
     </div>
     <div class="row g-2">
         <div class="col-md-6">
