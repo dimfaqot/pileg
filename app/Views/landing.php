@@ -105,15 +105,15 @@
                 <div class="card-body">
                     <h5><i class="fa-solid fa-clock-rotate-left"></i> SUARA BELUM MASUK</h5>
                     <a target="_blank" href="<?= base_url(); ?>suara_belum_masuk" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
-                        <?php $persen = round((((jumlah_tps() - count(suara_belum_masuk('partai'))) / jumlah_tps()) * 100), 2); ?>
+                        <?php $persen = round(((count(suara_belum_masuk('partai', null, null, 'sudah')) / jumlah_tps()) * 100), 2); ?>
 
                         <div class="card-body p-0" style="border-radius:10px;background:linear-gradient(to right, #12a6d7 <?= $persen; ?>%, white <?= $persen; ?>%);">
                             <div class="d-flex p-2">
                                 <div style="width: <?= ($persen > 40 ? $persen : '40'); ?>%;" class="<?= ($persen > 40 ? 'text-white' : ''); ?>">
                                     <h6>Jml. Tps <?= angka(jumlah_tps()); ?> (<?= $persen; ?>%)</h6>
-                                    <h6>Suara Masuk <?= angka(jumlah_tps() - count(suara_belum_masuk('partai'))); ?> Tps (
+                                    <h6>Suara Masuk <?= angka(count(suara_belum_masuk('partai', null, null, 'sudah'))); ?> Tps (
                                         <?php
-                                        $val = jumlah_tps() - (jumlah_tps() - count(suara_belum_masuk('partai')));
+                                        $val = jumlah_tps() - count(suara_belum_masuk('partai', null, null, 'sudah'));
 
 
                                         if ($val == 0) {
