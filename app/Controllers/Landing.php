@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Faker\Core\Number;
+
 class Landing extends BaseController
 {
     public function index(): string
@@ -19,6 +21,7 @@ class Landing extends BaseController
         //         $data[] = $val;
         //     }
         // }
+
         return view('landing', ['judul' => 'Jiwa']);
     }
     public function login(): string
@@ -92,8 +95,26 @@ class Landing extends BaseController
     {
         return view('kelurahan', ['judul' => 'Suara Menurut Kelurahan']);
     }
-    public function bytps()
+    public function bytps($kecamatan = null, $kelurahan = null, $tps_id = null)
     {
-        return view('bytps', ['judul' => 'Suara Menurut Tps']);
+
+        $kecamatan = ($kecamatan == null ? 'Karangmalang' : $kecamatan);
+        $kelurahan = get_default_kelurahan($kecamatan, $kelurahan);
+        $tps = get_default_tps($kecamatan, $kelurahan, $tps_id);
+
+        return view('bytps', ['judul' => 'Suara Menurut Tps', 'kecamatan' => $kecamatan, 'kelurahan' => $kelurahan, 'tps' => $tps]);
+    }
+
+    public function suara_belum_masuk($order = 'partai', $kecamatan = 'Karangmalang', $kelurahan = 'Plumbungan', $ket = 'belum')
+    {
+        $kelurahan = get_default_kelurahan($kecamatan, $kelurahan);
+        $data = suara_belum_masuk($order, $kecamatan, $kelurahan, $ket);
+        return view('suara_belum_masuk', ['judul' => 'Tps Suara Belum Masuk', 'kecamatan' => $kecamatan, 'kelurahan' => $kelurahan, 'order' => $order, 'data' => $data, 'ket' => $ket]);
+    }
+    public function c1_belum_masuk($kecamatan = 'Karangmalang', $kelurahan = 'Plumbungan', $ket = 'belum')
+    {
+        $kelurahan = get_default_kelurahan($kecamatan, $kelurahan);
+        $data = c1_belum_masuk($kecamatan, $kelurahan, $ket);
+        return view('c1_belum_masuk', ['judul' => 'C1 Belum Masuk', 'kecamatan' => $kecamatan, 'kelurahan' => $kelurahan, 'data' => $data, 'ket' => $ket]);
     }
 }

@@ -12,11 +12,22 @@ class Tps extends BaseController
         }
         check_role();
     }
-    public function index(): string
+    public function index($dapil = null, $kelurahan = null): string
     {
+
+        if (session('role') == 'Root') {
+            $dapil = ($dapil == null ? 'Karangmalang' : $dapil);
+            $kelurahan = get_default_kelurahan($dapil, $kelurahan);
+        } else {
+            $kelurahan = upper_first(session('username'));
+        }
         $db = db(menu()['tabel']);
-        $q = $db->orderBy('kecamatan', 'ASC')->get()->getResultArray();
-        return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $q]);
+        $db;
+        if (session('role') == 'Root') {
+            $db->where('kecamatan', $dapil);
+        }
+        $q = $db->where('kelurahan', $kelurahan)->orderBy('id', 'ASC')->get()->getResultArray();
+        return view(menu()['controller'], ['judul' => menu()['menu'], 'data' => $q, 'kelurahan' => $kelurahan, 'kelurahans' => get_all_kelurahan($dapil), 'kecamatan' => $dapil]);
     }
 
     public function add()
@@ -48,12 +59,16 @@ class Tps extends BaseController
     {
         lock_data();
         $id = clear($this->request->getVar('id'));
-        $tps = upper_first(clear($this->request->getVar('tps')));
+        $tps = upper_first($this->request->getVar('tps'));
         $alamat = upper_first(clear($this->request->getVar('alamat')));
         $kelurahan = upper_first(clear($this->request->getVar('kelurahan')));
         $kecamatan = upper_first(clear($this->request->getVar('kecamatan')));
         $pj = upper_first(clear($this->request->getVar('pj')));
         $url = clear($this->request->getVar('url'));
+
+        if (session('role') == 'Admin') {
+            $hp_saksi = upper_first(clear($this->request->getVar('hp_saksi')));
+        }
 
 
         $db = db(menu()['tabel']);
@@ -66,8 +81,13 @@ class Tps extends BaseController
 
         $q['tps'] = $tps;
         $q['alamat'] = $alamat;
-        $q['kelurahan'] = $kelurahan;
-        $q['kecamatan'] = $kecamatan;
+        if (session('role') == 'Root') {
+            $q['kelurahan'] = $kelurahan;
+            $q['kecamatan'] = $kecamatan;
+        }
+        if (session('role') == 'Admin') {
+            $q['hp_saksi'] = $hp_saksi;
+        }
         $q['pj'] = $pj;
 
 

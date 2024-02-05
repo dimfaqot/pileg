@@ -1,15 +1,34 @@
 <?= $this->extend('logged') ?>
 
 <?= $this->section('content') ?>
-
+<?php
+$dapil = ['Karangmalang', 'Kedawung', 'Ngrampal'];
+?>
 <div class="card mt-2">
     <div class="card-body shadow shadow-sm">
 
-        <div class="input-group input-group-sm mb-3">
-            <button data-bs-toggle="modal" data-bs-target="#add_<?= menu()['controller']; ?>" class="btn_add"><i class="fa-solid fa-circle-plus"></i> <?= menu()['menu']; ?></button>
+        <?php if (session('role') == 'Root') : ?>
 
-        </div>
+            <div class="input-group input-group-sm mb-3">
+                <button data-bs-toggle="modal" data-bs-target="#add_<?= menu()['controller']; ?>" class="btn_add"><i class="fa-solid fa-circle-plus"></i> <?= menu()['menu']; ?></button>
 
+            </div>
+
+            <div class="input-group input-group-sm mb-2">
+                <button class="btn_purple dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $kecamatan; ?></button>
+                <ul class="dropdown-menu">
+                    <?php foreach ($dapil as $i) : ?>
+                        <li><a class="dropdown-item <?= ($kecamatan == $i ? 'bg_purple text-white' : ''); ?>" href="<?= base_url(url()); ?>/<?= $i; ?>/<?= $kelurahan; ?>"><?= $i; ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+                <button class="btn_save dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $kelurahan; ?></button>
+                <ul class="dropdown-menu">
+                    <?php foreach ($kelurahans as $i) : ?>
+                        <li><a class="dropdown-item <?= ($i['kelurahan'] == $kelurahan ? 'bg_primary text-white' : ''); ?>" href="<?= base_url(url()); ?>/<?= $kecamatan; ?>/<?= $i['kelurahan']; ?>"><?= $i['kelurahan']; ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
 
         <div class="modal fade" id="add_<?= menu()['controller']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -73,9 +92,18 @@
                         <th style="text-align: center;" scope="col">#</th>
                         <th style="text-align: center;" scope="col">Tps</th>
                         <th class="d-none d-md-table-cell">Alamat</th>
-                        <th class="d-none d-md-table-cell" style="text-align: center;" scope="col">Kecamatan</th>
+                        <?php if (session('role') == 'Root') : ?>
+                            <th class="d-none d-md-table-cell" style="text-align: center;" scope="col">Kecamatan</th>
+
+                        <?php endif; ?>
                         <th style="text-align: center;" scope="col">Kelurahan</th>
                         <th style="text-align: center;" scope="col">Saksi</th>
+                        <?php if (session('role') == 'Admin') : ?>
+
+                            <th scope="col">Hp Saksi</th>
+
+                        <?php endif; ?>
+                        <th style="text-align: center;" scope="col">C1</th>
                         <th style="text-align: center;" scope="col">Act</th>
                     </tr>
                 </thead>
@@ -86,9 +114,21 @@
                             <td style="text-align: center;"><?= ($k + 1); ?></td>
                             <td><?= $i['tps']; ?></td>
                             <td class="d-none d-md-table-cell"><?= $i['alamat']; ?></td>
-                            <td class="d-none d-md-table-cell"><?= $i['kecamatan']; ?></td>
+                            <?php if (session('role') == 'Root') : ?>
+                                <td class="d-none d-md-table-cell"><?= $i['kecamatan']; ?></td>
+                            <?php endif; ?>
                             <td><?= $i['kelurahan']; ?></td>
                             <td><?= $i['pj']; ?></td>
+                            <?php if (session('role') == 'Admin') : ?>
+                                <td><?= $i['hp_saksi']; ?></td>
+
+
+                            <?php endif; ?>
+                            <td style="text-align: center;">
+                                <a data-url="<?= base_url('files/c1'); ?>/<?= $i['c1']; ?>" style="text-decoration:none;" type="button" href="" class="zoom <?= ($i['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
+                                    <i class="fa-regular fa-image"></i>
+                                </a>
+                            </td>
                             <td style="text-align: center;">
                                 <div class="d-flex justify-content-center gap-2">
                                     <div class="btn_act_main" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit data."><a href="" data-bs-toggle="modal" data-bs-target="#detail_<?= $i['id']; ?>" style="font-size: medium;"><i class="fa-solid fa-circle-info text_main"></i></a></div>
@@ -125,7 +165,7 @@
                                             <label>Dukuh/Rt/Rw</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="kecamatan" value="<?= $i['kecamatan']; ?>" class="form-control indonesia update_kecamatan_<?= $i['id']; ?>" data-order="update" data-col="kecamatan" data-indonesia_id="3314" data-id="<?= $i['id']; ?>" placeholder="Kecamatan" required>
+                                            <input type="text" name="kecamatan" value="<?= $i['kecamatan']; ?>" class="form-control indonesia update_kecamatan_<?= $i['id']; ?>" data-order="update" data-col="kecamatan" data-indonesia_id="3314" data-id="<?= $i['id']; ?>" placeholder="Kecamatan" required <?= (session('role') !== 'Root' ? 'disabled' : ''); ?>>
                                             <label>Kecamatan</label>
                                             <ul class="p-1 dropdown-menu body_update_kecamatan_<?= $i['id']; ?>" style="font-size:small;">
 
@@ -136,15 +176,19 @@
                                         </div>
 
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="kelurahan" value="<?= $i['kelurahan']; ?>" class="form-control indonesia update_kelurahan_<?= $i['id']; ?>" data-order="update" data-col="kelurahan" data-indonesia_id="" data-id="<?= $i['id']; ?>" placeholder="Kelurahan">
+                                            <input type="text" name="kelurahan" value="<?= $i['kelurahan']; ?>" class="form-control indonesia update_kelurahan_<?= $i['id']; ?>" data-order="update" data-col="kelurahan" data-indonesia_id="" data-id="<?= $i['id']; ?>" placeholder="Kelurahan" <?= (session('role') !== 'Root' ? 'disabled' : ''); ?>>
                                             <label>Kelurahan</label>
                                             <ul class="p-1 dropdown-menu body_update_kelurahan_<?= $i['id']; ?>" style="font-size:small;">
 
                                             </ul>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" name="pj" value="<?= $i['pj']; ?>" class="form-control" placeholder="Pj" required>
-                                            <label>Pj</label>
+                                            <input type="text" name="pj" value="<?= $i['pj']; ?>" class="form-control" placeholder="Saksi">
+                                            <label>Saksi</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" name="hp_saksi" value="<?= $i['pj']; ?>" class="form-control" placeholder="Hp Saksi">
+                                            <label>Hp Saksi</label>
                                         </div>
 
 

@@ -21,6 +21,10 @@ $routes->get('/login', 'Landing::login');
 $routes->get('/logout', 'Landing::logout');
 $routes->post('/auth', 'Landing::auth');
 $routes->post('/logout', 'Landing::logout');
+$routes->get('/suara_belum_masuk', 'Landing::suara_belum_masuk');
+$routes->get('/suara_belum_masuk/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_belum_masuk/$1/$2/$3/$4');
+$routes->get('/c1_belum_masuk', 'Landing::c1_belum_masuk');
+$routes->get('/c1_belum_masuk/(:any)/(:any)/(:any)', 'Landing::c1_belum_masuk/$1/$2/$3');
 
 $routes->get('/statistik', 'Landing::statistik');
 
@@ -60,6 +64,9 @@ $routes->post('/settings/update', 'Settings::update');
 
 // tps
 $routes->get('/tps', 'Tps::index');
+if (session('role') == 'Root') {
+    $routes->get('/tps/(:any)/(:any)', 'Tps::index/$1/$2');
+}
 $routes->post('/tps/add', 'Tps::add');
 $routes->post('/tps/update', 'Tps::update');
 $routes->post('/tps/delete', 'Tps::delete');

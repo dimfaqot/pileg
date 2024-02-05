@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Controllers\Tps;
 
 function db($tabel, $db = null)
 {
@@ -129,6 +129,36 @@ function menu($req = null)
         }
     } else {
         foreach (menus() as $i) {
+            if ($i['controller'] == $req) {
+                return $i;
+            }
+        }
+    }
+}
+function menus_landing()
+{
+
+
+    $q = [
+        ['id' => 0, 'no_urut' => 1, 'role' => '', 'menu' => 'Home', 'tabel' => 'user', 'controller' => 'home', 'icon' => "fa-solid fa-earth-asia", 'url' => 'home', 'is_active' => 1],
+        ['id' => 1, 'no_urut' => 2, 'role' => '', 'menu' => 'Kecamatan', 'tabel' => '', 'controller' => 'kecamatan', 'icon' => "fa-solid fa-city", 'url' => 'kecamatan', 'is_active' => 1],
+        ['id' => 2, 'no_urut' => 3, 'role' => '', 'menu' => 'Kelurahan', 'tabel' => '', 'controller' => 'kelurahan', 'icon' => "fa-solid fa-building", 'url' => 'kelurahan', 'is_active' => 1],
+        ['id' => 3, 'no_urut' => 4, 'role' => '', 'menu' => 'Tps', 'tabel' => '', 'controller' => 'bytps', 'icon' => "fa-solid fa-person-booth", 'url' => 'bytps', 'is_active' => 1]
+    ];
+
+    return $q;
+}
+function menu_landing($req = '')
+{
+
+    if ($req == '') {
+        foreach (menus_landing() as $i) {
+            if ($i['controller'] == 'home') {
+                return $i;
+            }
+        }
+    } else {
+        foreach (menus_landing() as $i) {
             if ($i['controller'] == $req) {
                 return $i;
             }
@@ -416,18 +446,17 @@ function get_suara_by_kelurahan($order, $id, $kecamatan, $kelurahan)
 }
 function get_suara_by_tps($order, $id, $kecamatan, $kelurahan, $tps)
 {
-
     $db = db('suara_' . $order);
 
     $q = $db->join('tps', 'tps_id=tps.id')->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->where($order . '_id', $id)->get()->getResultArray();
 
     $data = [];
     foreach ($q as $i) {
-        $exp = explode(" ", $i['tps']);
-        if ($exp[0] == $tps) {
+        if ($i['tps_id'] == $tps['id']) {
             $data[] = $i;
         }
     }
+
     $total = 0;
 
     foreach ($data as $i) {
@@ -437,27 +466,13 @@ function get_suara_by_tps($order, $id, $kecamatan, $kelurahan, $tps)
     return $total;
 }
 
-function get_detail_tps($kecamatan, $kelurahan, $tps)
+function get_detail_tps($tps)
 {
     $db = db('tps');
 
-    $q = $db->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->get()->getResultArray();
+    $q = $db->where('id', $tps['id'])->get()->getRowArray();
 
-    if (!$q) {
-        $res = ['tps' => '', 'pj' => ''];
-        return $res;
-    }
-    $res = [];
-
-    foreach ($q as $i) {
-        $exp = explode(" ", $i['tps']);
-
-        if ($exp[0] == $tps) {
-            $res = $i;
-        }
-    }
-
-    return $res;
+    return $q;
 }
 
 function get_default_kelurahan($kecamatan, $kelurahan)
@@ -489,7 +504,7 @@ function get_suara_partai_by_kelurahan($kecamatan, $kelurahan)
     $db->select($cols)->join('tps', 'tps_id=tps.id')->join('partai', 'partai_id=partai.id');
     $db->where('kecamatan', $kecamatan);
     $db->where('kelurahan', $kelurahan);
-    $q = $db->orderBy('no_partai', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps', 'ASC')->get()->getResultArray();
+    $q = $db->orderBy('no_partai', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps_id', 'ASC')->get()->getResultArray();
 
     $db = db('partai');
     $partai = $db->orderBy('no_partai', 'ASC')->get()->getResultArray();
@@ -519,7 +534,7 @@ function get_suara_caleg_by_kelurahan($kecamatan, $kelurahan)
 
     $db->where('kecamatan', $kecamatan);
     $db->where('kelurahan', $kelurahan);
-    $q = $db->orderBy('no_partai', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
+    $q = $db->orderBy('no_partai', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps_id', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
 
 
     $db = db('partai');
@@ -540,4 +555,138 @@ function get_suara_caleg_by_kelurahan($kecamatan, $kelurahan)
 
     $res = ['data' => $data, 'count' => count($q)];
     return $res;
+}
+
+function get_default_tps($kecamatan, $kelurahan, $tps_id)
+{
+
+    $db = db('tps');
+    $q = $db->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->where('id', $tps_id)->orderBy('id', 'ASC')->get()->getRowArray();
+
+    if (!$q) {
+        $q = $db->where('kecamatan', $kecamatan)->where('kelurahan', $kelurahan)->orderBy('id', 'ASC')->get()->getRowArray();
+    }
+
+    return $q;
+}
+
+
+// suara mustawa
+
+function total_suara_mustawa()
+{
+    $dbc = db('caleg');
+    $mustawa = $dbc->where('nama', 'Muhammad Bahrul Mustawa')->get()->getRowArray();
+
+    $db = db('suara_caleg');
+    $q = $db->where('caleg_id', $mustawa['id'])->get()->getResultArray();
+
+    // $cols = merge_cols('suara_caleg', 'tps', 'partai', 'caleg');
+    // $db->select($cols)->where('caleg_id', $mustawa['id'])->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->join('partai', 'caleg.partai_id=partai.id');
+    // $q = $db->orderBy('no_partai', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps_id', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
+
+    $total_suara = 0;
+
+    foreach ($q as $i) {
+        $total_suara += $i['suara'];
+    }
+
+
+    return $total_suara;
+}
+function total_suara_pkb()
+{
+    $dbc = db('partai');
+    $pkb = $dbc->where('partai', 'Pkb')->get()->getRowArray();
+
+    $db = db('suara_partai');
+    $q = $db->where('partai_id', $pkb['id'])->get()->getResultArray();
+    $total_suara = 0;
+
+    foreach ($q as $i) {
+        $total_suara += $i['suara'];
+    }
+
+
+    return $total_suara;
+}
+
+function target_suara($order = 'jiwa')
+{
+    if ($order == 'jiwa') {
+        return 7000;
+    }
+    if ($order == 'partai') {
+        return 10000;
+    }
+}
+
+function format_persen($angka)
+{
+    return number_format((float)$angka, 1, '.', '');
+}
+
+function suara_belum_masuk($order, $kecamatan = null, $kelurahan = null, $ket = 'belum')
+{
+    $cols = merge_cols('suara_' . $order, 'tps', $order);
+
+    $dbc = db($order);
+    if ($order == 'caleg') {
+        $data = $dbc->where('nama', 'Muhammad Bahrul Mustawa')->get()->getRowArray();
+    }
+    if ($order == 'partai') {
+        $data = $dbc->where('partai', 'Pkb')->get()->getRowArray();
+    }
+
+    $db = db('suara_' . $order);
+    $db->select($cols)->where($order . '_id', $data['id']);
+    if ($ket == 'belum') {
+        $db->where('suara', 0);
+    }
+    if ($ket == 'sudah') {
+        $db->whereNotIn('suara', [0]);
+    }
+
+    $db->join('tps', 'tps_id=tps.id')->join($order, $order . '_id=' . $order . '.id');
+    if ($kecamatan !== null) {
+
+        $db->where('kecamatan', $kecamatan);
+    }
+    if ($kelurahan !== null) {
+        $db->where('kelurahan', $kelurahan);
+    }
+
+    $q = $db->orderBy('kecamatan', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('tps_id', 'ASC')->orderBy('no_' . $order, 'ASC')->get()->getResultArray();
+
+    return $q;
+}
+function c1_belum_masuk($kecamatan = null, $kelurahan = null, $ket = 'belum')
+{
+    $db = db('tps');
+
+    $db;
+    if ($kecamatan !== null) {
+
+        $db->where('kecamatan', $kecamatan);
+    }
+    if ($kelurahan !== null) {
+        $db->where('kelurahan', $kelurahan);
+    }
+    if ($ket == 'belum') {
+        $db->where('c1', 'file-not-found.jpg');
+    }
+    if ($ket == 'sudah') {
+        $db->whereNotIn('c1', ['file-not-found.jpg']);
+    }
+
+    $q = $db->orderBy('kecamatan', 'ASC')->orderBy('kelurahan', 'ASC')->orderBy('id', 'ASC')->get()->getResultArray();
+
+    return $q;
+}
+
+function jumlah_tps()
+{
+    $db = db('tps');
+    $q = $db->countAllResults();
+    return $q;
 }

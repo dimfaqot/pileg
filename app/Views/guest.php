@@ -83,7 +83,79 @@
         </div>
     </div>
 
+    <div class="container">
+        <!-- md -->
+        <div class="d-none d-md-block">
+            <div class="d-flex justify-content-between box_navbar sticky-top shadow shadow-sm">
+                <div class="d-flex gap-1">
+                    <?php foreach (menus_landing() as $i) : ?>
+                        <a href="<?= base_url(($i['controller'] == 'home' ? '' : $i['controller'])); ?>" class="navbar_link <?= (url() == '' && $i['controller'] == 'home' ? 'navbar_active' : (url() !== '' && $i['controller'] == url() ? 'navbar_active' : '')); ?>"><i class="<?= $i['icon']; ?>"></i> <?= $i['menu']; ?></a>
+                    <?php endforeach; ?>
 
+                </div>
+            </div>
+
+        </div>
+
+        <!-- navbar sm -->
+        <div class="d-block d-md-none d-sm-block fixed-top" style="top:-5px">
+            <div class="container bg-light py-2 shadow shadow-sm">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a class="navbar-brand" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>logo.png" alt="LOGO" width="30"></a>
+                    </div>
+                    <div class="d-flex justify-content-center gap-1">
+                        <div class="pt-1">
+                            <span class="px-3 py-1" style="background-color: #f2f2f2; border:1px solid #cccccc; color:#666666;font-size:x-small;border-radius:10px;"><?= session('nama'); ?>/<?= session('role'); ?></span>
+                        </div>
+                        <div class="pt-1">
+                            <span class="px-3 py-1 bg_main text-white" style="border:1px solid #cccccc; color:#666666;font-size:x-small;border-radius:10px;"><i class="<?= menu_landing()['icon']; ?>"></i> <?= menu_landing()['menu']; ?></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="pt-1">
+                        <a href="" class="btn_act_purple" data-bs-toggle="offcanvas" data-bs-target="#leftMenu" aria-controls="leftMenu"><i class="fa-solid fa-bars text_purple"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- camvas -->
+        <div class="offcanvas offcanvas-start" style="width:90%" data-bs-scroll="true" tabindex="-1" id="leftMenu" aria-labelledby="leftMenuLabel">
+            <div class="offcanvas-header shadow shadow-bottom shadow-sm">
+                <h6 class="offcanvas-title" id="leftMenuLabel">Menu</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <?php foreach (menus_landing() as $i) : ?>
+                    <div class="mb-1 d-grid">
+                        <a href="<?= base_url($i['controller']); ?>" style="font-size: small;" class="px-3 py-1 <?= (url() == $i['controller'] ? 'btn_add' : 'btn_light no_underline'); ?>"><i class="<?= $i['icon']; ?>"></i> <?= $i['menu']; ?></a>
+                    </div>
+                <?php endforeach; ?>
+
+            </div>
+        </div>
+
+        <!-- zoom -->
+        <div class="modal fade" id="modal_zoom" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body d-flex justify-content-center body_download">
+
+                    </div>
+                    <div class="download_footer d-grid gap-2 d-flex justify-content-center mb-3">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-block d-md-none d-sm-block" style="margin-top:60px;"></div>
+        <?= $this->renderSection('content') ?>
+
+    </div>
 
     <?= $this->renderSection('content') ?>
 
@@ -127,6 +199,36 @@
                 $('.waiting').fadeOut()
             }
         }
+
+
+        $(document).on('keyup', '.cari', function(e) {
+            e.preventDefault();
+
+            let value = $(this).val().toLowerCase();
+            console.log(value);
+            $('.tabel_search tr').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+
+        });
+
+        $(document).on('click', '.zoom', function(e) {
+            e.preventDefault();
+            let url = $(this).data('url');
+
+            let html = '';
+            html += '<button type="button" class="btn-sm btn_purple" data-bs-dismiss="modal">Close</button>';
+            html += '<a href="' + url + '" type="button" class="btn-sm btn_add" download>Download</a>';
+            $('.download_footer').html(html);
+
+            let img = '';
+            img += '<img src="' + url + '" class="img-fluid" alt="File">';
+            $('.body_download').html(img);
+
+            let myModal = document.getElementById('modal_zoom');
+            let modal = bootstrap.Modal.getOrCreateInstance(myModal)
+            modal.show()
+        });
 
         const str_replace = (search, replace, subject) => {
             return subject.split(search).join(replace);
