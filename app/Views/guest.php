@@ -106,10 +106,7 @@
                     </div>
                     <div class="d-flex justify-content-center gap-1">
                         <div class="pt-1">
-                            <span class="px-3 py-1" style="background-color: #f2f2f2; border:1px solid #cccccc; color:#666666;font-size:x-small;border-radius:10px;"><?= session('nama'); ?>/<?= session('role'); ?></span>
-                        </div>
-                        <div class="pt-1">
-                            <span class="px-3 py-1 bg_main text-white" style="border:1px solid #cccccc; color:#666666;font-size:x-small;border-radius:10px;"><i class="<?= menu_landing()['icon']; ?>"></i> <?= menu_landing()['menu']; ?></span>
+                            <span class="px-3 py-1 bg_main text-white" style="border:1px solid #cccccc; color:#666666;font-size:x-small;border-radius:10px;"><i class="<?= menu_landing(url())['icon']; ?>"></i> <?= menu_landing(url())['menu']; ?></span>
 
                         </div>
 
@@ -132,7 +129,7 @@
             <div class="offcanvas-body">
                 <?php foreach (menus_landing() as $i) : ?>
                     <div class="mb-1 d-grid">
-                        <a href="<?= base_url($i['controller']); ?>" style="font-size: small;" class="px-3 py-1 <?= (url() == $i['controller'] ? 'btn_add' : 'btn_light no_underline'); ?>"><i class="<?= $i['icon']; ?>"></i> <?= $i['menu']; ?></a>
+                        <a href="<?= base_url(($i['controller'] == 'home' ? '' : $i['controller'])); ?>" style="font-size: small;" class="px-3 py-1 <?= (url() == '' && $i['controller'] == 'home' ? 'navbar_active' : (url() !== '' && $i['controller'] == url() ? 'navbar_active' : 'btn_secondary')); ?>"><i class="<?= $i['icon']; ?>"></i> <?= $i['menu']; ?></a>
                     </div>
                 <?php endforeach; ?>
 
