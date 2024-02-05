@@ -151,19 +151,30 @@ function menus_landing()
 function menu_landing($req = '')
 {
 
+    $res = null;
     if ($req == '') {
         foreach (menus_landing() as $i) {
             if ($i['controller'] == 'home') {
-                return $i;
+                $res = $i;
             }
         }
     } else {
         foreach (menus_landing() as $i) {
             if ($i['controller'] == $req) {
-                return $i;
+                $res = $i;
             }
         }
     }
+
+    if ($res == null) {
+        foreach (menus_landing() as $i) {
+            if ($i['controller'] == 'home') {
+                $res = $i;
+            }
+        }
+    }
+
+    return $res;
 }
 
 function check_role()
