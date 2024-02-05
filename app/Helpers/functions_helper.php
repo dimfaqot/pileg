@@ -743,21 +743,30 @@ function per_kecamatan()
     $ked = total_suara_mustawa('Kedawung');
     $ngr = total_suara_mustawa('Ngrampal');
 
-    $total = $kar + $ked + $ngr;
+    if ($kar > 0 && $ked > 0 && $ngr > 0) {
+        $total = $kar + $ked + $ngr;
 
-    $karangmalang = round($kar / ($total) * 100);
-    $kedawung = round(($ked / $total) * 100);
-    $ngrampal = round(($ngr / $total) * 100);
+        $karangmalang = round($kar / ($total) * 100);
+        $kedawung = round(($ked / $total) * 100);
+        $ngrampal = round(($ngr / $total) * 100);
 
-    $q = ($karangmalang + $kedawung + $ngrampal) - 100;
-    if ($q > 0) {
-        $ngrampal = $ngrampal - $q;
+        $q = ($karangmalang + $kedawung + $ngrampal) - 100;
+        if ($q > 0) {
+            $ngrampal = $ngrampal - $q;
+        }
+
+        $data = [
+            ['kec' => 'Karangmalang', 'persen' => $karangmalang, 'suara' => $kar, 'bg' => 'bg_purple', 'segment' => 'Segment one'],
+            ['kec' => 'Kedawung', 'persen' => $kedawung, 'suara' => $ked, 'bg' => 'bg_success', 'segment' => 'Segment two'],
+            ['kec' => 'Ngrampal', 'persen' => $ngrampal, 'suara' => $ngr, 'bg' => 'bg_main', 'segment' => 'Segment three']
+        ];
+    } else {
+
+        $data = [
+            ['kec' => 'Karangmalang', 'persen' => 0, 'suara' => 0, 'bg' => 'bg_purple', 'segment' => 'Segment one'],
+            ['kec' => 'Kedawung', 'persen' => 0, 'suara' => 0, 'bg' => 'bg_success', 'segment' => 'Segment two'],
+            ['kec' => 'Ngrampal', 'persen' => 0, 'suara' => 0, 'bg' => 'bg_main', 'segment' => 'Segment three']
+        ];
     }
-
-    $data = [
-        ['kec' => 'Karangmalang', 'persen' => $karangmalang, 'suara' => $kar, 'bg' => 'bg_purple', 'segment' => 'Segment one'],
-        ['kec' => 'Kedawung', 'persen' => $kedawung, 'suara' => $ked, 'bg' => 'bg_success', 'segment' => 'Segment two'],
-        ['kec' => 'Ngrampal', 'persen' => $ngrampal, 'suara' => $ngr, 'bg' => 'bg_main', 'segment' => 'Segment three']
-    ];
     return $data;
 }
