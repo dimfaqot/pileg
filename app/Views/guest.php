@@ -200,7 +200,6 @@
             }
         }
 
-
         $(document).on('keyup', '.cari', function(e) {
             e.preventDefault();
 

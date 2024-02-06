@@ -52,8 +52,13 @@ class Upload extends BaseController
             if (array_search($exe, $ext) === false) {
                 gagal($url, 'Gagal!. Format file harus ' . implode(", ", $ext) . '.');
             }
+            if (settings('online') == 0) {
+                $dir = 'files/c1/';
+            }
 
-            $dir = 'files/c1/';
+            if (settings('online')) {
+                $dir = '/home/u1733924/public_html/pileg/files/c1/';
+            }
 
             $upload = $dir . $randomname . '.' . $exe;
 
