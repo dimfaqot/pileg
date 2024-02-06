@@ -72,7 +72,7 @@ $kets = [
 
             <?php endforeach; ?>
             <tr>
-                <td colspan="4"></td>
+                <th colspan="4" style="text-align: center;">TOTAL</th>
                 <td style="text-align: right;"><?= angka($total_kirka); ?></td>
                 <td style="text-align: right;"><?= angka($total_suara); ?></td>
             </tr>

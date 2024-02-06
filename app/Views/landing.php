@@ -13,7 +13,7 @@
             <div class="card bg_success_light">
                 <div class="card-body">
                     <h5><i class="fa-solid fa-chart-line"></i> TARGET SUARA PKB</h5>
-                    <a target="_blank" href="<?= base_url(); ?>bytps" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
+                    <a href="<?= base_url(); ?>bytps" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
                         <?php $persen = round((total_suara_pkb() / target_suara('partai')) * 100, 2); ?>
                         <div class="card-body p-0" style="border-radius:10px;background:linear-gradient(to right, #00ae00 <?= $persen; ?>%, white <?= $persen; ?>%);">
                             <div class="d-flex p-2">
@@ -61,7 +61,7 @@
             <div class="card bg_purple_light">
                 <div class="card-body">
                     <h5><i class="fa-solid fa-chart-gantt"></i> TARGET SUARA JIWA</h5>
-                    <a target="_blank" href="<?= base_url(); ?>bytps" href="" class="card" style="border-radius:15px;text-decoration:none;color:unset;font-size:15px;">
+                    <a href="<?= base_url(); ?>bytps" href="" class="card" style="border-radius:15px;text-decoration:none;color:unset;font-size:15px;">
                         <?php $persen = round((total_suara_mustawa() / target_suara('jiwa')) * 100, 2); ?>
                         <div class="card-body p-0" style="border-radius:10px;background:linear-gradient(to right, #cc4cd1 <?= $persen; ?>%, white <?= $persen; ?>%);">
                             <div class="d-flex p-2">
@@ -109,7 +109,7 @@
             <div class="card bg_main_light">
                 <div class="card-body">
                     <h5><i class="fa-solid fa-clock-rotate-left"></i> SUARA BELUM MASUK</h5>
-                    <a target="_blank" href="<?= base_url(); ?>suara_belum_masuk" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
+                    <a href="<?= base_url(); ?>suara_belum_masuk" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
                         <?php $persen = round(((count(suara_belum_masuk('partai', null, null, 'sudah')) / jumlah_tps()) * 100), 2); ?>
 
                         <div class="card-body p-0" style="border-radius:10px;background:linear-gradient(to right, #12a6d7 <?= $persen; ?>%, white <?= $persen; ?>%);">
@@ -158,7 +158,7 @@
             <div class="card bg_warning_light">
                 <div class="card-body">
                     <h5><i class="fa-regular fa-file"></i> C1 BELUM MASUK</h5>
-                    <a target="_blank" href="<?= base_url(); ?>c1_belum_masuk" href="" class="card" style="border-radius:15px;text-decoration:none;color:unset;font-size:15px;">
+                    <a href="<?= base_url(); ?>c1_belum_masuk" href="" class="card" style="border-radius:15px;text-decoration:none;color:unset;font-size:15px;">
                         <?php $persen = round((count(c1_belum_masuk(null, null, 'sudah')) / jumlah_tps()) * 100, 2); ?>
                         <div class="card-body p-0" style="border-radius:10px;background:linear-gradient(to right, #ddb71f <?= $persen; ?>%, white <?= $persen; ?>%);">
                             <div class="d-flex p-2">
@@ -206,7 +206,7 @@
             <div class="card bg_pink_light">
                 <div class="card-body">
                     <h5><i class="fa-solid fa-ranking-star"></i> SUARA TERTINGGI PARTAI</h5>
-                    <a target="_blank" href="<?= base_url(); ?>suara_tertinggi/partai/DESC/Karangmalang/Plumbungan" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
+                    <a href="<?= base_url(); ?>suara_tertinggi/partai/DESC/Karangmalang/Plumbungan" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
 
                         <div class="card-body p-2" style="border-radius:10px;background:linear-gradient(to right, #12a6d7 <?= $persen; ?>%, white <?= $persen; ?>%);">
                             <table class="table table-sm table-striped table-bordered">
@@ -244,7 +244,7 @@
             <div class="card bg_primary_light">
                 <div class="card-body">
                     <h5><i class="fa-solid fa-chart-simple"></i> SUARA TERTINGGI JIWA</h5>
-                    <a target="_blank" href="<?= base_url(); ?>suara_tertinggi/caleg/DESC/Karangmalang/Plumbungan" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
+                    <a href="<?= base_url(); ?>suara_tertinggi/caleg/DESC/Karangmalang/Plumbungan" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
 
                         <div class="card-body p-2" style="border-radius:10px;background:linear-gradient(to right, #12a6d7 <?= $persen; ?>%, white <?= $persen; ?>%);">
                             <table class="table table-sm table-striped table-bordered">

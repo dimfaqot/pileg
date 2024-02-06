@@ -189,6 +189,9 @@
         setTimeout(() => {
             $('.sukses').fadeOut();
         }, 1200);
+        setTimeout(() => {
+            location.reload();
+        }, 600000);
         const loading = (req = true) => {
             if (req === true) {
                 $('.waiting').show()
