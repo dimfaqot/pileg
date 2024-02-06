@@ -99,6 +99,71 @@ class Tps extends BaseController
         }
     }
 
+    public function update_kirka()
+    {
+        $id = clear($this->request->getVar('id'));
+        $val = clear($this->request->getVar('val'));
+        $db = db('tps');
+
+        $q = $db->where('id', $id)->get()->getRowArray();
+
+        if (!$q) {
+            gagal_js('Id tidak ditemukan!.');
+        }
+
+        $q['kirka'] = $val;
+
+        $db->where('id', $id);
+        if ($db->update($q)) {
+            sukses_js('Update sukses.');
+        } else {
+            gagal_js('Update gagal!.');
+        }
+    }
+    public function update_saksi()
+    {
+        $id = clear($this->request->getVar('id'));
+        $val = upper_first($this->request->getVar('val'));
+
+        $db = db('tps');
+
+        $q = $db->where('id', $id)->get()->getRowArray();
+
+        if (!$q) {
+            gagal_js('Id tidak ditemukan!.');
+        }
+
+        $q['pj'] = $val;
+
+        $db->where('id', $id);
+        if ($db->update($q)) {
+            sukses_js('Update sukses.');
+        } else {
+            gagal_js('Update gagal!.');
+        }
+    }
+    public function update_hp_saksi()
+    {
+        $id = clear($this->request->getVar('id'));
+        $val = clear($this->request->getVar('val'));
+        $db = db('tps');
+
+        $q = $db->where('id', $id)->get()->getRowArray();
+
+        if (!$q) {
+            gagal_js('Id tidak ditemukan!.');
+        }
+
+        $q['hp_saksi'] = $val;
+
+        $db->where('id', $id);
+        if ($db->update($q)) {
+            sukses_js('Update sukses.');
+        } else {
+            gagal_js('Update gagal!.');
+        }
+    }
+
     public function delete()
     {
         lock_data('js');

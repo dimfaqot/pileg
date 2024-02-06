@@ -98,6 +98,7 @@ $dapil = ['Karangmalang', 'Kedawung', 'Ngrampal'];
                         <?php endif; ?>
                         <th style="text-align: center;" scope="col">Kelurahan</th>
                         <th style="text-align: center;" scope="col">Saksi</th>
+                        <th style="text-align: center;" scope="col">Kirka</th>
                         <?php if (session('role') == 'Admin') : ?>
 
                             <th scope="col">Hp Saksi</th>
@@ -118,9 +119,10 @@ $dapil = ['Karangmalang', 'Kedawung', 'Ngrampal'];
                                 <td class="d-none d-md-table-cell"><?= $i['kecamatan']; ?></td>
                             <?php endif; ?>
                             <td><?= $i['kelurahan']; ?></td>
-                            <td><?= $i['pj']; ?></td>
+                            <td class="update_saksi" data-id="<?= $i['id']; ?>" contenteditable="true"><?= $i['pj']; ?></td>
+                            <td style="text-align: right;" class="update_kirka" data-id="<?= $i['id']; ?>" contenteditable="true"><?= $i['kirka']; ?></td>
                             <?php if (session('role') == 'Admin') : ?>
-                                <td><?= $i['hp_saksi']; ?></td>
+                                <td class="update_hp_saksi" data-id="<?= $i['id']; ?>" contenteditable="true"><?= $i['hp_saksi']; ?></td>
 
 
                             <?php endif; ?>

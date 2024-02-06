@@ -215,6 +215,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Kelurahan</th>
                                         <th scope="col">Tps</th>
+                                        <th scope="col">Kirka</th>
                                         <th scope="col">Suara</th>
                                     </tr>
                                 </thead>
@@ -225,6 +226,7 @@
                                                 <th scope="row"><?= $k + 1; ?></th>
                                                 <td><?= $i['kelurahan']; ?></td>
                                                 <td><?= $i['tps']; ?></td>
+                                                <td><?= $i['kirka']; ?></td>
                                                 <td><?= $i['suara']; ?></td>
                                             </tr>
                                         <?php endif; ?>
@@ -251,6 +253,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Kelurahan</th>
                                         <th scope="col">Tps</th>
+                                        <th scope="col">Kirka</th>
                                         <th scope="col">Suara</th>
                                     </tr>
                                 </thead>
@@ -261,6 +264,7 @@
                                                 <th scope="row"><?= $k + 1; ?></th>
                                                 <td><?= $i['kelurahan']; ?></td>
                                                 <td><?= $i['tps']; ?></td>
+                                                <td><?= $i['kirka']; ?></td>
                                                 <td><?= $i['suara']; ?></td>
                                             </tr>
                                         <?php endif; ?>

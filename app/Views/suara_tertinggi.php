@@ -43,28 +43,39 @@ $kets = [
         <span class="input-group-text">Cari data</span>
         <input type="text" class="form-control cari" placeholder="...">
     </div>
-    <table class="table table-sm table-striped">
+    <?php $total_suara = 0;
+    $total_kirka = 0; ?>
+    <table class="table table-sm table-striped table-bordered">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Kecamatan</th>
                 <th scope="col">Kelurahan</th>
                 <th scope="col">Tps</th>
+                <th scope="col">Kirka</th>
                 <th scope="col">Suara</th>
             </tr>
         </thead>
         <tbody class="tabel_search">
 
             <?php foreach ($data as $k => $i) : ?>
+                <?php $total_kirka += $i['kirka']; ?>
+                <?php $total_suara += $i['suara']; ?>
                 <tr>
                     <th scope="row"><?= ($k + 1); ?></th>
                     <td><?= $i['kecamatan']; ?></td>
                     <td><?= $i['kelurahan']; ?></td>
                     <td><?= $i['tps']; ?></td>
-                    <td><?= $i['suara']; ?></td>
+                    <td style="text-align: right;"><?= angka($i['kirka']); ?></td>
+                    <td style="text-align: right;"><?= angka($i['suara']); ?></td>
                 </tr>
 
             <?php endforeach; ?>
+            <tr>
+                <td colspan="4"></td>
+                <td style="text-align: right;"><?= angka($total_kirka); ?></td>
+                <td style="text-align: right;"><?= angka($total_suara); ?></td>
+            </tr>
 
         </tbody>
     </table>

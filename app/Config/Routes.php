@@ -76,6 +76,9 @@ if (session('role') == 'Root') {
 }
 $routes->post('/tps/add', 'Tps::add');
 $routes->post('/tps/update', 'Tps::update');
+$routes->post('/tps/update_kirka', 'Tps::update_kirka');
+$routes->post('/tps/update_saksi', 'Tps::update_saksi');
+$routes->post('/tps/update_hp_saksi', 'Tps::update_hp_saksi');
 $routes->post('/tps/delete', 'Tps::delete');
 
 // partai

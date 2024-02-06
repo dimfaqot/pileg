@@ -309,6 +309,35 @@
 
             suara(id, tabel, val);
         });
+        $(document).on('blur', '.update_kirka', function(e) {
+            e.preventDefault();
+
+            let id = $(this).data('id');
+            let val = parseInt($(this).text());
+
+            if (!Number.isInteger(val)) {
+                gagal('Data harus angka!.');
+                return false;
+            }
+
+            update_kirka(id, val, 'kirka');
+        });
+        $(document).on('blur', '.update_saksi', function(e) {
+            e.preventDefault();
+
+            let id = $(this).data('id');
+            let val = $(this).text();
+
+            update_saksi(id, val);
+        });
+        $(document).on('blur', '.update_hp_saksi', function(e) {
+            e.preventDefault();
+
+            let id = $(this).data('id');
+            let val = $(this).text();
+
+            update_hp_saksi(id, val);
+        });
 
         $(document).on('blur', '.update_suara_partai', function(e) {
             e.preventDefault();

@@ -265,6 +265,60 @@
 
             })
     }
+    const update_kirka = (id, val) => {
+        post('/tps/update_kirka', {
+                id,
+                val
+            })
+            .then(res => {
+                if (res.status == '200') {
+                    sukses();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+
+                } else {
+                    gagal(res.message);
+                }
+
+            })
+    }
+    const update_saksi = (id, val) => {
+        post('/tps/update_saksi', {
+                id,
+                val
+            })
+            .then(res => {
+                if (res.status == '200') {
+                    sukses();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+
+                } else {
+                    gagal(res.message);
+                }
+
+            })
+    }
+    const update_hp_saksi = (id, val) => {
+        post('/tps/update_hp_saksi', {
+                id,
+                val
+            })
+            .then(res => {
+                if (res.status == '200') {
+                    sukses();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+
+                } else {
+                    gagal(res.message);
+                }
+
+            })
+    }
 
     const update_suara_partai = (id, value) => {
         post('/election/update_suara_partai', {
