@@ -44,13 +44,15 @@ class Reset extends BaseController
         $kecs = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 
         foreach ($kecs as $k) {
-            $q = $db->select('suara_partai.id as id, suara')->join('tps', 'tps_id=tps.id')->where('kecamatan', $k)->get()->getResultArray();
+            $q = $db->select('suara_partai.id as id, suara,partai_id,tps_id')->join('tps', 'tps_id=tps.id')->where('kecamatan', $k)->get()->getResultArray();
 
             foreach ($q as $i) {
-                $i['suara'] = 0;
+                $data['tps_id'] = $i['tps_id'];
+                $data['partai_id'] = $i['partai_id'];
+                $data['suara'] = 0;
 
                 $db->where('id', $i['id']);
-                $db->update($i);
+                $db->update($data);
             }
         }
 
@@ -64,13 +66,15 @@ class Reset extends BaseController
         $kecs = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 
         foreach ($kecs as $k) {
-            $q = $db->select('suara_caleg.id as id, suara')->join('tps', 'tps_id=tps.id')->where('kecamatan', $k)->get()->getResultArray();
+            $q = $db->select('suara_caleg.id as id, suara,caleg_id,tps_id')->join('tps', 'tps_id=tps.id')->where('kecamatan', $k)->get()->getResultArray();
 
             foreach ($q as $i) {
-                $i['suara'] = 0;
+                $data['tps_id'] = $i['tps_id'];
+                $data['caleg_id'] = $i['caleg_id'];
+                $data['suara'] = 0;
 
                 $db->where('id', $i['id']);
-                $db->update($i);
+                $db->update($data);
             }
         }
 
