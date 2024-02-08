@@ -36,7 +36,7 @@ class Upload extends BaseController
             gagal($url, 'File belum dipilih.');
         }
 
-        $randomname = time() . '_'  . '_' . $kelurahan . '_' . $tps;
+        $randomname = str_replace(" ", "-", str_replace("/", "", str_replace(".", "", str_replace(",", "", time() . '_'  . '_' . $kelurahan . '_' . $tps))));
 
         if ($file['error'] == 0) {
             $size = $file['size'];
