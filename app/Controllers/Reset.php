@@ -41,13 +41,17 @@ class Reset extends BaseController
         lock_data();
 
         $db = db('suara_partai');
-        $q = $db->get()->getResultArray();
+        $kecs = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 
-        foreach ($q as $i) {
-            $i['suara'] = 0;
+        foreach ($kecs as $k) {
+            $q = $db->select('suara_partai.id as id, suara')->join('tps', 'tps_id=tps.id')->where('kecamatan', $k)->get()->getResultArray();
 
-            $db->where('id', $i['id']);
-            $db->update($i);
+            foreach ($q as $i) {
+                $i['suara'] = 0;
+
+                $db->where('id', $i['id']);
+                $db->update($i);
+            }
         }
 
         sukses(base_url('home'), 'Reset suara partai sukses.');
@@ -57,13 +61,17 @@ class Reset extends BaseController
         lock_data();
 
         $db = db('suara_caleg');
-        $q = $db->get()->getResultArray();
+        $kecs = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 
-        foreach ($q as $i) {
-            $i['suara'] = 0;
+        foreach ($kecs as $k) {
+            $q = $db->select('suara_caleg.id as id, suara')->join('tps', 'tps_id=tps.id')->where('kecamatan', $k)->get()->getResultArray();
 
-            $db->where('id', $i['id']);
-            $db->update($i);
+            foreach ($q as $i) {
+                $i['suara'] = 0;
+
+                $db->where('id', $i['id']);
+                $db->update($i);
+            }
         }
 
         sukses(base_url('home'), 'Reset suara caleg sukses.');
