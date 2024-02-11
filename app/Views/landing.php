@@ -3,16 +3,17 @@
 <?= $this->section('content') ?>
 
 <div class="container mt-3" style="margin-bottom: 70px;">
-    <div class="progress my-2">
+    <h6 style="font-size: small;">TOTAL SUARA (KLIK UNTUK DETAIL)</h6>
+    <a href="<?= base_url('total_suara'); ?>" class="progress my-2">
         <?php foreach (per_kecamatan() as $i) : ?>
             <div class="progress-bar <?= $i['bg']; ?>" role="progressbar" aria-label="<?= $i['segment']; ?>" style="width: <?= $i['persen']; ?>%" aria-valuenow="<?= $i['persen']; ?>" aria-valuemin="0" aria-valuemax="100"><?= $i['kec']; ?> (<?= angka($i['suara']); ?>)</div>
         <?php endforeach; ?>
-    </div>
+    </a>
     <div class="row g-2">
         <div class="col-md-6">
             <div class="card bg_success_light">
                 <div class="card-body">
-                    <h5><i class="fa-solid fa-chart-line"></i> TARGET SUARA PKB</h5>
+                    <h5><i class="fa-solid fa-chart-line"></i> TARGET SUARA PKB (TANPA CALEG)</h5>
                     <a href="<?= base_url(); ?>bytps" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
                         <?php $persen = round((total_suara_pkb() / target_suara('partai')) * 100, 2); ?>
                         <div class="card-body p-0" style="border-radius:10px;background:linear-gradient(to right, #00ae00 <?= $persen; ?>%, white <?= $persen; ?>%);">
@@ -208,7 +209,7 @@
                     <h5><i class="fa-solid fa-ranking-star"></i> SUARA TERTINGGI PARTAI</h5>
                     <a href="<?= base_url(); ?>suara_tertinggi/partai/DESC/Karangmalang/Plumbungan" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
 
-                        <div class="card-body p-2" style="border-radius:10px;background:linear-gradient(to right, #12a6d7 <?= $persen; ?>%, white <?= $persen; ?>%);">
+                        <div class="card-body p-2">
                             <table class="table table-sm table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -246,7 +247,7 @@
                     <h5><i class="fa-solid fa-chart-simple"></i> SUARA TERTINGGI JIWA</h5>
                     <a href="<?= base_url(); ?>suara_tertinggi/caleg/DESC/Karangmalang/Plumbungan" class="card" style="border-radius:15px; text-decoration:none;color:unset;">
 
-                        <div class="card-body p-2" style="border-radius:10px;background:linear-gradient(to right, #12a6d7 <?= $persen; ?>%, white <?= $persen; ?>%);">
+                        <div class="card-body p-2">
                             <table class="table table-sm table-striped table-bordered">
                                 <thead>
                                     <tr>

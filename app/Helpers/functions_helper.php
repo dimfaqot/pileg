@@ -611,13 +611,18 @@ function total_suara_mustawa($kecamatan = null)
 
     return $total_suara;
 }
-function total_suara_pkb()
+function total_suara_pkb($kecamatan = null)
 {
     $dbc = db('partai');
     $pkb = $dbc->where('partai', 'Pkb')->get()->getRowArray();
 
     $db = db('suara_partai');
-    $q = $db->where('partai_id', $pkb['id'])->get()->getResultArray();
+    $db->where('partai_id', $pkb['id']);
+    if ($kecamatan !== null) {
+        $db->join('tps', 'tps.id=tps_id');
+        $db->where('kecamatan', $kecamatan);
+    }
+    $q = $db->get()->getResultArray();
     $total_suara = 0;
 
     foreach ($q as $i) {
@@ -737,11 +742,33 @@ function suara_tertinggi($order, $ket = 'DESC', $kecamatan = null, $kelurahan = 
     return $q;
 }
 
+function suara_partai_dari_caleg($kecamatan = null)
+{
+    $dbc = db('partai');
+    $pkb = $dbc->where('partai', 'Pkb')->get()->getRowArray();
+
+    $db = db('suara_caleg');
+    $db->where('partai_id', $pkb['id'])->join('caleg', 'caleg_id=caleg.id');
+    if ($kecamatan !== null) {
+        $db->join('tps', 'tps.id=tps_id');
+        $db->where('kecamatan', $kecamatan);
+    }
+    $q = $db->get()->getResultArray();
+    $total_suara = 0;
+
+    foreach ($q as $i) {
+        $total_suara += $i['suara'];
+    }
+
+
+    return $total_suara;
+}
+
 function per_kecamatan()
 {
-    $kar = total_suara_mustawa('Karangmalang');
-    $ked = total_suara_mustawa('Kedawung');
-    $ngr = total_suara_mustawa('Ngrampal');
+    $kar = suara_partai_dari_caleg('Karangmalang') + total_suara_pkb('Karangmalang');
+    $ked = suara_partai_dari_caleg('Kedawung') + total_suara_pkb('Kedawung');
+    $ngr = suara_partai_dari_caleg('Ngrampal') + total_suara_pkb('Ngrampal');
 
     if ($kar > 0 && $ked > 0 && $ngr > 0) {
         $total = $kar + $ked + $ngr;
@@ -756,16 +783,16 @@ function per_kecamatan()
         }
 
         $data = [
-            ['kec' => 'Karangmalang', 'persen' => $karangmalang, 'suara' => $kar, 'bg' => 'bg_purple', 'segment' => 'Segment one'],
-            ['kec' => 'Kedawung', 'persen' => $kedawung, 'suara' => $ked, 'bg' => 'bg_success', 'segment' => 'Segment two'],
-            ['kec' => 'Ngrampal', 'persen' => $ngrampal, 'suara' => $ngr, 'bg' => 'bg_main', 'segment' => 'Segment three']
+            ['kec' => 'Karangmalang', 'persen' => $karangmalang, 'suara' => $kar, 'jiwa' => total_suara_mustawa('Karangmalang'), 'partai' => total_suara_pkb('Karangmalang'), 'partai_caleg' => suara_partai_dari_caleg('Karangmalang'), 'bg' => 'bg_purple', 'segment' => 'Segment one'],
+            ['kec' => 'Kedawung', 'persen' => $kedawung, 'suara' => $ked, 'jiwa' => total_suara_mustawa('Kedawung'), 'partai' => total_suara_pkb('Kedawung'), 'partai_caleg' => suara_partai_dari_caleg('Kedawung'), 'bg' => 'bg_success', 'segment' => 'Segment two'],
+            ['kec' => 'Ngrampal', 'persen' => $ngrampal, 'suara' => $ngr, 'jiwa' => total_suara_mustawa('Ngrampal'), 'partai' => total_suara_pkb('Ngrampal'), 'partai_caleg' => suara_partai_dari_caleg('Ngrampal'), 'bg' => 'bg_main', 'segment' => 'Segment three']
         ];
     } else {
 
         $data = [
-            ['kec' => 'Karangmalang', 'persen' => 0, 'suara' => 0, 'bg' => 'bg_purple', 'segment' => 'Segment one'],
-            ['kec' => 'Kedawung', 'persen' => 0, 'suara' => 0, 'bg' => 'bg_success', 'segment' => 'Segment two'],
-            ['kec' => 'Ngrampal', 'persen' => 0, 'suara' => 0, 'bg' => 'bg_main', 'segment' => 'Segment three']
+            ['kec' => 'Karangmalang', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_purple', 'segment' => 'Segment one'],
+            ['kec' => 'Kedawung', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_success', 'segment' => 'Segment two'],
+            ['kec' => 'Ngrampal', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_main', 'segment' => 'Segment three']
         ];
     }
     return $data;

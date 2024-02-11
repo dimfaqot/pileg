@@ -123,4 +123,10 @@ class Landing extends BaseController
         $data = suara_tertinggi($order, $ket, $kecamatan, $kelurahan);
         return view('suara_tertinggi', ['judul' => 'Suara Tertinggi ' . upper_first($order), 'kecamatan' => $kecamatan, 'kelurahan' => $kelurahan, 'data' => $data, 'ket' => $ket, 'order' => $order]);
     }
+
+    public function total_suara(): string
+    {
+
+        return view('total_suara', ['judul' => 'Total Suara']);
+    }
 }
