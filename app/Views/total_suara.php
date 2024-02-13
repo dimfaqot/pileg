@@ -4,7 +4,7 @@
 
 
 <div class="container mt-2" style="margin-bottom: 100px;">
-    <h1 class="bg_main text-white border_radius py-2 px-3"><?= strtoupper($judul); ?></h1>
+    <h1 class="bg_main text-white border_radius py-2 px-3"><?= strtoupper($judul); ?> PKB</h1>
     <table class="table table-bordered table-striped" style="font-size: 18px;">
         <thead>
             <tr>
@@ -42,6 +42,11 @@
             </tr>
         </tbody>
     </table>
+
+    <h2 class="bg_main text-white p-2 border_radius">TOTAL SUARA PARTAI</h2>
+    <div class="card mt-2">
+        <canvas id="myChartPartai"></canvas>
+    </div>
 </div>
 
 <?= $this->endSection() ?>

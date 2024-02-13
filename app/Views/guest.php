@@ -178,10 +178,77 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script>
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+        <?php if (url() == 'caleg_pkb') : ?>
+            let calegs = <?= json_encode($data); ?>;
+
+            let xValues = [];
+            let yValues = [];
+            let barColors = ["red", "green", "blue", "orange", "brown", "black", "purple", "pink", "yellow"];
+
+            for (let i = 0; i < calegs.length; i++) {
+                xValues.push(calegs[i].nama);
+                yValues.push(calegs[i].total_suara);
+            }
+
+            new Chart("myChart", {
+                type: "bar",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: "TOTAL SUARA CALEG PKB"
+                    }
+                }
+            });
+        <?php endif; ?>
+        <?php if (url() == 'total_suara') : ?>
+            let total_suara_partai = <?= json_encode(total_suara_partai()); ?>;
+
+            let xValuesPartai = [];
+            let yValuesPartai = [];
+            let barColorsPartai = ["red", "green", "blue", "orange", "brown", "black", "purple", "pink", "yellow"];
+
+            for (let i = 0; i < total_suara_partai.length; i++) {
+                xValuesPartai.push(total_suara_partai[i].partai);
+                yValuesPartai.push(total_suara_partai[i].total_suara);
+            }
+
+            new Chart("myChartPartai", {
+                type: "bar",
+                data: {
+                    labels: xValuesPartai,
+                    datasets: [{
+                        backgroundColor: barColorsPartai,
+                        data: yValuesPartai
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: "TOTAL SUARA PARTAI"
+                    }
+                }
+            });
+        <?php endif; ?>
+
+
         $(".btnclose").click(function() {
             $('.gagal').hide();
         })
@@ -232,54 +299,6 @@
         const str_replace = (search, replace, subject) => {
             return subject.split(search).join(replace);
         }
-
-        const chart = () => {
-            const ctx = document.getElementById('myChart');
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Blue', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: [
-                            '#06995c',
-                            '#990606',
-                            '#063799',
-                            '#066199',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(201, 203, 207, 1)'
-                        ]
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-        chart();
-
-        let target = 7000;
-        (function() {
-            let suara = $('.suara_partai_pkb').text();
-            suara = str_replace('.', '', suara);
-            suara = Math.round((suara / target) * 100);
-            let html = '<div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: ' + suara + '%;background-color:#015737;" aria-valuenow="' + suara + '" aria-valuemin="0" aria-valuemax="100">' + suara + '%</div>';
-            $('.body_suara_pkb').html(html);
-        }());
-        (function() {
-            let suara = $('.suara_mustawa').text();
-            suara = str_replace('.', '', suara);
-            suara = Math.round((suara / target) * 100);
-            let html = '<div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: ' + suara + '%;background-color:#00764B;" aria-valuenow="' + suara + '" aria-valuemin="0" aria-valuemax="100">' + suara + '%</div>';
-            $('.body_suara_mustawa').html(html);
-        }());
     </script>
 </body>
 

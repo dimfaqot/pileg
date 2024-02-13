@@ -129,4 +129,12 @@ class Landing extends BaseController
 
         return view('total_suara', ['judul' => 'Total Suara']);
     }
+    public function kursi(): string
+    {
+        return view('total_suara', ['judul' => 'Total Suara']);
+    }
+    public function caleg_pkb(): string
+    {
+        return view('caleg_pkb', ['judul' => 'Caleg Pkb', 'data' => get_all_caleg_partai('Pkb')]);
+    }
 }

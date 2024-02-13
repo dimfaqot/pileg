@@ -143,7 +143,8 @@ function menus_landing()
         ['id' => 0, 'no_urut' => 1, 'role' => '', 'menu' => 'Home', 'tabel' => 'user', 'controller' => 'home', 'icon' => "fa-solid fa-earth-asia", 'url' => 'home', 'is_active' => 1],
         ['id' => 1, 'no_urut' => 2, 'role' => '', 'menu' => 'Kecamatan', 'tabel' => '', 'controller' => 'kecamatan', 'icon' => "fa-solid fa-city", 'url' => 'kecamatan', 'is_active' => 1],
         ['id' => 2, 'no_urut' => 3, 'role' => '', 'menu' => 'Kelurahan', 'tabel' => '', 'controller' => 'kelurahan', 'icon' => "fa-solid fa-building", 'url' => 'kelurahan', 'is_active' => 1],
-        ['id' => 3, 'no_urut' => 4, 'role' => '', 'menu' => 'Tps', 'tabel' => '', 'controller' => 'bytps', 'icon' => "fa-solid fa-person-booth", 'url' => 'bytps', 'is_active' => 1]
+        ['id' => 3, 'no_urut' => 4, 'role' => '', 'menu' => 'Tps', 'tabel' => '', 'controller' => 'bytps', 'icon' => "fa-solid fa-person-booth", 'url' => 'bytps', 'is_active' => 1],
+        ['id' => 3, 'no_urut' => 5, 'role' => '', 'menu' => 'Caleg Pkb', 'tabel' => '', 'controller' => 'caleg_pkb', 'icon' => "fa-solid fa-heart", 'url' => 'caleg_pkb', 'is_active' => 1]
     ];
 
     return $q;
@@ -794,6 +795,173 @@ function per_kecamatan()
             ['kec' => 'Kedawung', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_success', 'segment' => 'Segment two'],
             ['kec' => 'Ngrampal', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_main', 'segment' => 'Segment three']
         ];
+    }
+    return $data;
+}
+
+function total_suara_partai_menurut_partai()
+{
+    $partais = get_all_partai();
+
+    $data = [];
+    foreach ($partais as $i) {
+        $db_sp = db('suara_partai');
+        $partai = $db_sp->where('partai_id', $i['id'])->get()->getResultArray();
+
+        $total_suara_partai = 0;
+
+        foreach ($partai as $p) {
+            $total_suara_partai += $p['suara'];
+        }
+
+        $db_sc = db('suara_caleg');
+        $caleg = $db_sc->where('partai_id', $i['id'])->join('caleg', 'caleg_id=caleg.id')->get()->getResultArray();
+
+        $total_suara_caleg = 0;
+
+        foreach ($caleg as $c) {
+            $total_suara_caleg += $c['suara'];
+        }
+
+        $i['total_suara'] = $total_suara_partai + $total_suara_caleg;
+
+        $data[] = $i;
+    }
+
+    $new_data = [];
+
+    foreach ($data as $i) {
+        $i['kursi_ke'] = 0;
+        $i['jml_kursi'] = 0;
+        $i['pembagian'] = 1;
+        $i['hasil'] = $i['total_suara'];
+
+        $new_data[] = $i;
+    }
+
+
+    $jml_kursi = 9;
+
+    $res = [];
+    for ($i = 0; $i < $jml_kursi; $i++) {
+        $hasil = [];
+
+        $pembagian = (2 * $i) + 1;
+
+        $val = [];
+        foreach ($new_data as $n) {
+
+            // if ($n['jml_kursi'] == 0) {
+            //     $n['hasil'] = $n['hasil'] / 1;
+            // }
+            // if ($n['jml_kursi'] == 1) {
+            //     $n['hasil'] = $n['hasil'] / 3;
+            // }
+            // if ($n['jml_kursi'] == 2) {
+            //     $n['hasil'] = $n['hasil'] / 5;
+            // }
+            // if ($n['jml_kursi'] == 3) {
+            //     $n['hasil'] = $n['hasil'] / 7;
+            // }
+            // if ($n['jml_kursi'] == 4) {
+            //     $n['hasil'] = $n['hasil'] / 9;
+            // }
+            // if ($n['jml_kursi'] == 5) {
+            //     $n['hasil'] = $n['hasil'] / 11;
+            // }
+            // if ($n['jml_kursi'] == 6) {
+            //     $n['hasil'] = $n['hasil'] / 13;
+            // }
+            // if ($n['jml_kursi'] == 7) {
+            //     $n['hasil'] = $n['hasil'] / 15;
+            // }
+            // if ($n['jml_kursi'] == 8) {
+            //     $n['hasil'] = $n['hasil'] / 17;
+            // }
+            // if ($n['jml_kursi'] == 9) {
+            //     $n['hasil'] = $n['hasil'] / 19;
+            // }
+            $n['hasil'] = $n['hasil'] / $n['pembagian'];
+            $val[] = $n;
+        }
+
+        $short_by = SORT_DESC;
+
+        $keys = array_column($val, 'hasil');
+        array_multisort($keys, $short_by, $val);
+
+
+        foreach ($val as $k => $v) {
+            if ($k == 0) {
+                $v['jml_kursi'] = $v['jml_kursi'] + 1;
+                $v['kursi_ke'] = $v['kursi_ke'] + 1;
+                $v['pembagian'] = $pembagian + 2;
+            }
+
+
+            $hasil[] = $v;
+        }
+        $res[] = $hasil;
+    }
+
+    dd($res);
+}
+
+function get_all_caleg_partai($p = null)
+{
+    if ($p == null) {
+        $p = 'Pkb';
+    }
+
+    $dbp = db('partai');
+    $partai = $dbp->where('partai', $p)->get()->getRowArray();
+
+    $dbc = db('caleg');
+
+    $calegs = $dbc->select('caleg.id as id, nama,partai,no_caleg')->where('partai_id', $partai['id'])->join('partai', 'partai_id=partai.id')->get()->getResultArray();
+
+    $db = db('suara_caleg');
+
+    $val = [];
+
+    foreach ($calegs as $i) {
+        $q = $db->where('caleg_id', $i['id'])->get()->getResultArray();
+        $total_suara = 0;
+        foreach ($q as $x) {
+            $total_suara += $x['suara'];
+        }
+
+        $i['total_suara'] = $total_suara;
+
+        $val[] = $i;
+    }
+    return $val;
+}
+
+function total_suara_partai()
+{
+
+    $data = [];
+    foreach (get_all_partai() as $i) {
+        $dbp = db('suara_partai');
+        $q = $dbp->where('partai_id', $i['id'])->get()->getResultArray();
+
+        $total_suara_partai = 0;
+        foreach ($q as $p) {
+            $total_suara_partai += $p['suara'];
+        }
+
+        $dbc = db('suara_caleg');
+        $qc = $dbc->where('partai_id', $i['id'])->join('caleg', 'caleg_id=caleg.id')->get()->getResultArray();
+
+        $total_suara_caleg = 0;
+
+        foreach ($qc as $c) {
+            $total_suara_caleg += $c['suara'];
+        }
+
+        $i['total_suara'] = $total_suara_partai + $total_suara_caleg;
+        $data[] = $i;
     }
     return $data;
 }
