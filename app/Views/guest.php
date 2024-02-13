@@ -188,7 +188,7 @@
 
             let xValues = [];
             let yValues = [];
-            let barColors = ["red", "green", "blue", "orange", "brown", "black", "purple", "pink", "yellow"];
+            let barColors = ["green", "green", "blue", "orange", "brown", "black", "purple", "pink", "yellow"];
 
             for (let i = 0; i < calegs.length; i++) {
                 xValues.push(calegs[i].nama);
@@ -220,11 +220,12 @@
 
             let xValuesPartai = [];
             let yValuesPartai = [];
-            let barColorsPartai = ["red", "green", "blue", "orange", "brown", "black", "purple", "pink", "yellow"];
+            let barColorsPartai = [];
 
             for (let i = 0; i < total_suara_partai.length; i++) {
                 xValuesPartai.push(total_suara_partai[i].partai);
                 yValuesPartai.push(total_suara_partai[i].total_suara);
+                barColorsPartai.push(total_suara_partai[i].color);
             }
 
             new Chart("myChartPartai", {
