@@ -791,9 +791,9 @@ function per_kecamatan()
     } else {
 
         $data = [
-            ['kec' => 'Karangmalang', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_purple', 'segment' => 'Segment one', 'total_kirka' => 0],
-            ['kec' => 'Kedawung', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_success', 'segment' => 'Segment two', 'total_kirka' => 0],
-            ['kec' => 'Ngrampal', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_main', 'segment' => 'Segment three', 'total_kirka' => 0]
+            ['kec' => 'Karangmalang', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_purple', 'segment' => 'Segment one', 'total_kirka' => total_kirka('Karangmalang')],
+            ['kec' => 'Kedawung', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_success', 'segment' => 'Segment two', 'total_kirka' => total_kirka('Kedawung')],
+            ['kec' => 'Ngrampal', 'persen' => 0, 'suara' => 0, 'jiwa' => 0, 'partai' => 0, 'partai_caleg' => 0, 'bg' => 'bg_main', 'segment' => 'Segment three', 'total_kirka' => total_kirka('Ngrampal')]
         ];
     }
     return $data;
