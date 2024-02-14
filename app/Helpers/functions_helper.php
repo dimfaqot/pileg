@@ -979,3 +979,20 @@ function total_suara_partai()
     }
     return $data;
 }
+
+function kirka_vs_jiwa()
+{
+    $data = per_kecamatan();
+
+    $total_jiwa = 0;
+    $total_kirka = 0;
+
+    foreach ($data as $i) {
+        $total_jiwa += $i['jiwa'];
+        $total_kirka += $i['total_kirka'];
+    }
+
+    $hasil = ['persen' => round(($total_jiwa / $total_kirka) * 100), 'suara' => $total_jiwa, 'total_kirka' => $total_kirka];
+
+    return $hasil;
+}

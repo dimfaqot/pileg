@@ -9,7 +9,14 @@
             <div class="progress-bar <?= $i['bg']; ?>" role="progressbar" aria-label="<?= $i['segment']; ?>" style="width: <?= $i['persen']; ?>%" aria-valuenow="<?= $i['persen']; ?>" aria-valuemin="0" aria-valuemax="100"><?= $i['kec']; ?> (<?= angka($i['suara']); ?>)</div>
         <?php endforeach; ?>
     </a>
-    <div class="row g-2">
+
+
+    <h6 style="font-size: small;">KIRKA VS JIWA (TOTAL KIRKA <?= angka(kirka_vs_jiwa()['total_kirka']); ?>)</h6>
+    <a href="<?= base_url(); ?>suara_tertinggi/caleg/DESC/Karangmalang/Plumbungan" class="progress my-2">
+        <div class="progress-bar bg-success" role="progressbar" aria-label="Segment one" style="width: <?= kirka_vs_jiwa()['persen']; ?>%" aria-valuenow="<?= kirka_vs_jiwa()['persen']; ?>" aria-valuemin="0" aria-valuemax="100">Suara <?= angka(kirka_vs_jiwa()['suara']); ?> (<?= kirka_vs_jiwa()['persen']; ?>%)</div>
+        <div class="progress-bar bg-secondary" role="progressbar" aria-label="Segment two" style="width: <?= 100 - kirka_vs_jiwa()['persen']; ?>%" aria-valuenow="<?= 100 - kirka_vs_jiwa()['persen']; ?>" aria-valuemin="0" aria-valuemax="100">Kirka <?= angka(kirka_vs_jiwa()['total_kirka'] - kirka_vs_jiwa()['suara']); ?> (<?= 100 - kirka_vs_jiwa()['persen']; ?>%)</div>
+    </a>
+    <div class="row g-2 mt-2">
         <div class="col-md-6">
             <div class="card bg_success_light">
                 <div class="card-body">
