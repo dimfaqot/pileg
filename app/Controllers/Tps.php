@@ -166,6 +166,9 @@ class Tps extends BaseController
 
     public function delete()
     {
+        if (session('role') !== 'Root') {
+            gagal_js('You are not allowed!');
+        }
         lock_data('js');
         $id = clear($this->request->getVar('id'));
         $tabel = clear($this->request->getVar('tabel'));
