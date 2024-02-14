@@ -11,6 +11,8 @@ use CodeIgniter\Router\RouteCollection;
 //  landing
 $routes->get('/', 'Landing::index');
 $routes->get('/total_suara', 'Landing::total_suara');
+$routes->get('/kirka_per_kecamatan', 'Landing::kirka_per_kecamatan');
+$routes->get('/kirka_per_kecamatan/(:any)', 'Landing::kirka_per_kecamatan/$1');
 $routes->get('/caleg_pkb', 'Landing::caleg_pkb');
 $routes->get('/kursi', 'Landing::kursi');
 $routes->get('/kecamatan', 'Landing::kecamatan');

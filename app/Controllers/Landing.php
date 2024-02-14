@@ -135,7 +135,10 @@ class Landing extends BaseController
     }
     public function caleg_pkb(): string
     {
-        // dd(kirka_vs_jiwa());
         return view('caleg_pkb', ['judul' => 'Caleg Pkb', 'data' => get_all_caleg_partai('Pkb')]);
+    }
+    public function kirka_per_kecamatan($kec = 'Karangmalang'): string
+    {
+        return view('kirka_per_kecamatan', ['judul' => 'Kirka Per Kecamatan', 'data' => kirka_per_kecamatan($kec), 'kec' => $kec]);
     }
 }

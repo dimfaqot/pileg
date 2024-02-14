@@ -144,7 +144,8 @@ function menus_landing()
         ['id' => 1, 'no_urut' => 2, 'role' => '', 'menu' => 'Kecamatan', 'tabel' => '', 'controller' => 'kecamatan', 'icon' => "fa-solid fa-city", 'url' => 'kecamatan', 'is_active' => 1],
         ['id' => 2, 'no_urut' => 3, 'role' => '', 'menu' => 'Kelurahan', 'tabel' => '', 'controller' => 'kelurahan', 'icon' => "fa-solid fa-building", 'url' => 'kelurahan', 'is_active' => 1],
         ['id' => 3, 'no_urut' => 4, 'role' => '', 'menu' => 'Tps', 'tabel' => '', 'controller' => 'bytps', 'icon' => "fa-solid fa-person-booth", 'url' => 'bytps', 'is_active' => 1],
-        ['id' => 3, 'no_urut' => 5, 'role' => '', 'menu' => 'Caleg Pkb', 'tabel' => '', 'controller' => 'caleg_pkb', 'icon' => "fa-solid fa-heart", 'url' => 'caleg_pkb', 'is_active' => 1]
+        ['id' => 3, 'no_urut' => 5, 'role' => '', 'menu' => 'Caleg Pkb', 'tabel' => '', 'controller' => 'caleg_pkb', 'icon' => "fa-solid fa-heart", 'url' => 'caleg_pkb', 'is_active' => 1],
+        ['id' => 3, 'no_urut' => 6, 'role' => '', 'menu' => 'Kirka', 'tabel' => '', 'controller' => 'kirka_per_kecamatan', 'icon' => "fa-solid fa-list", 'url' => 'kirka_per_kecamatan', 'is_active' => 1]
     ];
 
     return $q;
@@ -999,4 +1000,36 @@ function kirka_vs_jiwa()
     }
 
     return $hasil;
+}
+
+function kirka_per_kecamatan($kecamatan = 'Karangmalang')
+{
+
+    $dbk = db('tps');
+    $kelurahan = $dbk->where('kecamatan', $kecamatan)->groupBy('kelurahan')->get()->getResultArray();
+
+    $dbm = db('caleg');
+    $mus = $dbm->where('nama', 'Muhammad Bahrul Mustawa')->get()->getRowArray();
+
+    $dbc = db('suara_caleg');
+    $data = [];
+    foreach ($kelurahan as $i) {
+        $s = $dbc->join('tps', 'tps_id=tps.id')->where('kelurahan', $i['kelurahan'])->where('caleg_id', $mus['id'])->get()->getResultArray();
+        $k = $dbk->where('kelurahan', $i['kelurahan'])->where('kecamatan', $kecamatan)->get()->getResultArray();
+
+        $total_suara = 0;
+        foreach ($s as $su) {
+            $total_suara += $su['suara'];
+        }
+        $total_kirka = 0;
+        foreach ($k as $ki) {
+            $total_kirka += $ki['kirka'];
+        }
+
+        $i['total_kirka'] = $total_kirka;
+        $i['total_suara'] = $total_suara;
+
+        $data[] = $i;
+    }
+    return $data;
 }
