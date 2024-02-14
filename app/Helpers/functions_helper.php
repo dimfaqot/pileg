@@ -637,10 +637,10 @@ function total_suara_pkb($kecamatan = null)
 function target_suara($order = 'jiwa')
 {
     if ($order == 'jiwa') {
-        return 7000;
+        return 8000;
     }
     if ($order == 'partai') {
-        return 10000;
+        return 3000;
     }
 }
 

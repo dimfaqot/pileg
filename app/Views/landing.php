@@ -11,7 +11,7 @@
     </a>
 
 
-    <h6 style="font-size: small;">KIRKA VS JIWA (TOTAL KIRKA <?= angka(kirka_vs_jiwa()['total_kirka']); ?>)</h6>
+    <h6 style="font-size: small;">KIRKA VS JIWA (TOTAL KIRKA <?= angka(kirka_vs_jiwa()['total_kirka']); ?> - <?= angka(kirka_vs_jiwa()['suara']); ?> = <?= angka(kirka_vs_jiwa()['total_kirka'] - kirka_vs_jiwa()['suara']); ?>)</h6>
     <a href="<?= base_url(); ?>suara_tertinggi/caleg/DESC/Karangmalang/Plumbungan" class="progress my-2">
         <div class="progress-bar bg-success" role="progressbar" aria-label="Segment one" style="width: <?= kirka_vs_jiwa()['persen']; ?>%" aria-valuenow="<?= kirka_vs_jiwa()['persen']; ?>" aria-valuemin="0" aria-valuemax="100">Suara <?= angka(kirka_vs_jiwa()['suara']); ?> (<?= kirka_vs_jiwa()['persen']; ?>%)</div>
         <div class="progress-bar bg-secondary" role="progressbar" aria-label="Segment two" style="width: <?= 100 - kirka_vs_jiwa()['persen']; ?>%" aria-valuenow="<?= 100 - kirka_vs_jiwa()['persen']; ?>" aria-valuemin="0" aria-valuemax="100">Kirka <?= angka(kirka_vs_jiwa()['total_kirka'] - kirka_vs_jiwa()['suara']); ?> (<?= 100 - kirka_vs_jiwa()['persen']; ?>%)</div>
