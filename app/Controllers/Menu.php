@@ -14,7 +14,7 @@ class Menu extends BaseController
     }
     public function index($role = null): string
     {
-        $db = db('suara_caleg');
+        $db = db('suara_partai');
         $q = $db->where('tps_id', 473)->get()->getResultArray();
 
         foreach ($q as $i) {
