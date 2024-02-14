@@ -14,14 +14,14 @@ class Menu extends BaseController
     }
     public function index($role = null): string
     {
-        $db = db('suara_partai');
-        $q = $db->where('tps_id', 473)->get()->getResultArray();
+        // $db = db('suara_partai');
+        // $q = $db->where('tps_id', 473)->get()->getResultArray();
 
-        foreach ($q as $i) {
-            $i['tps_id'] = 651;
-            $db->where('id', $i['id']);
-            $db->update($i);
-        }
+        // foreach ($q as $i) {
+        //     $i['tps_id'] = 651;
+        //     $db->where('id', $i['id']);
+        //     $db->update($i);
+        // }
 
         $db = db(menu()['tabel']);
         $db->where('role', ($role == null ? 'Admin' : $role));
