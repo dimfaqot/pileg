@@ -992,7 +992,11 @@ function kirka_vs_jiwa()
         $total_kirka += $i['total_kirka'];
     }
 
-    $hasil = ['persen' => round(($total_jiwa / $total_kirka) * 100), 'suara' => $total_jiwa, 'total_kirka' => $total_kirka];
+    if ($total_jiwa == 0) {
+        $hasil = ['persen' => 0, 'suara' => 0, 'total_kirka' => $total_kirka];
+    } else {
+        $hasil = ['persen' => round(($total_jiwa / $total_kirka) * 100), 'suara' => $total_jiwa, 'total_kirka' => $total_kirka];
+    }
 
     return $hasil;
 }
