@@ -10,6 +10,7 @@
             <tr>
                 <th style="text-align: center;" scope="col">#</th>
                 <th style="text-align: center;" scope="col">Kecamatan</th>
+                <th style="text-align: center;" scope="col">Kirka</th>
                 <th style="text-align: center;" scope="col">Suara Jiwa</th>
                 <th style="text-align: center;" scope="col">Suara Partai</th>
                 <th style="text-align: center;" scope="col">Suara Partai Dari Seluruh Caleg</th>
@@ -19,14 +20,17 @@
         <tbody>
             <?php $total_partai = 0;
             $total_partai_caleg = 0;
+            $total_kirka = 0;
             $total_jiwa = 0; ?>
             <?php foreach (per_kecamatan() as $k => $i) : ?>
                 <?php $total_partai += $i['partai'];
+                $total_kirka += $i['total_kirka'];
                 $total_partai_caleg += $i['partai_caleg'];
                 $total_jiwa += $i['jiwa']; ?>
                 <tr>
                     <th scope="row"><?= $k + 1; ?></th>
                     <td><?= $i['kec']; ?></td>
+                    <td style="text-align: right;"><?= angka($i['total_kirka']); ?></td>
                     <td style="text-align: right;"><?= angka($i['jiwa']); ?></td>
                     <td style="text-align: right;"><?= angka($i['partai']); ?></td>
                     <td style="text-align: right;"><?= angka($i['partai_caleg']); ?></td>
@@ -35,6 +39,7 @@
             <?php endforeach; ?>
             <tr>
                 <th style="text-align: center;" scope="row" colspan="2">TOTAL</th>
+                <th style="text-align: right;"><?= angka($total_kirka); ?></th>
                 <th style="text-align: right;"><?= angka($total_jiwa); ?></th>
                 <th style="text-align: right;"><?= angka($total_partai); ?></th>
                 <th style="text-align: right;"><?= angka($total_partai_caleg); ?></th>
