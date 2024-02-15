@@ -35,6 +35,7 @@ class Suara_caleg extends BaseController
         // $q = $db->whereNotIn('kelurahan', ['Pilangsari'])->get()->getResultArray();
 
         // $db = db('suara_caleg');
+
         // $q = $db->join('tps', 'tps_id=tps.id')->where('kelurahan', 'Pilangsari')->get()->getResultArray();
         // dd($q);
         $sp = db(menu()['tabel']);
@@ -53,14 +54,15 @@ class Suara_caleg extends BaseController
                     'suara' => 0
                 ];
                 $datas[] = $data;
-                // if (!$sp->insert($data)) {
-                //     $e = ['caleg_id' => $p['id'], 'tps_id' => $i['id']];
-                //     $error[] = $e;
-                // }
-                // $total++;
+                if (!$sp->insert($data)) {
+                    $e = ['caleg_id' => $p['id'], 'tps_id' => $i['id']];
+                    $error[] = $e;
+                }
+                $total++;
             }
         }
 
+        dd($total);
         // $d = [];
         // foreach ($datas as $k => $i) {
         //     if ($k >= 1599) {

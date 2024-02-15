@@ -37,7 +37,7 @@
 
 <form action="<?= base_url(); ?>upload_c1" method="post" enctype="multipart/form-data">
     <div class="input-group input-group-sm custom-file-button">
-        <a data-url="<?= base_url('files/c1'); ?>/<?= $tps_active['c1']; ?>" style="text-decoration: none;font-weight:bold;" type="button" href="" class="input-group-text zoom <?= ($tps_active['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
+        <a target="_blank" href="<?= base_url('files/c1'); ?>/<?= $tps_active['c1']; ?>" style="text-decoration: none;font-weight:bold;" type="button" class="input-group-text <?= ($tps_active['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
             <i class="fa-regular fa-image"></i> Upload C1
         </a>
         <input type="hidden" name="kelurahan" value="<?= strtolower(explode(" ", session('nama'))[1]); ?>">

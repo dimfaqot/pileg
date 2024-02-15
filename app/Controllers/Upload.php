@@ -45,7 +45,7 @@ class Upload extends BaseController
                 gagal($url, 'Ukuran file maksimal 2 MB.');
             }
 
-            $ext = ['jpg', 'jpeg'];
+            $ext = ['pdf'];
             $exp = explode(".", $file['name']);
             $exe = strtolower(end($exp));
 

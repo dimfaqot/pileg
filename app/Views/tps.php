@@ -129,8 +129,8 @@ $dapil = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 
                             <?php endif; ?>
                             <td style="text-align: center;">
-                                <a data-url="<?= base_url('files/c1'); ?>/<?= $i['c1']; ?>" style="text-decoration:none;" type="button" href="" class="zoom <?= ($i['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
-                                    <i class="fa-regular fa-image"></i>
+                                <a target="_blank" style="text-decoration:none;" type="button" href="<?= base_url('files/c1'); ?>/<?= $i['c1']; ?>" class="<?= ($i['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
+                                    <i class="fa-solid fa-file-pdf"></i>
                                 </a>
                             </td>
                             <td style="text-align: center;">
