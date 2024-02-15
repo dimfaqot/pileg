@@ -301,6 +301,24 @@
 
             })
     }
+    const update_dpt = (id, val) => {
+        post('/tps/update_dpt', {
+                id,
+                val
+            })
+            .then(res => {
+                if (res.status == '200') {
+                    sukses();
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+
+                } else {
+                    gagal(res.message);
+                }
+
+            })
+    }
     const update_hp_saksi = (id, val) => {
         post('/tps/update_hp_saksi', {
                 id,

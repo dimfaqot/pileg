@@ -163,6 +163,27 @@ class Tps extends BaseController
             gagal_js('Update gagal!.');
         }
     }
+    public function update_dpt()
+    {
+        $id = clear($this->request->getVar('id'));
+        $val = clear($this->request->getVar('val'));
+        $db = db('tps');
+
+        $q = $db->where('id', $id)->get()->getRowArray();
+
+        if (!$q) {
+            gagal_js('Id tidak ditemukan!.');
+        }
+
+        $q['dpt'] = $val;
+
+        $db->where('id', $id);
+        if ($db->update($q)) {
+            sukses_js('Update sukses.');
+        } else {
+            gagal_js('Update gagal!.');
+        }
+    }
 
     public function delete()
     {

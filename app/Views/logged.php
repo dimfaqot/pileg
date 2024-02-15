@@ -354,8 +354,18 @@
             update_suara_caleg(id, val);
         });
 
-        // zoom
+        $(document).on('blur', '.update_dpt', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let val = parseInt($(this).text());
+            if (!Number.isInteger(val)) {
+                gagal('Data harus angka!.');
+                return false;
+            }
+            update_dpt(id, val);
+        });
 
+        // zoom
         $(document).on('click', '.zoom', function(e) {
             e.preventDefault();
             let url = $(this).data('url');
