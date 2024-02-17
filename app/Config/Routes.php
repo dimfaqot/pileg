@@ -37,6 +37,11 @@ $routes->get('/suara_tertinggi/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_ter
 $routes->get('/cetak/excel', 'Cetak::excel');
 $routes->get('/cetak/excel/(:any)', 'Cetak::excel/$1');
 
+// wilayah
+$routes->get('/wilayah/cetak_pdf/(:any)', 'Wilayah::cetak_pdf/$1');
+$routes->get('/wilayah', 'Wilayah::index');
+$routes->get('/wilayah/(:any)', 'Wilayah::index/$1');
+
 // js
 $routes->post('/js/get_kelurahan', 'Js::get_kelurahan');
 

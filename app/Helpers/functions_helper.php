@@ -1057,7 +1057,7 @@ function partai_pkb()
 
 
 
-function rekap_seluruh_caleg($kecamatan = 'Karangmalang')
+function rekap_seluruh_caleg($kecamatan = 'Karangmalang', $wilayah = null)
 {
     $db = db('suara_caleg');
     $dbc = db('caleg');
@@ -1067,8 +1067,14 @@ function rekap_seluruh_caleg($kecamatan = 'Karangmalang')
 
     $calegs = array_merge($calegs1, $calegs2);
 
+    if ($wilayah == null) {
+        $kelurahan = get_all_kelurahan($kecamatan);
+    } else {
+        $wilayah = explode(",", $wilayah);
 
-    $kelurahan = get_all_kelurahan($kecamatan);
+        $dbt = db('tps');
+        $kelurahan = $dbt->whereIn('kelurahan', $wilayah)->orderBy('kelurahan', 'ASC')->groupBy('kelurahan')->get()->getResultArray();
+    }
 
     $res = [];
     foreach ($kelurahan as $k) {
@@ -1081,27 +1087,6 @@ function rekap_seluruh_caleg($kecamatan = 'Karangmalang')
 
             foreach (get_all_tps($kecamatan, $k['kelurahan']) as $t) {
 
-
-                // $par = $dbp->where('partai_id', partai_pkb()['id'])->where('tps_id', $t['id'])->get()->getRowArray();
-
-                // $q2 = $db->select('suara_caleg.id as id, nama, no_caleg,tps_id,tps,kelurahan,suara')->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->where('kelurahan', $k['kelurahan'])->where('partai_id', partai_pkb()['id'])->where('tps_id', $t['id'])->orderBy('tps_id', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
-                // $q2[] = ['id' => $par['id'], 'nama' => 'Suara Partai', 'no_caleg' => 'Suara Partai', 'tps_id' => $t['id'], 'tps' => $t['tps'], 'kelurahan' => $k['kelurahan'], 'suara' => $par['suara']];
-                // $caleg[] = ['tps_id' => $t['id'], 'tps' => 'TPS ' . explode(" ", $t['tps'])[0], 'data' => $q2];
-                // $tps = 'TPS ' . explode(" ", $t['tps'])[0];
-                // if ($t['kelurahan'] == 'Mojodoyong') {
-                //     if ($tps == 'TPS 11' || $tps == 'TPS 12' || $tps == 'TPS 13') {
-
-                //         $q = ['id' => 11, 'tps_id' => $t['id'], 'partai_id' => partai_pkb()['id'], 'suara' => 0];
-                //     } else {
-                //         if ($c['no_caleg'] == 0) {
-                //             $q = $dbp->where('partai_id', partai_pkb()['id'])->where('tps_id', $t['id'])->get()->getRowArray();
-                //             $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
-                //         } else {
-                //             $q = $db->where('caleg_id', $c['id'])->where('tps_id', $t['id'])->get()->getRowArray();
-                //             $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
-                //         }
-                //     }
-                // } else {
                 if ($c['no_caleg'] == 0) {
                     $q = $dbp->where('partai_id', partai_pkb()['id'])->where('tps_id', $t['id'])->get()->getRowArray();
                     $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
@@ -1109,12 +1094,6 @@ function rekap_seluruh_caleg($kecamatan = 'Karangmalang')
                     $q = $db->where('caleg_id', $c['id'])->where('tps_id', $t['id'])->get()->getRowArray();
                     $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
                 }
-                // }
-
-
-
-
-
 
                 $data[] = $q;
             }
@@ -1144,4 +1123,47 @@ function check_file($file)
     } elseif (strtolower(end($exp)) == 'pdf') {
         return 'pdf';
     }
+}
+
+function karangmalang_barat()
+{
+    $res = "Plosokerep,Saradan,Kedungwaduk,Guworejo,Jurangjero";
+    // $res = "Plosokerep,Saradan";
+
+    return $res;
+}
+function karangmalang_tengah()
+{
+    $res = "Plumbungan,Puro,Kroyo";
+
+    return $res;
+}
+
+function wilayah_karangmalang()
+{
+    $res = [
+        [
+            'text' => 'Karangmalang Barat',
+            'url' => 'karangmalang_barat'
+        ],
+        [
+            'text' => 'Karangmalang Tengah',
+            'url' => 'karangmalang_tengah'
+        ],
+        [
+            'text' => 'Karangmalang Timur',
+            'url' => 'karangmalang_timur'
+        ]
+    ];
+
+
+    return $res;
+}
+
+function get_tps_by_id($tps_id)
+{
+    $db = db('tps');
+
+    $q = $db->where('id', $tps_id)->get()->getRowArray();
+    return $q;
 }
