@@ -35,6 +35,7 @@ $routes->get('/suara_tertinggi/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_ter
 
 // cetak
 $routes->get('/cetak/excel', 'Cetak::excel');
+$routes->get('/cetak/excel/(:any)', 'Cetak::excel/$1');
 
 // js
 $routes->post('/js/get_kelurahan', 'Js::get_kelurahan');

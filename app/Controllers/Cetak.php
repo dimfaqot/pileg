@@ -8,9 +8,9 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Cetak extends BaseController
 {
 
-    public function excel()
+    public function excel($kec = 'Karangmalang')
     {
-        return view('cetak/excel', ['judul' => 'Cetak Excel']);
+        return view('cetak/excel', ['judul' => 'Cetak Excel', 'kec' => $kec]);
         // $spreadsheet = new Spreadsheet();
 
         // $sheet = $spreadsheet->getActiveSheet();

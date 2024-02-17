@@ -6,7 +6,7 @@ $kecamatans = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 ?>
 <?= $this->section('content') ?>
 <div class="container">
-    <?php foreach (rekap_seluruh_caleg() as $i) : ?>
+    <?php foreach (rekap_seluruh_caleg($kec) as $i) : ?>
         <table class="table table-sm">
             <thead>
 
