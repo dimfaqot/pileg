@@ -14,38 +14,7 @@ class Menu extends BaseController
     }
     public function index($role = null): string
     {
-        $data = get_all_partai();
 
-        $db = db('suara_partai');
-
-
-        foreach ($data as $i) {
-            $tps_11 = [
-                'partai_id' => $i['id'],
-                'tps_id' => 648,
-                'suara' => 0
-            ];
-            $db->insert($tps_11);
-            // $val1[] = $tps_11;
-
-
-            $tps_12 = [
-                'partai_id' => $i['id'],
-                'tps_id' => 649,
-                'suara' => 0
-            ];
-            $db->insert($tps_12);
-            // $val2[] = $tps_12;
-
-            $tps_13 = [
-                'partai_id' => $i['id'],
-                'tps_id' => 650,
-                'suara' => 0
-            ];
-
-            $db->insert($tps_13);
-            // $val3[] = $tps_13;
-        }
 
 
         // $db = db('suara_partai');
