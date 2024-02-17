@@ -14,14 +14,14 @@ class Menu extends BaseController
     }
     public function index($role = null): string
     {
-        $data = get_all_caleg();
+        $data = get_all_partai();
 
-        $db = db('suara_caleg');
+        $db = db('suara_partai');
 
 
         foreach ($data as $i) {
             $tps_11 = [
-                'caleg_id' => $i['id'],
+                'partai_id' => $i['id'],
                 'tps_id' => 648,
                 'suara' => 0
             ];
@@ -30,7 +30,7 @@ class Menu extends BaseController
 
 
             $tps_12 = [
-                'caleg_id' => $i['id'],
+                'partai_id' => $i['id'],
                 'tps_id' => 649,
                 'suara' => 0
             ];
@@ -38,7 +38,7 @@ class Menu extends BaseController
             // $val2[] = $tps_12;
 
             $tps_13 = [
-                'caleg_id' => $i['id'],
+                'partai_id' => $i['id'],
                 'tps_id' => 650,
                 'suara' => 0
             ];
