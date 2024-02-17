@@ -1087,21 +1087,29 @@ function rekap_seluruh_caleg($kecamatan = 'Karangmalang')
                 // $q2 = $db->select('suara_caleg.id as id, nama, no_caleg,tps_id,tps,kelurahan,suara')->join('tps', 'tps_id=tps.id')->join('caleg', 'caleg_id=caleg.id')->where('kelurahan', $k['kelurahan'])->where('partai_id', partai_pkb()['id'])->where('tps_id', $t['id'])->orderBy('tps_id', 'ASC')->orderBy('no_caleg', 'ASC')->get()->getResultArray();
                 // $q2[] = ['id' => $par['id'], 'nama' => 'Suara Partai', 'no_caleg' => 'Suara Partai', 'tps_id' => $t['id'], 'tps' => $t['tps'], 'kelurahan' => $k['kelurahan'], 'suara' => $par['suara']];
                 // $caleg[] = ['tps_id' => $t['id'], 'tps' => 'TPS ' . explode(" ", $t['tps'])[0], 'data' => $q2];
-                $tps = 'TPS ' . explode(" ", $t['tps'])[0];
-                if ($t['kelurahan'] == 'Mojodoyong') {
-                    if ($tps == 'TPS 11' || $tps == 'TPS 12' || $tps == 'TPS 13') {
+                // $tps = 'TPS ' . explode(" ", $t['tps'])[0];
+                // if ($t['kelurahan'] == 'Mojodoyong') {
+                //     if ($tps == 'TPS 11' || $tps == 'TPS 12' || $tps == 'TPS 13') {
 
-                        $q = ['id' => 11, 'tps_id' => $t['id'], 'partai_id' => partai_pkb()['id'], 'suara' => 0];
-                    }
+                //         $q = ['id' => 11, 'tps_id' => $t['id'], 'partai_id' => partai_pkb()['id'], 'suara' => 0];
+                //     } else {
+                //         if ($c['no_caleg'] == 0) {
+                //             $q = $dbp->where('partai_id', partai_pkb()['id'])->where('tps_id', $t['id'])->get()->getRowArray();
+                //             $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
+                //         } else {
+                //             $q = $db->where('caleg_id', $c['id'])->where('tps_id', $t['id'])->get()->getRowArray();
+                //             $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
+                //         }
+                //     }
+                // } else {
+                if ($c['no_caleg'] == 0) {
+                    $q = $dbp->where('partai_id', partai_pkb()['id'])->where('tps_id', $t['id'])->get()->getRowArray();
+                    $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
                 } else {
-                    if ($c['no_caleg'] == 0) {
-                        $q = $dbp->where('partai_id', partai_pkb()['id'])->where('tps_id', $t['id'])->get()->getRowArray();
-                        $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
-                    } else {
-                        $q = $db->where('caleg_id', $c['id'])->where('tps_id', $t['id'])->get()->getRowArray();
-                        $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
-                    }
+                    $q = $db->where('caleg_id', $c['id'])->where('tps_id', $t['id'])->get()->getRowArray();
+                    $q['tps'] = 'TPS ' . explode(" ", $t['tps'])[0];
                 }
+                // }
 
 
 

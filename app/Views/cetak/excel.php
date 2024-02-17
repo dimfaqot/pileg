@@ -32,8 +32,9 @@ $kecamatans = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 
                         <tr>
                             <th scope="row">NO. URUT</th>
+
                             <?php foreach ($d['data'] as $ks => $s) : ?>
-                                <th><?= 'TPS ' . $ks + 1; ?></th>
+                                <th><?= $s['tps']; ?></th>
 
                             <?php endforeach; ?>
                             <th scope="row">JUMLAH</th>

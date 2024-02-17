@@ -14,6 +14,40 @@ class Menu extends BaseController
     }
     public function index($role = null): string
     {
+        $data = get_all_caleg();
+
+        $db = db('suara_caleg');
+
+
+        foreach ($data as $i) {
+            $tps_11 = [
+                'caleg_id' => $i['id'],
+                'tps_id' => 648,
+                'suara' => 0
+            ];
+            $db->insert($tps_11);
+            // $val1[] = $tps_11;
+
+
+            $tps_12 = [
+                'caleg_id' => $i['id'],
+                'tps_id' => 649,
+                'suara' => 0
+            ];
+            $db->insert($tps_12);
+            // $val2[] = $tps_12;
+
+            $tps_13 = [
+                'caleg_id' => $i['id'],
+                'tps_id' => 650,
+                'suara' => 0
+            ];
+
+            $db->insert($tps_13);
+            // $val3[] = $tps_13;
+        }
+
+
         // $db = db('suara_partai');
         // $q = $db->where('tps_id', 473)->get()->getResultArray();
 
