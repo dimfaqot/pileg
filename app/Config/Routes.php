@@ -33,6 +33,13 @@ $routes->get('/c1_belum_masuk/(:any)/(:any)/(:any)', 'Landing::c1_belum_masuk/$1
 $routes->get('/suara_tertinggi', 'Landing::suara_tertinggi');
 $routes->get('/suara_tertinggi/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_tertinggi/$1/$2/$3/$4');
 
+// cetak
+$routes->get('/cetak/excel', 'Cetak::excel');
+
+// js
+$routes->post('/js/get_kelurahan', 'Js::get_kelurahan');
+
+
 $routes->get('/statistik', 'Landing::statistik');
 
 // search

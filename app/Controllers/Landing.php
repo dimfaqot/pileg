@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use Faker\Core\Number;
-
 class Landing extends BaseController
 {
     public function index(): string
@@ -21,6 +19,7 @@ class Landing extends BaseController
         //         $data[] = $val;
         //     }
         // }
+
 
         return view('landing', ['judul' => 'Jiwa']);
     }
@@ -90,6 +89,11 @@ class Landing extends BaseController
     public function kecamatan()
     {
         return view('kecamatan', ['judul' => 'Suara Menurut Kecamatan']);
+    }
+    public function download()
+    {
+        // dd(rekap_seluruh_caleg());
+        return view('download', ['judul' => 'Download']);
     }
     public function kelurahan()
     {
