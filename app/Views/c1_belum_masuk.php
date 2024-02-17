@@ -49,7 +49,12 @@ $kets = [
                     <th scope="row"><?= ($k + 1); ?></th>
                     <td><?= $i['tps']; ?></td>
                     <td><?= $i['pj']; ?></td>
-                    <td style="text-align: right;"><a href="" class="zoom" data-url="<?= base_url('files'); ?>/c1/<?= $i['c1']; ?>"><i class="fa-regular fa-image"></i></a></td>
+                    <?php if (check_file($i['c1']) == 'img') : ?>
+                        <td style="text-align: right;"><a href="" class="zoom <?= ($i['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>" data-url="<?= base_url('files'); ?>/c1/<?= $i['c1']; ?>"><i class="fa-regular fa-image"></i></a></td>
+                    <?php endif; ?>
+                    <?php if (check_file($i['c1']) == 'pdf') : ?>
+                        <td style="text-align: right;"><a class="<?= ($i['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>" target="_blank" href="<?= base_url('files'); ?>/c1/<?= $i['c1']; ?>"><i class="fa-solid fa-file-pdf"></i></a></td>
+                    <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
         </tbody>

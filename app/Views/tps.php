@@ -129,9 +129,16 @@ $dapil = ['Karangmalang', 'Kedawung', 'Ngrampal'];
 
                             <?php endif; ?>
                             <td style="text-align: center;">
-                                <a target="_blank" style="text-decoration:none;" type="button" href="<?= base_url('files/c1'); ?>/<?= $i['c1']; ?>" class="<?= ($i['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
-                                    <i class="fa-solid fa-file-pdf"></i>
-                                </a>
+                                <?php if (check_file($i['c1']) == 'img') : ?>
+                                    <a data-url="<?= base_url('files/c1'); ?>/<?= $i['c1']; ?>" style="text-decoration:none;" type="button" href="" class="zoom <?= ($i['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
+                                        <i class="fa-regular fa-image"></i>
+                                    </a>
+                                <?php endif; ?>
+                                <?php if (check_file($i['c1']) == 'pdf') : ?>
+                                    <a target="_blank" style="text-decoration:none;" type="button" href="<?= base_url('files/c1'); ?>/<?= $i['c1']; ?>" class="<?= ($i['c1'] !== 'file-not-found.jpg' ? 'text_success' : 'text_dark'); ?>">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    </a>
+                                <?php endif; ?>
                             </td>
                             <td style="text-align: center;">
                                 <div class="d-flex justify-content-center gap-2">

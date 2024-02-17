@@ -26,7 +26,13 @@
     </div>
 
     <div class="d-grid mt-2">
-        <a target="_blank" href="<?= base_url(); ?>files/c1/<?= $tps['c1']; ?>" class="btn btn-sm <?= ($tps['c1'] == 'file-not-found.jpg' ? 'btn_light' : 'btn_add'); ?>"><i class="fa-solid fa-file-pdf"></i> Dokumen C1</a>
+        <?php if (check_file($tps['c1']) == 'img') : ?>
+            <a href="" data-url="<?= base_url(); ?>files/c1/<?= $tps['c1']; ?>" class="zoom btn btn-sm <?= ($tps['c1'] == 'file-not-found.jpg' ? 'btn_light' : 'btn_add'); ?>"><i class="fa-regular fa-image"></i> Dokumen C1</a>
+        <?php endif; ?>
+        <?php if (check_file($tps['c1']) == 'pdf') : ?>
+            <a target="_blank" href="<?= base_url(); ?>files/c1/<?= $tps['c1']; ?>" class="btn btn-sm <?= ($tps['c1'] == 'file-not-found.jpg' ? 'btn_light' : 'btn_add'); ?>"><i class="fa-solid fa-file-pdf"></i> Dokumen C1</a>
+
+        <?php endif; ?>
 
     </div>
     <div class="row g-2">

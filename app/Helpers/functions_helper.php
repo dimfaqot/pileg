@@ -1131,3 +1131,17 @@ function rekap_seluruh_caleg($kecamatan = 'Karangmalang')
 
     return $res;
 }
+
+
+function check_file($file)
+{
+    $exp = explode(".", $file);
+
+    if (strtolower(end($exp)) == 'jpeg') {
+        return 'img';
+    } elseif (strtolower(end($exp)) == 'jpg') {
+        return 'img';
+    } elseif (strtolower(end($exp)) == 'pdf') {
+        return 'pdf';
+    }
+}
