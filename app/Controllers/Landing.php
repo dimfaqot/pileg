@@ -125,6 +125,7 @@ class Landing extends BaseController
     {
         $kelurahan = get_default_kelurahan($kecamatan, $kelurahan);
         $data = suara_tertinggi($order, $ket, $kecamatan, $kelurahan);
+
         return view('suara_tertinggi', ['judul' => 'Suara Tertinggi ' . upper_first($order), 'kecamatan' => $kecamatan, 'kelurahan' => $kelurahan, 'data' => $data, 'ket' => $ket, 'order' => $order]);
     }
 
