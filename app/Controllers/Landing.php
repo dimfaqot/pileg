@@ -7,7 +7,7 @@ class Landing extends BaseController
     public function index(): string
     {
 
-        return view('landing', ['judul' => 'Jiwa']);
+        return view((mode_landing() == 1 ? 'new_landing' : 'landing'), ['judul' => 'Jiwa', 'data' => kursi()]);
     }
     public function login(): string
     {
@@ -117,13 +117,9 @@ class Landing extends BaseController
 
     public function total_suara(): string
     {
+        return view('total_suara', ['judul' => 'Total Suara']);
+    }
 
-        return view('total_suara', ['judul' => 'Total Suara']);
-    }
-    public function kursi(): string
-    {
-        return view('total_suara', ['judul' => 'Total Suara']);
-    }
     public function caleg_pkb(): string
     {
         return view('caleg_pkb', ['judul' => 'Caleg Pkb', 'data' => get_all_caleg_partai('Pkb')]);

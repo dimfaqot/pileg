@@ -804,7 +804,11 @@ function total_kirka($kecamatan = null)
 {
     $db = db('tps');
 
-    $q = $db->where('kecamatan', $kecamatan)->get()->getResultArray();
+    $db;
+    if ($kecamatan !== null) {
+        $db->where('kecamatan', $kecamatan);
+    }
+    $q = $db->get()->getResultArray();
 
     $total_kirka = 0;
     foreach ($q as $i) {
@@ -816,6 +820,7 @@ function total_kirka($kecamatan = null)
 
 function kursi()
 {
+
     $partais = get_all_partai();
 
     $data = [];
@@ -826,6 +831,7 @@ function kursi()
         $total_suara_partai = 0;
 
         foreach ($partai as $p) {
+
             $total_suara_partai += $p['suara'];
         }
 
@@ -838,90 +844,67 @@ function kursi()
             $total_suara_caleg += $c['suara'];
         }
 
+
         $i['total_suara'] = $total_suara_partai + $total_suara_caleg;
 
         $data[] = $i;
     }
 
+
+
     $new_data = [];
-
+    $total_partisipan = 0;
     foreach ($data as $i) {
-        $i['pembagian'] = 1;
-        $i['hasil'] = $i['total_suara'];
-        $i['kursi_ke'] = 0;
-        $i['jml_kursi'] = 0;
-        $i['pemenang'] = 0;
-
-        $new_data[] = $i;
-    }
-
-    $jml_kursi = jml_kursi();
-
-    $hasil = [];
-
-    $val = [];
-    foreach ($new_data as $n) {
-        $n['hasil'] = $n['total_suara'] / $n['pembagian'];
-
-        $val[] = $n;
+        $total_partisipan += $i['total_suara'];
+        for ($k = 0; $k <= jml_kursi(); $k++) {
+            $pembagian = $k % 2;
+            if ($pembagian == 1) {
+                $i['pembagian'] = $k;
+                $i['hasil_pembagian'] = round($i['total_suara'] / $k);
+                $new_data[] = $i;
+            }
+        }
     }
 
     $short_by = SORT_DESC;
 
-    $keys = array_column($val, 'hasil');
-    array_multisort($keys, $short_by, $val);
+    $keys = array_column($new_data, 'hasil_pembagian');
+    array_multisort($keys, $short_by, $new_data);
 
     $res = [];
-    foreach ($val as $k => $i) {
-        $i['kursi_ke'] = 1;
-        if ($k == 0) {
-            $i['pembagian'] = 1;
-            $i['pemenang'] = 1;
-            $i['jml_kursi'] = $i['jml_kursi'] + 1;
-        } else {
-            $i['pemenang'] = 0;
+    foreach ($new_data as $k => $i) {
+        if ($k < jml_kursi()) {
+            $i['urutan_kursi'] = $k + 1;
+            $res[] = $i;
         }
-        $res[] = $i;
     }
 
-    $hasil[] = ['judul' => 'Kursi ke 1', 'data' => $res];
+    $total_suara_caleg_pkb = 0;
 
-    // kursi 2 ____________
-    $val = [];
-    foreach ($res as $n) {
-        if ($n['pemenang'] == 1) {
-            $n['hasil'] = $n['total_suara'] / 3;
-        } else {
-            $n['hasil'] = $n['total_suara'] / 1;
-        }
+    foreach (get_all_caleg_partai() as $i) {
+        $total_suara_caleg_pkb += $i['total_suara'];
+    }
+    $val = ['total_dpt' => total_dpt(), 'total_pemilih' => $total_partisipan, 'total_kirka' => total_kirka(), 'total_suara_jiwa' => total_suara_mustawa(), 'total_suara_pkb' => total_suara_pkb(), 'total_suara_caleg_pkb' => $total_suara_caleg_pkb, 'kursi' => $res];
 
-        $val[] = $n;
+    return $val;
+}
+
+function total_dpt($kecamatan = null)
+{
+    $db = db('tps');
+    $db;
+    if ($kecamatan !== null) {
+        $db->where('kecamatan');
+    }
+    $q = $db->orderBy('kecamatan', 'ASC')->get()->getResultArray();
+
+    $total_dpt = 0;
+
+    foreach ($q as $i) {
+        $total_dpt += $i['dpt'];
     }
 
-    dd($val);
-
-    $short_by = SORT_DESC;
-
-    $keys = array_column($val, 'hasil');
-    array_multisort($keys, $short_by, $val);
-
-    $res = [];
-    foreach ($val as $k => $i) {
-        $i['kursi_ke'] = 2;
-        if ($k == 0) {
-            $i['pembagian'] = 3;
-            $i['pemenang'] = 1;
-            $i['jml_kursi'] = $i['jml_kursi'] + 1;
-        } else {
-            $i['pemenang'] = 0;
-        }
-        $res[] = $i;
-    }
-
-    $hasil[] = ['judul' => 'Kursi ke 2', 'data' => $res];
-
-
-    dd($hasil);
+    return $total_dpt;
 }
 
 function get_all_caleg_partai($p = null)
@@ -1054,6 +1037,13 @@ function partai_pkb()
 
     return $q;
 }
+function caleg_mustawa()
+{
+    $dbm = db('caleg');
+    $q = $dbm->where('nama', 'Muhammad Bahrul Mustawa')->get()->getRowArray();
+
+    return $q;
+}
 
 
 
@@ -1166,4 +1156,9 @@ function get_tps_by_id($tps_id)
 
     $q = $db->where('id', $tps_id)->get()->getRowArray();
     return $q;
+}
+
+function mode_landing()
+{
+    return 0;
 }
