@@ -52,6 +52,31 @@
     <div class="card mt-2">
         <canvas id="myChartPartai"></canvas>
     </div>
+
+    <table class="table table-sm table-striped table-bordered mt-3">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Partai</th>
+                <th scope="col">Suara</th>
+                <th scope="col">Pembagian</th>
+                <th scope="col">Urutan Kursi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($data['kursi'] as $k => $i) : ?>
+
+                <tr>
+                    <th scope="row"><?= $k + 1; ?></th>
+                    <td><?= $i['partai']; ?></td>
+                    <td><?= angka($i['total_suara']); ?></td>
+                    <td><?= $i['pembagian']; ?></td>
+                    <td><?= $i['urutan_kursi']; ?></td>
+                </tr>
+
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>
 
 <?= $this->endSection() ?>
