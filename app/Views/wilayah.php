@@ -1,10 +1,15 @@
 <?= $this->extend('guest') ?>
-<?php
 
-
-
-?>
 <?= $this->section('content') ?>
+
+<?php {
+    if (url(4) == 'Karangmalang' || url(4) == 'Kedawung' || url(4) == 'Ngrampal') {
+        $data = rekap_seluruh_caleg(url(4));
+    } else {
+        $data = rekap_seluruh_caleg(url(4), $wil());
+    }
+}
+?>
 <div class="container">
 
 
@@ -21,7 +26,7 @@
 
     </div>
 
-    <?php foreach (rekap_seluruh_caleg('Karangmalang', $wil()) as $i) : ?>
+    <?php foreach ($data as $i) : ?>
         <table class="table table-sm">
             <thead>
 

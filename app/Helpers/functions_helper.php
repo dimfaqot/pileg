@@ -1143,6 +1143,18 @@ function wilayah_karangmalang()
         [
             'text' => 'Karangmalang Timur',
             'url' => 'karangmalang_timur'
+        ],
+        [
+            'text' => 'Karangmalang',
+            'url' => 'Karangmalang'
+        ],
+        [
+            'text' => 'Kedawung',
+            'url' => 'Kedawung'
+        ],
+        [
+            'text' => 'Ngrampal',
+            'url' => 'Ngrampal'
         ]
     ];
 

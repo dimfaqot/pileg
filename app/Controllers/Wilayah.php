@@ -8,7 +8,6 @@ class Wilayah extends BaseController
     {
         $wilayah = upper_first(str_replace("_", " ", $wil));
 
-
         return view('wilayah', ['judul' => 'Wilayah ' . $wilayah, 'wilayah' => $wilayah, 'wil' => $wil]);
     }
 
@@ -29,7 +28,11 @@ class Wilayah extends BaseController
 
         $mpdf = new \Mpdf\Mpdf($set);
 
-        $data = rekap_seluruh_caleg('Karangmalang', $order());
+        if ($order == 'Karangmalang' || $order == 'Kedawung' || $order == 'Ngrampal') {
+            $data = rekap_seluruh_caleg($order);
+        } else {
+            $data = rekap_seluruh_caleg('Karangmalang', $order);
+        }
 
         foreach ($data as $i) {
 
