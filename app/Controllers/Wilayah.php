@@ -31,7 +31,7 @@ class Wilayah extends BaseController
         if ($order == 'Karangmalang' || $order == 'Kedawung' || $order == 'Ngrampal') {
             $data = rekap_seluruh_caleg($order);
         } else {
-            $data = rekap_seluruh_caleg('Karangmalang', $order);
+            $data = rekap_seluruh_caleg('Karangmalang', $order());
         }
 
         foreach ($data as $i) {

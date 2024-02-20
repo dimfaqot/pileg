@@ -6,7 +6,6 @@ class Landing extends BaseController
 {
     public function index(): string
     {
-
         return view((mode_landing() == 1 ? 'new_landing' : 'landing'), ['judul' => 'Jiwa', 'data' => kursi()]);
     }
     public function login(): string
@@ -127,5 +126,38 @@ class Landing extends BaseController
     public function kirka_per_kecamatan($kec = 'Karangmalang'): string
     {
         return view('kirka_per_kecamatan', ['judul' => 'Kirka Per Kecamatan', 'data' => kirka_per_kecamatan($kec), 'kec' => $kec]);
+    }
+    public function suara_partai_dan_suara_jiwa($kecamatan = 'Karangmalang'): string
+    {
+        return view('suara_partai_dan_suara_jiwa', ['judul' => 'Suara Partai dan Suara Jiwa', 'data' => suara_partai_dan_jiwa($kecamatan), 'kecamatan' => $kecamatan]);
+    }
+
+    public function cetak_pdf($order = 'Karangmalang')
+    {
+        $judul = strtoupper('data jiwa 2024 Wilayah ' . str_replace("_", " ", $order));
+
+        $set = [
+            'mode' => 'utf-8',
+            'format' => [215, 330],
+            'orientation' => 'L',
+            'margin_left' => 20,
+            'margin_right' => 10,
+            'margin_top' => 20,
+            'margin_bottom' => 20,
+        ];
+
+        $mpdf = new \Mpdf\Mpdf($set);
+
+
+        $data = suara_partai_dan_jiwa($order);
+
+        foreach ($data as $i) {
+
+            $html = view('cetak/suara_partai_dan_suara_jiwa_pdf', ['judul' => $judul, 'data' => $i, 'kecamatan' => $order]);
+            $mpdf->AddPage();
+            $mpdf->WriteHTML($html);
+        }
+        $this->response->setHeader('Content-Type', 'application/pdf');
+        $mpdf->Output($judul . '.pdf', 'I');
     }
 }

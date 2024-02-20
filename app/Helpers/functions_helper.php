@@ -144,8 +144,9 @@ function menus_landing()
         ['id' => 1, 'no_urut' => 2, 'role' => '', 'menu' => 'Kecamatan', 'tabel' => '', 'controller' => 'kecamatan', 'icon' => "fa-solid fa-city", 'url' => 'kecamatan', 'is_active' => 1],
         ['id' => 2, 'no_urut' => 3, 'role' => '', 'menu' => 'Kelurahan', 'tabel' => '', 'controller' => 'kelurahan', 'icon' => "fa-solid fa-building", 'url' => 'kelurahan', 'is_active' => 1],
         ['id' => 3, 'no_urut' => 4, 'role' => '', 'menu' => 'Tps', 'tabel' => '', 'controller' => 'bytps', 'icon' => "fa-solid fa-person-booth", 'url' => 'bytps', 'is_active' => 1],
-        ['id' => 3, 'no_urut' => 5, 'role' => '', 'menu' => 'Caleg Pkb', 'tabel' => '', 'controller' => 'caleg_pkb', 'icon' => "fa-solid fa-heart", 'url' => 'caleg_pkb', 'is_active' => 1],
-        ['id' => 3, 'no_urut' => 6, 'role' => '', 'menu' => 'Kirka', 'tabel' => '', 'controller' => 'kirka_per_kecamatan', 'icon' => "fa-solid fa-list", 'url' => 'kirka_per_kecamatan', 'is_active' => 1]
+        ['id' => 4, 'no_urut' => 5, 'role' => '', 'menu' => 'Caleg Pkb', 'tabel' => '', 'controller' => 'caleg_pkb', 'icon' => "fa-solid fa-heart", 'url' => 'caleg_pkb', 'is_active' => 1],
+        ['id' => 5, 'no_urut' => 6, 'role' => '', 'menu' => 'Kirka', 'tabel' => '', 'controller' => 'kirka_per_kecamatan', 'icon' => "fa-solid fa-list", 'url' => 'kirka_per_kecamatan', 'is_active' => 1],
+        ['id' => 6, 'no_urut' => 7, 'role' => '', 'menu' => 'Rekap data', 'tabel' => '', 'controller' => 'suara_partai_dan_suara_jiwa', 'icon' => "fa-solid fa-database", 'url' => 'suara_partai_dan_suara_jiwa', 'is_active' => 1]
     ];
 
     return $q;
@@ -743,6 +744,65 @@ function suara_tertinggi($order, $ket = 'DESC', $kecamatan = null, $kelurahan = 
 
     return $q;
 }
+function suara_partai_dan_jiwa($kecamatan = 'Karangmalang')
+{
+
+    $dbt = db('tps');
+    if ($kecamatan == 'Karangmalang' || $kecamatan == 'Kedawung' || $kecamatan == 'Ngrampal') {
+        $kecamatan = [$kecamatan];
+        $tps = $dbt->whereIn('kecamatan', $kecamatan)->orderBy('kelurahan', 'ASC')->orderBy('id', 'ASC')->get()->getResultArray();
+        $kelurahans = $dbt->whereIn('kecamatan', $kecamatan)->groupBy('kelurahan')->orderBy('kelurahan', 'ASC')->get()->getResultArray();
+    } else {
+        $kecamatan = explode(",", $kecamatan());
+        $tps = $dbt->whereIn('kelurahan', $kecamatan)->orderBy('kelurahan', 'ASC')->orderBy('id', 'ASC')->get()->getResultArray();
+        $kelurahans = $dbt->whereIn('kelurahan', $kecamatan)->groupBy('kelurahan')->orderBy('kelurahan', 'ASC')->get()->getResultArray();
+    }
+
+
+    $data = [];
+
+    $dbp = db(('suara_partai'));
+    $dbc = db(('suara_caleg'));
+
+    foreach ($kelurahans as $k) {
+
+        $val = [];
+        foreach ($tps as $i) {
+            if ($i['kelurahan'] == $k['kelurahan']) {
+                $p = $dbp->where('partai_id', partai_pkb()['id'])->where('tps_id', $i['id'])->get()->getRowArray();
+                $c = $dbc->where('caleg_id', caleg_mustawa()['id'])->where('tps_id', $i['id'])->get()->getRowArray();
+                $i['suara_partai'] = $p['suara'];
+                $i['suara_jiwa'] = $c['suara'];
+                $i['total_suara'] = $i['suara_partai'] + $i['suara_jiwa'];
+                $i['no_tps'] = explode(" ", $i['tps'])[0];
+
+                if ($i['kirka'] == 0) {
+                    if ($i['total_suara'] == 0) {
+                        $i['selisih'] = $i['kirka'] - $i['total_suara'];
+                        $i['persen'] = 0;
+                    } else {
+                        $i['selisih'] = $i['kirka'] - $i['total_suara'];
+                        $i['persen'] = '+' . $i['total_suara'];
+                    }
+                } else {
+                    if ($i['total_suara'] == 0) {
+                        $i['selisih'] = $i['kirka'] - $i['total_suara'];
+                        $i['persen'] = '-' . $i['kirka'];
+                    } else {
+                        $i['selisih'] = $i['kirka'] - $i['total_suara'];
+                        $i['persen'] = round(($i['total_suara'] / $i['kirka']) * 100);
+                    }
+                }
+
+                $val[] = $i;
+            }
+        }
+
+        $data[] = ['kecamatan' => $k['kecamatan'], 'kelurahan' => $k['kelurahan'], 'data_tps' => $val];
+    }
+
+    return $data;
+}
 
 function suara_partai_dari_caleg($kecamatan = null)
 {
@@ -1124,7 +1184,19 @@ function karangmalang_barat()
 }
 function karangmalang_tengah()
 {
-    $res = "Plumbungan,Puro,Kroyo";
+    $res = "Puro,Kroyo";
+
+    return $res;
+}
+function karangmalang_timur()
+{
+    $res = "Mojorejo,Pelemgadung";
+
+    return $res;
+}
+function karangmalang_plumbungan()
+{
+    $res = "Plumbungan";
 
     return $res;
 }
@@ -1143,6 +1215,10 @@ function wilayah_karangmalang()
         [
             'text' => 'Karangmalang Timur',
             'url' => 'karangmalang_timur'
+        ],
+        [
+            'text' => 'Plumbungan',
+            'url' => 'karangmalang_plumbungan'
         ],
         [
             'text' => 'Karangmalang',

@@ -14,7 +14,6 @@ $routes->get('/total_suara', 'Landing::total_suara');
 $routes->get('/kirka_per_kecamatan', 'Landing::kirka_per_kecamatan');
 $routes->get('/kirka_per_kecamatan/(:any)', 'Landing::kirka_per_kecamatan/$1');
 $routes->get('/caleg_pkb', 'Landing::caleg_pkb');
-$routes->get('/kursi', 'Landing::kursi');
 $routes->get('/kecamatan', 'Landing::kecamatan');
 $routes->get('/kecamatan/(:any)', 'Landing::kecamatan/$1');
 $routes->get('/kelurahan', 'Landing::kelurahan');
@@ -32,6 +31,10 @@ $routes->get('/c1_belum_masuk', 'Landing::c1_belum_masuk');
 $routes->get('/c1_belum_masuk/(:any)/(:any)/(:any)', 'Landing::c1_belum_masuk/$1/$2/$3');
 $routes->get('/suara_tertinggi', 'Landing::suara_tertinggi');
 $routes->get('/suara_tertinggi/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_tertinggi/$1/$2/$3/$4');
+$routes->get('/suara_partai_dan_suara_jiwa', 'Landing::suara_partai_dan_suara_jiwa');
+$routes->get('/suara_partai_dan_suara_jiwa/cetak_pdf/(:any)', 'Landing::cetak_pdf/$1');
+$routes->get('/suara_partai_dan_suara_jiwa/(:any)', 'Landing::suara_partai_dan_suara_jiwa/$1');
+
 
 // cetak
 $routes->get('/cetak/excel', 'Cetak::excel');
