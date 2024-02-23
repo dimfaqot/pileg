@@ -113,6 +113,7 @@ class Tps extends BaseController
 
     public function update_kirka()
     {
+        lock_data('js');
         $id = clear($this->request->getVar('id'));
         $val = clear($this->request->getVar('val'));
         $db = db('tps');
@@ -134,6 +135,7 @@ class Tps extends BaseController
     }
     public function update_saksi()
     {
+        lock_data('js');
         $id = clear($this->request->getVar('id'));
         $val = upper_first($this->request->getVar('val'));
 
@@ -156,6 +158,7 @@ class Tps extends BaseController
     }
     public function update_hp_saksi()
     {
+        lock_data('js');
         $id = clear($this->request->getVar('id'));
         $val = clear($this->request->getVar('val'));
         $db = db('tps');
@@ -177,6 +180,7 @@ class Tps extends BaseController
     }
     public function update_dpt()
     {
+        lock_data('js');
         $id = clear($this->request->getVar('id'));
         $val = clear($this->request->getVar('val'));
         $db = db('tps');
@@ -199,6 +203,7 @@ class Tps extends BaseController
 
     public function delete()
     {
+        lock_data('js');
         if (session('role') !== 'Root') {
             gagal_js('You are not allowed!');
         }

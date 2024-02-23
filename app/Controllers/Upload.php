@@ -18,11 +18,13 @@ class Upload extends BaseController
     public function upload_c1()
     {
 
+        lock_data();
         $kelurahan = $this->request->getVar('kelurahan');
         $tps = $this->request->getVar('tps');
         $url = $this->request->getVar('url');
         $id = $this->request->getVar('id');
         $file = $_FILES['file'];
+
 
         $db = db('tps');
         $q = $db->where('id', $id)->get()->getRowArray();
@@ -85,7 +87,7 @@ class Upload extends BaseController
     }
     public function upload_dokumen_d()
     {
-
+        lock_data();
         $kelurahan = $this->request->getVar('kelurahan');
         $url = $this->request->getVar('url');
         $id = $this->request->getVar('id');
