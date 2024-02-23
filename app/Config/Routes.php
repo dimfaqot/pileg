@@ -141,3 +141,4 @@ $routes->post('/election/update_suara_caleg', 'Election::update_suara_caleg');
 
 // upload file
 $routes->post('/upload_c1', 'Upload::upload_c1');
+$routes->post('/upload_dokumen_d', 'Upload::upload_dokumen_d');

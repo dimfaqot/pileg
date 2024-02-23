@@ -14,6 +14,18 @@ class Tps extends BaseController
     }
     public function index($dapil = null, $kelurahan = null): string
     {
+        // $db = db('tps');
+        // $q = $db->groupBy('kelurahan')->orderBy('kelurahan', 'ASC')->get()->getResultArray();
+
+        // foreach ($q as $i) {
+        //     $data = dokumen_d($i['kelurahan']);
+
+        //     $data['dokumen_d'] = 'file-not-found.jpg';
+
+        //     $db->where('id', $data['id']);
+        //     $db->update($data);
+        // }
+
 
         if (session('role') == 'Root') {
             $dapil = ($dapil == null ? 'Karangmalang' : $dapil);

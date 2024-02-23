@@ -1250,3 +1250,11 @@ function mode_landing()
 {
     return 0;
 }
+
+function dokumen_d($kelurahan)
+{
+    $db = db('tps');
+
+    $q = $db->where('kelurahan', $kelurahan)->orderBy('id', 'ASC')->get()->getRowArray();
+    return $q;
+}
