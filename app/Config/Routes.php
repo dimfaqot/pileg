@@ -142,3 +142,11 @@ $routes->post('/election/update_suara_caleg', 'Election::update_suara_caleg');
 // upload file
 $routes->post('/upload_c1', 'Upload::upload_c1');
 $routes->post('/upload_dokumen_d', 'Upload::upload_dokumen_d');
+
+
+// Rekapitulasi
+$routes->get('/kirka', 'Kirka\Kirka::index');
+$routes->get('/kirka/by_tps', 'Kirka\Kirka::by_tps');
+$routes->get('/kirka/sub_wilayah', 'Kirka\Kirka::sub_wilayah');
+$routes->get('/kirka/sub_wilayah/(:any)/(:any)/(:any)', 'Kirka\Kirka::sub_wilayah/$1/$2/$3');
+$routes->get('/kirka/download/(:any)/(:any)/(:any)', 'Kirka\Kirka::download/$1/$2/$3');

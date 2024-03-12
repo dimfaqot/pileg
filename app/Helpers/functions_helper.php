@@ -1,6 +1,5 @@
 <?php
 
-use App\Controllers\Tps;
 
 function db($tabel, $db = null)
 {
@@ -138,18 +137,21 @@ function menu($req = null)
 function menus_landing()
 {
 
+    if (settings()['mode'] == 0) {
+        $q = [
+            ['id' => 0, 'no_urut' => 1, 'role' => '', 'menu' => 'Home', 'tabel' => 'user', 'controller' => 'home', 'icon' => "fa-solid fa-earth-asia", 'url' => 'home', 'is_active' => 1],
+            ['id' => 1, 'no_urut' => 2, 'role' => '', 'menu' => 'Kecamatan', 'tabel' => '', 'controller' => 'kecamatan', 'icon' => "fa-solid fa-city", 'url' => 'kecamatan', 'is_active' => 1],
+            ['id' => 2, 'no_urut' => 3, 'role' => '', 'menu' => 'Kelurahan', 'tabel' => '', 'controller' => 'kelurahan', 'icon' => "fa-solid fa-building", 'url' => 'kelurahan', 'is_active' => 1],
+            ['id' => 3, 'no_urut' => 4, 'role' => '', 'menu' => 'Tps', 'tabel' => '', 'controller' => 'bytps', 'icon' => "fa-solid fa-person-booth", 'url' => 'bytps', 'is_active' => 1],
+            ['id' => 4, 'no_urut' => 5, 'role' => '', 'menu' => 'Caleg Pkb', 'tabel' => '', 'controller' => 'caleg_pkb', 'icon' => "fa-solid fa-heart", 'url' => 'caleg_pkb', 'is_active' => 1],
+            ['id' => 5, 'no_urut' => 6, 'role' => '', 'menu' => 'Kirka', 'tabel' => '', 'controller' => 'kirka_per_kecamatan', 'icon' => "fa-solid fa-list", 'url' => 'kirka_per_kecamatan', 'is_active' => 1],
+            ['id' => 6, 'no_urut' => 7, 'role' => '', 'menu' => 'Rekap data', 'tabel' => '', 'controller' => 'suara_partai_dan_suara_jiwa', 'icon' => "fa-solid fa-database", 'url' => 'suara_partai_dan_suara_jiwa', 'is_active' => 1]
+        ];
 
-    $q = [
-        ['id' => 0, 'no_urut' => 1, 'role' => '', 'menu' => 'Home', 'tabel' => 'user', 'controller' => 'home', 'icon' => "fa-solid fa-earth-asia", 'url' => 'home', 'is_active' => 1],
-        ['id' => 1, 'no_urut' => 2, 'role' => '', 'menu' => 'Kecamatan', 'tabel' => '', 'controller' => 'kecamatan', 'icon' => "fa-solid fa-city", 'url' => 'kecamatan', 'is_active' => 1],
-        ['id' => 2, 'no_urut' => 3, 'role' => '', 'menu' => 'Kelurahan', 'tabel' => '', 'controller' => 'kelurahan', 'icon' => "fa-solid fa-building", 'url' => 'kelurahan', 'is_active' => 1],
-        ['id' => 3, 'no_urut' => 4, 'role' => '', 'menu' => 'Tps', 'tabel' => '', 'controller' => 'bytps', 'icon' => "fa-solid fa-person-booth", 'url' => 'bytps', 'is_active' => 1],
-        ['id' => 4, 'no_urut' => 5, 'role' => '', 'menu' => 'Caleg Pkb', 'tabel' => '', 'controller' => 'caleg_pkb', 'icon' => "fa-solid fa-heart", 'url' => 'caleg_pkb', 'is_active' => 1],
-        ['id' => 5, 'no_urut' => 6, 'role' => '', 'menu' => 'Kirka', 'tabel' => '', 'controller' => 'kirka_per_kecamatan', 'icon' => "fa-solid fa-list", 'url' => 'kirka_per_kecamatan', 'is_active' => 1],
-        ['id' => 6, 'no_urut' => 7, 'role' => '', 'menu' => 'Rekap data', 'tabel' => '', 'controller' => 'suara_partai_dan_suara_jiwa', 'icon' => "fa-solid fa-database", 'url' => 'suara_partai_dan_suara_jiwa', 'is_active' => 1]
-    ];
-
-    return $q;
+        return $q;
+    } else {
+        return [];
+    }
 }
 function menu_landing($req = '')
 {
@@ -1190,7 +1192,7 @@ function karangmalang_tengah()
 }
 function karangmalang_timur()
 {
-    $res = "Mojorejo,Pelemgadung";
+    $res = "Mojorejo,Pelemgadung,Plumbungan";
 
     return $res;
 }
