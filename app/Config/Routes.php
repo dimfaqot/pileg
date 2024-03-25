@@ -10,30 +10,30 @@ use CodeIgniter\Router\RouteCollection;
 
 //  landing
 $routes->get('/', 'Landing::index');
-$routes->get('/total_suara', 'Landing::total_suara');
-$routes->get('/kirka_per_kecamatan', 'Landing::kirka_per_kecamatan');
-$routes->get('/kirka_per_kecamatan/(:any)', 'Landing::kirka_per_kecamatan/$1');
-$routes->get('/caleg_pkb', 'Landing::caleg_pkb');
-$routes->get('/kecamatan', 'Landing::kecamatan');
-$routes->get('/kecamatan/(:any)', 'Landing::kecamatan/$1');
-$routes->get('/kelurahan', 'Landing::kelurahan');
-$routes->get('/kelurahan/(:any)/(:any)', 'Landing::kelurahan/$1/$2');
-$routes->get('/bytps', 'Landing::bytps');
-$routes->get('/bytps/(:any)/(:any)/(:any)', 'Landing::bytps/$1/$2/$3');
-$routes->post('/suara_partai', 'Landing::suara_partai');
+// $routes->get('/total_suara', 'Landing::total_suara');
+// $routes->get('/kirka_per_kecamatan', 'Landing::kirka_per_kecamatan');
+// $routes->get('/kirka_per_kecamatan/(:any)', 'Landing::kirka_per_kecamatan/$1');
+// $routes->get('/caleg_pkb', 'Landing::caleg_pkb');
+// $routes->get('/kecamatan', 'Landing::kecamatan');
+// $routes->get('/kecamatan/(:any)', 'Landing::kecamatan/$1');
+// $routes->get('/kelurahan', 'Landing::kelurahan');
+// $routes->get('/kelurahan/(:any)/(:any)', 'Landing::kelurahan/$1/$2');
+// $routes->get('/bytps', 'Landing::bytps');
+// $routes->get('/bytps/(:any)/(:any)/(:any)', 'Landing::bytps/$1/$2/$3');
+// $routes->post('/suara_partai', 'Landing::suara_partai');
 $routes->get('/login', 'Landing::login');
 $routes->get('/logout', 'Landing::logout');
 $routes->post('/auth', 'Landing::auth');
 $routes->post('/logout', 'Landing::logout');
-$routes->get('/suara_belum_masuk', 'Landing::suara_belum_masuk');
-$routes->get('/suara_belum_masuk/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_belum_masuk/$1/$2/$3/$4');
-$routes->get('/c1_belum_masuk', 'Landing::c1_belum_masuk');
-$routes->get('/c1_belum_masuk/(:any)/(:any)/(:any)', 'Landing::c1_belum_masuk/$1/$2/$3');
-$routes->get('/suara_tertinggi', 'Landing::suara_tertinggi');
-$routes->get('/suara_tertinggi/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_tertinggi/$1/$2/$3/$4');
-$routes->get('/suara_partai_dan_suara_jiwa', 'Landing::suara_partai_dan_suara_jiwa');
-$routes->get('/suara_partai_dan_suara_jiwa/cetak_pdf/(:any)', 'Landing::cetak_pdf/$1');
-$routes->get('/suara_partai_dan_suara_jiwa/(:any)', 'Landing::suara_partai_dan_suara_jiwa/$1');
+// $routes->get('/suara_belum_masuk', 'Landing::suara_belum_masuk');
+// $routes->get('/suara_belum_masuk/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_belum_masuk/$1/$2/$3/$4');
+// $routes->get('/c1_belum_masuk', 'Landing::c1_belum_masuk');
+// $routes->get('/c1_belum_masuk/(:any)/(:any)/(:any)', 'Landing::c1_belum_masuk/$1/$2/$3');
+// $routes->get('/suara_tertinggi', 'Landing::suara_tertinggi');
+// $routes->get('/suara_tertinggi/(:any)/(:any)/(:any)/(:any)', 'Landing::suara_tertinggi/$1/$2/$3/$4');
+// $routes->get('/suara_partai_dan_suara_jiwa', 'Landing::suara_partai_dan_suara_jiwa');
+// $routes->get('/suara_partai_dan_suara_jiwa/cetak_pdf/(:any)', 'Landing::cetak_pdf/$1');
+// $routes->get('/suara_partai_dan_suara_jiwa/(:any)', 'Landing::suara_partai_dan_suara_jiwa/$1');
 
 
 // cetak
