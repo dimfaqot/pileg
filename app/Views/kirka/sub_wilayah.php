@@ -38,7 +38,7 @@ $kelurahans = explode(",", sub_wilayah($sub_wilayah)['wilayah']);
         <tr>
             <th style="text-align: center;" scope="col">TPS</th>
             <th style="text-align: center;" scope="col">KORDES</th>
-            <th style="text-align: center;" scope="col">PENGKIRKA</th>
+            <th style="text-align: center;" scope="col">PENGKIRKA <span style="font-style: italic;">(Int/Eks)</span></th>
             <th style="text-align: center;" scope="col">KONSTITUEN</th>
             <th style="text-align: center;" scope="col">NIK</th>
             <th style="text-align: center;" scope="col">DUKUH</th>
@@ -94,7 +94,7 @@ $kelurahans = explode(",", sub_wilayah($sub_wilayah)['wilayah']);
                             <?php endif; ?>
 
                             <?php if (!in_array($p['pengkirka'], $pengkirka_done)) : ?>
-                                <td scope="row" rowspan="<?= count($konstituen); ?>"><?= $p['pengkirka']; ?></td>
+                                <td scope="row" rowspan="<?= count($konstituen); ?>"><?= $p['pengkirka']; ?> <span style="font-style: italic;">(<?= ($p['wilayah'] == 'Internal' ? 'Int' : 'Eks'); ?>)</span></td>
                             <?php endif; ?>
 
                             <td scope="row"><?= $ks['nama_konstituen']; ?></td>
